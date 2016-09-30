@@ -24,7 +24,8 @@ SniperBullet::~SniperBullet()
 
 void SniperBullet::Update()
 {
-
+	//ƒeƒXƒg
+	int a = 0;
 }
 
 void SniperBullet::Draw() const
