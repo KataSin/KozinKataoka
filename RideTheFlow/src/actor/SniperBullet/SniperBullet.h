@@ -20,12 +20,13 @@ public:
 		//Line‚ğ¶¬
 		Line line;
 		line.startPos = Vector3(mPlayer->GetPlayerGunPos());
-		line.endPos = Vector3(mPlayer->GetBulletTarget());
+		line.endPos = Vector3();
 		return line;
 	}
 
 private:
 	Player* mPlayer;
+	CameraActor* mCameraActor;
 	//“–‚½‚Á‚½êŠ‚Ìƒ|ƒWƒVƒ‡ƒ“
 	Vector3 mColPos;
 	bool isCol;

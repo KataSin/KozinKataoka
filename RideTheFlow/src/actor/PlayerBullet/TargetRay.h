@@ -5,6 +5,7 @@
 #include "../Player.h"
 #include "../CameraActor.h"
 #include "../../actor/Collision.h"
+#include "../../world/IWorld.h"
 
 class TargetRay :public Actor, public std::enable_shared_from_this<TargetRay>
 {
@@ -20,9 +21,14 @@ public:
 		//Lineを生成
 		Line line;
 		line.startPos = Vector3(mPlayer->GetPlayerGunPos());
-		line.endPos = Vector3(mPlayer->GetBulletTarget());
+		CameraActor* camera = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
+		line.endPos = camera->GetTarget();
 		return line;
 	}
+	//武器ごとのターゲットの動き
+private:
+	void MachineGun();
+	void SniperGun();
 
 private:
 	Player* mPlayer;

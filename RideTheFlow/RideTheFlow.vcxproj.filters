@@ -74,6 +74,7 @@
     <ClInclude Include="src\actor\PlayerBullet\TargetRay.h" />
     <ClInclude Include="src\actor\Tree\Tree.h" />
     <ClInclude Include="src\actor\SniperBullet\SniperBullet.h" />
+    <ClInclude Include="src\actor\PlayerBullet\SniperTargetRay.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />

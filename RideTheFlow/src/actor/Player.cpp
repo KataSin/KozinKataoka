@@ -75,7 +75,6 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	playerSpeed = PlayerSpeed;
 	//リスポーン地点設定
 	respawnPoint = position_;
-
 	//パッドのプレイヤー設定
 	switch (player)
 	{
@@ -130,6 +129,8 @@ void Player::Update() {
 	//リスポーン中以外は行動可能
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
+		if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::H))
+			attackState = PlayerAttackState::SNIPER_GUN;
 		//歩き
 		Move();
 		//攻撃
@@ -301,7 +302,7 @@ void Player::MachineAttack()
 		{
 			//bulletAttackNum += 2.0f;
 			//頂点の位置を設定
-			bulletState.vertexPoint = GetBulletTarget();
+			bulletState.vertexPoint = cameraActor->GetTarget();
 			//腰の位置ぐらいから発射
 			bulletState.position = parameter.mat.GetPosition() + Vector3(0.0f, 2.0f, 0.0f);
 			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, bulletState));
@@ -323,8 +324,10 @@ void Player::SniperAttack()
 	if ((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
 		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)))
 	{
-		cameraActor->SetCameraState(CameraState::ATTACKCHARGE);
+		//cameraActor->SetCameraState(CameraState::ATTACKCHARGE);
+		angleY = cameraActor->GetParameter().mat.GetRotateDegree().y - 90.0f;
 		chargeCount += 5.0f*Time::DeltaTime;
+
 	}
 	else if (chargeCount > 0.0f)
 	{

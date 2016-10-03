@@ -11,11 +11,12 @@
 #include "../../input/GamePad.h"
 #include "../../input/Keyboard.h"
 
-SniperBullet::SniperBullet(IWorld & world, Player & player):
+SniperBullet::SniperBullet(IWorld & world, Player & player) :
 	Actor(world)
 {
 	parameter.isDead = false;
 	parameter.playNumber = player.GetParameter().playNumber;
+	mCameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
 }
 
 SniperBullet::~SniperBullet()
@@ -24,8 +25,7 @@ SniperBullet::~SniperBullet()
 
 void SniperBullet::Update()
 {
-	//ƒeƒXƒg
-	int a = 0;
+
 }
 
 void SniperBullet::Draw() const

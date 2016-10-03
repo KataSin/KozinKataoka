@@ -231,7 +231,8 @@ Vector3 CameraActor::GetTarget()
 	Vector3 targetVec = (target - parameter.mat.GetPosition()).Normalized();
 	//‚±‚±‚É‹…‚ğŒ‚‚Â
 	Vector3 targetPos = targetVec * 30.0f + parameter.mat.GetPosition();
-	return targetPos;
+	//“ä‚Ì•â³
+	return targetPos + Vector3(0.0f, 0.5f, 0.0f);
 }
 
 void CameraActor::SetCameraState(CameraState state)

@@ -41,11 +41,6 @@ public:
 	Vector3 GetPlayerGunPos() {
 		return parameter.mat.GetPosition() + Vector3(0.0f, 2.0f, 0.0f);
 	}
-	//’e‚Ì‘Å‚¿o‚·‚Æ‚±‚ë‚ğæ“¾
-	Vector3 GetBulletTarget()
-	{
-		return cameraActor->GetTarget() + Vector3(0.0f, 0.5f, 0.00f);
-	}
 	//¡‘•”õ‚µ‚Ä‚¢‚é•Ší‚ğæ“¾
 	PlayerAttackState GetAttackState()
 	{

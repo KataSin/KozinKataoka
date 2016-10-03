@@ -97,6 +97,7 @@
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
+    <ClInclude Include="src\actor\PlayerBullet\SniperTargetRay.h" />
     <ClInclude Include="src\actor\PlayerBullet\TargetRay.h" />
     <ClInclude Include="src\actor\RespawnPoint.h" />
     <ClInclude Include="src\actor\SniperBullet\SniperBullet.h" />
