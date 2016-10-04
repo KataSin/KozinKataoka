@@ -97,6 +97,7 @@
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
+    <ClInclude Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.h" />
     <ClInclude Include="src\actor\PlayerBullet\SniperTargetRay.h" />
     <ClInclude Include="src\actor\PlayerBullet\TargetRay.h" />
     <ClInclude Include="src\actor\RespawnPoint.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\actor\FogActor.cpp" />
     <ClCompile Include="src\actor\Player.cpp" />
+    <ClCompile Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.cpp" />
     <ClCompile Include="src\actor\PlayerBullet\PlayerBullet.cpp" />
     <ClCompile Include="src\actor\PlayerBullet\TargetRay.cpp" />
     <ClCompile Include="src\actor\RespawnPoint.cpp" />

@@ -292,31 +292,7 @@ void Player::AttackMove()
 
 void Player::MachineAttack()
 {
-	if ((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
-		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)) &&
-		bulletAttackNum < 100.0f)
-	{
-		attackCoolCount += Time::DeltaTime;
-		angleY = cameraActor->GetParameter().mat.GetRotateDegree().y - 90.0f;
-		if (attackCoolCount >= 0.1f)
-		{
-			//bulletAttackNum += 2.0f;
-			//頂点の位置を設定
-			bulletState.vertexPoint = cameraActor->GetTarget();
-			//腰の位置ぐらいから発射
-			bulletState.position = parameter.mat.GetPosition() + Vector3(0.0f, 2.0f, 0.0f);
-			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, bulletState));
-			attackCoolCount = 0.0f;
-		}
-		playerState = PlayerState::PLAYERATTACK;
-
-	}
-	else
-	{
-		attackCoolCount = 0.1f;
-	}
-
-	bulletAttackNum = Math::Clamp(bulletAttackNum, 0.0f, 100.0f);
+	
 }
 
 void Player::SniperAttack()

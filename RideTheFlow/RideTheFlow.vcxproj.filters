@@ -75,6 +75,7 @@
     <ClInclude Include="src\actor\Tree\Tree.h" />
     <ClInclude Include="src\actor\SniperBullet\SniperBullet.h" />
     <ClInclude Include="src\actor\PlayerBullet\SniperTargetRay.h" />
+    <ClInclude Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -127,5 +128,6 @@
     <ClCompile Include="src\actor\PlayerBullet\TargetRay.cpp" />
     <ClCompile Include="src\actor\Tree\Tree.cpp" />
     <ClCompile Include="src\actor\SniperBullet\SniperBullet.cpp" />
+    <ClCompile Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.cpp" />
   </ItemGroup>
 </Project>
