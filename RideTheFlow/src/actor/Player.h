@@ -46,20 +46,20 @@ public:
 	{
 		return attackState;
 	}
+	void SetRotateY(float AngleY)
+	{
+		angleY = AngleY;
+	}
 private:
-	void PlayerAttacUpdate(PlayerAttackState state);
 	void RotateMovePlayer();
 //プレイヤーの行動系
 private:
 	void Move();
 	void AttackMove();
-	void MachineAttack();
-	void SniperAttack();
 	void Jump();
 	void Respawn();
 private:
-	//弾の情報
-	BulletState bulletState;
+	//プレイヤー状態
 	PlayerAttackState attackState;
 
 	//1フレーム前のポジション
@@ -86,12 +86,6 @@ private:
 	//プレイヤージャンプ
 	bool jumpFlag;
 	float jumpCount;
-
-	//攻撃関係(マシンガン)
-	float attackCoolCount;
-	float bulletAttackNum;
-	//攻撃関係(スナイパー)
-	float chargeCount;
 
 	//リスポーン関係
 	float respawnCount;

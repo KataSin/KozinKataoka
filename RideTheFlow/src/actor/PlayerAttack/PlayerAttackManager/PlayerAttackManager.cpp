@@ -7,17 +7,22 @@
 #include "../../../input/GamePad.h"
 #include "../../../input/Keyboard.h"
 
-PlayerAttackManager::PlayerAttackManager(IWorld& world,PLAYER_NUMBER player) :
+#include "../../PlayerBullet/TargetRay.h"
+
+PlayerAttackManager::PlayerAttackManager(IWorld& world,Actor& player) :
 	Actor(world),
 	overHertCount(0.0f)
 {
+	mPlayer = &player;
 	parameter.isDead = false;
 	//初期武器を設定
 	attackState = PlayerAttackState::MACHINE_GUN;
-	//プレイヤーナンバーからプレイヤーを取得
-	mPlayer = world.GetPlayer(player).get();
+	//何プレイヤー設定
+	parameter.playNumber = player.GetParameter().playNumber;
+	//ターゲットを追加
+	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
 	//カメラも取得
-	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(player).get());
+	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	//誰の弾かの情報を設定
 	bulletState.playerNumber = mPlayer->GetParameter().playNumber;
 	//パッドのプレイヤー設定
@@ -38,9 +43,6 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world,PLAYER_NUMBER player) :
 		pad = PADNUM::PAD4;
 		break;
 	}
-
-
-
 }
 
 PlayerAttackManager::~PlayerAttackManager()
@@ -66,6 +68,7 @@ void PlayerAttackManager::Update()
 			attackState = static_cast<PlayerAttackState>(1);
 	}
 	//武器種類によっての攻撃
+	if(dynamic_cast<Player*>(mPlayer)->GetPlayerState()!=PlayerState::PLAYERRESPAWN)
 	PlayerAttack(attackState);
 }
 
@@ -101,14 +104,13 @@ void PlayerAttackManager::MachineGun()
 		overHertCount < 100.0f)
 	{
 		overHertCount += Time::DeltaTime;
-		//angleY = cameraActor->GetParameter().mat.GetRotateDegree().y - 90.0f;
 		if (overHertCount >= 0.1f)
 		{
 			//overHertCount += 2.0f;
 			//頂点の位置を設定
 			bulletState.vertexPoint = mCamera->GetTarget();
 			//腰の位置ぐらいから発射
-			bulletState.position = mPlayer->GetParameter().mat.GetPosition() + Vector3(0, 2, 0);
+			bulletState.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, bulletState));
 			overHertCount += 2.0f;
 		}
@@ -124,4 +126,5 @@ void PlayerAttackManager::MachineGun()
 
 void PlayerAttackManager::SniperGun()
 {
+
 }

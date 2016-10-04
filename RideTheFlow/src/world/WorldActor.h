@@ -48,4 +48,5 @@ private:
 	typedef std::map<UI_ID, UIActorManagerPtr> UIActorManagerPtrMap;
 	typedef std::pair<UI_ID, UIActorManagerPtr> UIActorManagerPair;
 	UIActorManagerPtrMap UImanagers;
+
 };

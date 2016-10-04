@@ -17,6 +17,7 @@
 #include "../actor/PlayerBullet/PlayerBullet.h"
 #include "DeadBullet\DeadBulletManager.h"
 #include "PlayerBullet\TargetRay.h"
+#include "PlayerAttack\PlayerAttackManager\PlayerAttackManager.h"
 
 const float PlayerSpeed = 20.0f;
 const float LowPlayerSpeed = 5.0f;
@@ -31,11 +32,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	vecPos(Vector3::Zero),
 	mVelocity(Vector3::Zero),
 	respawnCount(0.0f),
-	chargeCount(0.0f),
 	angleY(rotateY),
-	attackCoolCount(0.0f),
 	jumpCount(0.0f),
-	bulletAttackNum(0.0f),
 	respawnFlag(false),
 	jumpFlag(false),
 	mPosition(position_)
@@ -55,18 +53,11 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 
 	//カメラを追加
 	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this));
-	//ターゲットを追加
-	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
+	//武器を追加
+	world.Add(ACTOR_ID::MANAGER_ACTOR, std::make_shared<PlayerAttackManager>(world, *this));
 	//カメラの向いている方向にプレイヤーも向く
 	float angleY = world.GetCamera(parameter.playNumber)->GetParameter().mat.GetRotateDegree().y;
 	mRotate = Vector3(0.0f, angleY - 90.0f, 0.0f);
-	//攻撃形態をマシンガンで初期化
-	attackState = PlayerAttackState::MACHINE_GUN;
-
-	//弾情報初期化
-	bulletState.vertexPoint = Vector3::Zero;
-	bulletState.playerNumber = player;
-	bulletState.position = Vector3::Zero;
 
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
@@ -129,32 +120,10 @@ void Player::Update() {
 	//リスポーン中以外は行動可能
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
-		if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::H))
-			attackState = PlayerAttackState::SNIPER_GUN;
 		//歩き
 		Move();
-		//攻撃
-		PlayerAttacUpdate(attackState);
 		//ジャンプ
 		Jump();
-	}
-
-	//敵のプレートに当たってたらスピードダウン
-	if (lowStateFlag)
-	{
-		if (playerState == PlayerState::PLAYERATTACK)
-			playerSpeed = LowPlayerSpeed / 3.0f;
-		else
-			playerSpeed = LowPlayerSpeed;
-	}
-	else if (!lowStateFlag)
-	{
-		if (playerState == PlayerState::PLAYERATTACK)
-			playerSpeed = PlayerSpeed / 3.0f;
-		else
-		{
-			playerSpeed = PlayerSpeed;
-		}
 	}
 	//マトリクス計算
 	parameter.mat =
@@ -207,19 +176,6 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	{
 		//めり込み防止
 		mPosition = colpara.colPos;
-	}
-}
-
-void Player::PlayerAttacUpdate(PlayerAttackState state)
-{
-	switch (state)
-	{
-	case MACHINE_GUN:
-		MachineAttack();
-		break;
-	case SNIPER_GUN:
-		SniperAttack();
-		break;
 	}
 }
 
@@ -283,6 +239,16 @@ void Player::Move()
 	RotateMovePlayer();
 	cameraActor->SetCameraState(CameraState::DEFAULT);
 	playerState = PlayerState::PLAYERWALK;
+
+	//敵のプレートに当たってたらスピードダウン
+	if (lowStateFlag)
+	{
+		playerSpeed = LowPlayerSpeed;
+	}
+	else if (!lowStateFlag)
+	{
+		playerSpeed = PlayerSpeed;
+	}
 }
 
 void Player::AttackMove()
@@ -290,27 +256,6 @@ void Player::AttackMove()
 
 }
 
-void Player::MachineAttack()
-{
-	
-}
-
-void Player::SniperAttack()
-{
-	if ((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
-		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)))
-	{
-		//cameraActor->SetCameraState(CameraState::ATTACKCHARGE);
-		angleY = cameraActor->GetParameter().mat.GetRotateDegree().y - 90.0f;
-		chargeCount += 5.0f*Time::DeltaTime;
-
-	}
-	else if (chargeCount > 0.0f)
-	{
-		chargeCount = 0.0f;
-	}
-	chargeCount = Math::Clamp(chargeCount, 0.0f, 100.0f);
-}
 
 void Player::Jump()
 {

@@ -28,8 +28,6 @@ void World::Clear(){
 }
 
 void World::Add(ACTOR_ID id, ActorPtr actor){
-	if (id == ACTOR_ID::PLAYER_ACTOR)		playerActor = actor;
-	if (id == ACTOR_ID::CAMERA_ACTOR)       cameraActor.push_back(actor);
 	actors.Add(id, actor);
 }
 

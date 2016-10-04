@@ -10,7 +10,7 @@
 class TargetRay :public Actor, public std::enable_shared_from_this<TargetRay>
 {
 public:
-	TargetRay(IWorld& world,Player& player);
+	TargetRay(IWorld& world,Actor& target);
 	~TargetRay();
 	virtual void Update() override;
 	virtual void Draw() const override;
@@ -20,7 +20,8 @@ public:
 	{
 		//Lineを生成
 		Line line;
-		line.startPos = Vector3(mPlayer->GetPlayerGunPos());
+		Player* player = dynamic_cast<Player*>(world.GetPlayer(parameter.playNumber).get());
+		line.startPos = Vector3(player->GetPlayerGunPos());
 		CameraActor* camera = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
 		line.endPos = camera->GetTarget();
 		return line;
@@ -31,9 +32,10 @@ private:
 	void SniperGun();
 
 private:
-	Player* mPlayer;
+	Actor* mTarget;
 	//当たった場所のポジション
 	Vector3 mColPos;
+
 	bool isCol;
 	//プレイヤーが今持っている武器を取得
 	PlayerAttackState attackState;

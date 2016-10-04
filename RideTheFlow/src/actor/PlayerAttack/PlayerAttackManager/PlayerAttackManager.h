@@ -1,12 +1,13 @@
 #pragma once
 #include "../../Actor.h"
-#include "../../Player.h"
 #include "../../PlayerBullet/PlayerBullet.h"
 #include "../../CameraActor.h"
-class PlayerAttackManager :Actor
+
+#include "../../Player.h"
+class PlayerAttackManager :public Actor
 {
 public:
-	PlayerAttackManager(IWorld& world, PLAYER_NUMBER player);
+	PlayerAttackManager(IWorld& world, Actor& player);
 	~PlayerAttackManager();
 	virtual void Update() override;
 	virtual void Draw() const override;

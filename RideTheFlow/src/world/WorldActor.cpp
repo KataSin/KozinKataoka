@@ -1,7 +1,6 @@
 #include "WorldActor.h"
 #include<algorithm>
 #include "../actor/ID.h"
-#include <algorithm>
 #include "../actor/Actor.h"
 #include "../actor/ActorPtr.h"
 
@@ -94,19 +93,21 @@ int WorldActor::GetActorCount(ACTOR_ID id, ACTOR_ID id2)
 }
 ActorPtr WorldActor::GetPlayer(PLAYER_NUMBER playerNumber)
 {
+	std::list<ActorPtr> a = managers[ACTOR_ID::PLAYER_ACTOR]->getlist();
 	for (auto i : managers[ACTOR_ID::PLAYER_ACTOR]->getlist())
 	{
 		PLAYER_NUMBER num = i->GetParameter().playNumber;
-		if (i->GetParameter().playNumber == playerNumber)
+		if (num == playerNumber)
 		{
 			return i;
 		}
-	}
-	//Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚çnull
+	}	//Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚çnull
 	return nullptr;
+
 }
 ActorPtr WorldActor::GetCamera(PLAYER_NUMBER playerNumber)
 {
+	std::list<ActorPtr> a = managers[ACTOR_ID::CAMERA_ACTOR]->getlist();
 	for (auto i : managers[ACTOR_ID::CAMERA_ACTOR]->getlist())
 	{
 		PLAYER_NUMBER num = i->GetParameter().playNumber;
