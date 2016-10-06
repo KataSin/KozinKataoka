@@ -17,6 +17,7 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_) :
 	cameraState(CameraState::DEFAULT),
     mPosition(Vector3::Zero),
 	velocity(Vector3::Zero),
+	mDis(30.0f),
 	rotateLeft(0.0f),
 	rotateUp(0.0f),
 	killRotateY(0.0f)
@@ -129,12 +130,6 @@ void CameraActor::StateUpdate(CameraState state)
 	case DEFAULT:
 		Default();
 		break;
-	case ATTACK:
-		Attack();
-		break;
-	case ATTACKCHARGE:
-		AttackCharge();
-		break;
 	case KILL_CAMERA:
 		KillCmaera();
 		break;
@@ -172,42 +167,6 @@ void CameraActor::Default()
 		+ playerMat.GetPosition();
 }
 
-void CameraActor::Attack()
-{
-	Vector2 vec = GamePad::GetInstance().RightStick(pad);
-	rotateUp += vec.x*CameraSpeed*Time::DeltaTime;
-	rotateLeft -= vec.y*CameraSpeed*Time::DeltaTime;
-
-	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::LEFT))
-	{
-		rotateUp += CameraSpeed*Time::DeltaTime;
-	}
-	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::RIGHT))
-	{
-		rotateUp -= CameraSpeed*Time::DeltaTime;
-	}
-	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::UP))
-	{
-		rotateLeft += CameraSpeed*Time::DeltaTime;
-	}
-	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::DOWN))
-	{
-		rotateLeft -= CameraSpeed*Time::DeltaTime;
-	}
-
-	//Z軸回転制限
-	rotateLeft = Math::Clamp(rotateLeft, -65.0f, 20.0f);
-	target = playerMat.GetPosition() + Vector3(0, 6, 0);
-	mPosition = Vector3(0, 0, 1)*CameraDis
-		*Matrix4::RotateX(-rotateLeft)*Matrix4::RotateY(rotateUp)
-		+ playerMat.GetPosition();
-}
-
-void CameraActor::AttackCharge()
-{
-
-}
-
 void CameraActor::KillCmaera()
 {
 	//倒された相手の取得
@@ -230,7 +189,7 @@ Vector3 CameraActor::GetTarget()
 	//注視点とカメラのポジションのベクトル
 	Vector3 targetVec = (target - parameter.mat.GetPosition()).Normalized();
 	//ここに球を撃つ
-	Vector3 targetPos = targetVec * 30.0f + parameter.mat.GetPosition();
+	Vector3 targetPos = targetVec * mDis + parameter.mat.GetPosition();
 	//謎の補正
 	return targetPos + Vector3(0.0f, 0.5f, 0.0f);
 }

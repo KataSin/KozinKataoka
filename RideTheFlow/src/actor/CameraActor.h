@@ -17,8 +17,9 @@ class Player;
 enum CameraState
 {
 	DEFAULT,
-	ATTACK,
-	ATTACKCHARGE,
+	ATTACKMACHINEGUN,
+	ATTACKSNIPERGUN,
+	ATTACKSHOTGUN,
 	KILL_CAMERA,
 };
 
@@ -39,13 +40,15 @@ private:
 private:
 	void StateUpdate(CameraState state);
 	void Default();
-	void Attack();
-	void AttackCharge();
 	void KillCmaera();
 
 public:
 	void SetCameraState(CameraState state);
 	Vector3 GetTarget();
+	void SetTargetDistance(float dis)
+	{
+		mDis = dis;
+	}
 	void SetCamera()
 	{
 		switch (parameter.playNumber)
@@ -105,4 +108,6 @@ private:
 	//カメラの当たった関係
 	Vector3 isColPos;
 	bool isColFlag;
+	//ターゲットとプレイヤーの距離
+	float mDis;
 };

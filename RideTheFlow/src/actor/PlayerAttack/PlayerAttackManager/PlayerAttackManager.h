@@ -4,6 +4,13 @@
 #include "../../CameraActor.h"
 
 #include "../../Player.h"
+
+struct SniperState
+{
+	float chargeSniperCount;
+	bool isColSniperLine;
+};
+
 class PlayerAttackManager :public Actor
 {
 public:
@@ -12,6 +19,15 @@ public:
 	virtual void Update() override;
 	virtual void Draw() const override;
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
+public:
+	PlayerAttackState GetState()
+	{
+		return attackState;
+	}
+	SniperState GetChargeCount()
+	{
+		return mSniperState;
+	}
 private:
 	void PlayerAttack(PlayerAttackState state);
 	void MachineGun();
@@ -27,6 +43,10 @@ private:
 	PlayerAttackState attackState;
 	//オーバーヒートカウント
 	float overHertCount;
+	//スナイパーの弾情報
+	SniperState mSniperState;
+	//スナイパーのあたり判定のカウント
+	float isColSniperCount;
 	//弾に渡す情報
 	BulletState bulletState;
 };

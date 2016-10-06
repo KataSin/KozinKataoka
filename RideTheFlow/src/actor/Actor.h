@@ -44,6 +44,7 @@ private:
 	CollisionParameter GunRay_vs_Plate(const Actor& other)const;
 	CollisionParameter CameraRay_vs_Plate(const Actor& other)const;
 	CollisionParameter Camera_vs_Plate(const Actor& other)const;
+	CollisionParameter SniperLine_vs_Plate(const Actor& other)const;
 	//弾とトルネードのあたり判定
 	//CollisionParameter Bullet_vs_Tornad(const Actor& other)const;
 

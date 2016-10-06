@@ -3,6 +3,7 @@
 #include "../world/IWorld.h"
 #include "PlayerBullet\TargetRay.h"
 #include "CameraActor.h"
+#include "PlayerAttack\SniperGunLine\SniperGunLine.h"
 #include "../math/Math.h"
 #include <list>
 #include <vector>
@@ -26,6 +27,7 @@ Actor::Actor(IWorld& world_) :world(world_)
 	colFunc[COL_ID::PLATE_GUNRAY_COL] = std::bind(&Actor::GunRay_vs_Plate, this, std::placeholders::_1);
 	colFunc[COL_ID::CAMERARAY_PLATE_COL] = std::bind(&Actor::CameraRay_vs_Plate, this, std::placeholders::_1);
 	colFunc[COL_ID::CAMERA_PLATE_COL] = std::bind(&Actor::Camera_vs_Plate, this, std::placeholders::_1);
+	colFunc[COL_ID::SNIPERLINE_PLATE_COL] = std::bind(&Actor::SniperLine_vs_Plate, this, std::placeholders::_1);
 }
 
 Actor::~Actor()
@@ -226,5 +228,22 @@ CollisionParameter Actor::Camera_vs_Plate(const Actor & other) const
 
 	colpara = Collisin::GetInstace().SegmentBoxAABB(camera, plate);
 	colpara.colID = COL_ID::CAMERA_PLATE_COL;
+	return colpara;
+}
+
+CollisionParameter Actor::SniperLine_vs_Plate(const Actor & other) const
+{
+	CollisionParameter colpara;
+	TargetRay* target = dynamic_cast<TargetRay*>(const_cast<Actor*>(this));
+	Line line;
+	line = target->GetLine();
+
+	Box plate;
+	plate.max = other.parameter.mat.GetPosition() + Vector3(-2.25f, -0.225f, -2.25f);
+	plate.min = other.parameter.mat.GetPosition() + Vector3(2.25f, 0.225f, 2.25f);
+
+	colpara = Collisin::GetInstace().SegmentBoxAABB(line, plate);
+	colpara.colID = COL_ID::SNIPERLINE_PLATE_COL;
+
 	return colpara;
 }

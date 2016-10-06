@@ -8,19 +8,25 @@
 #include "../../../input/Keyboard.h"
 
 #include "../../PlayerBullet/TargetRay.h"
-
-PlayerAttackManager::PlayerAttackManager(IWorld& world,Actor& player) :
+#include "../SniperGunLine/SniperGunLine.h"
+PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
-	overHertCount(0.0f)
+	overHertCount(0.0f),
+	isColSniperCount(0.0f)
 {
+	mSniperState.isColSniperLine = false;
+	mSniperState.chargeSniperCount = 0.0f;
+
 	mPlayer = &player;
 	parameter.isDead = false;
 	//初期武器を設定
-	attackState = PlayerAttackState::MACHINE_GUN;
+	attackState = PlayerAttackState::SNIPER_GUN;
 	//何プレイヤー設定
 	parameter.playNumber = player.GetParameter().playNumber;
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
+	//world.Add(ACTOR_ID::SNIPER_LINE_ACTOR, std::make_shared<SniperGunLine>(world, *this));
+
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	//誰の弾かの情報を設定
@@ -52,24 +58,30 @@ PlayerAttackManager::~PlayerAttackManager()
 
 void PlayerAttackManager::Update()
 {
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
+		attackState = PlayerAttackState::MACHINE_GUN;
+
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::K))
+		attackState = PlayerAttackState::SNIPER_GUN;
+
 	//武器切り替え(絶対直す)
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
-	{
-		attackState = static_cast<PlayerAttackState>((int)attackState + 1);
-		if ((int)attackState == 1)
-		attackState = static_cast<PlayerAttackState>(0);
+	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
+	//{
+	//	attackState = static_cast<PlayerAttackState>((int)attackState + 1);
+	//	if ((int)attackState == 1)
+	//		attackState = static_cast<PlayerAttackState>(0);
 
-	}
+	//}
 
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
-	{
-		attackState = static_cast<PlayerAttackState>((int)attackState - 1);
-		if ((int)attackState == 0)
-			attackState = static_cast<PlayerAttackState>(1);
-	}
+	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
+	//{
+	//	attackState = static_cast<PlayerAttackState>((int)attackState - 1);
+	//	if ((int)attackState == 0)
+	//		attackState = static_cast<PlayerAttackState>(1);
+	//}
 	//武器種類によっての攻撃
-	if(dynamic_cast<Player*>(mPlayer)->GetPlayerState()!=PlayerState::PLAYERRESPAWN)
-	PlayerAttack(attackState);
+	if (dynamic_cast<Player*>(mPlayer)->GetPlayerState() != PlayerState::PLAYERRESPAWN)
+		PlayerAttack(attackState);
 }
 
 void PlayerAttackManager::Draw() const
@@ -86,11 +98,13 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	{
 	case PlayerAttackState::MACHINE_GUN:
 	{
+		mCamera->SetTargetDistance(30.0f);
 		MachineGun();
 		break;
 	}
 	case PlayerAttackState::SNIPER_GUN:
 	{
+		mCamera->SetTargetDistance(100.0f);
 		SniperGun();
 		break;
 	}
@@ -114,7 +128,6 @@ void PlayerAttackManager::MachineGun()
 			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, bulletState));
 			overHertCount += 2.0f;
 		}
-
 	}
 	else
 	{
@@ -126,5 +139,28 @@ void PlayerAttackManager::MachineGun()
 
 void PlayerAttackManager::SniperGun()
 {
+	//押しっぱなしでチャージ
+	if (((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
+		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))) &&
+		!mSniperState.isColSniperLine)
+	{
+		mSniperState.chargeSniperCount += 5.0f*Time::DeltaTime;
+	}
+	//離したらLineにあたり判定を付ける
+	else if (mSniperState.chargeSniperCount > 0)
+	{
+		mSniperState.isColSniperLine = true;
+	}
+	//離した時から0.1秒後にあたり判定無効化
+	if (mSniperState.isColSniperLine)
+	{
+		isColSniperCount += Time::DeltaTime;
+		if (isColSniperCount >= 0.1f)
+		{
+			isColSniperCount = 0.0f;
+			mSniperState.isColSniperLine = false;
+			mSniperState.chargeSniperCount = 0.0f;
+		}
+	}
 
 }
