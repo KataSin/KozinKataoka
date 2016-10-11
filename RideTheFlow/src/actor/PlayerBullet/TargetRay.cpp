@@ -12,12 +12,14 @@
 const float SniperLine = 20.0f;
 TargetRay::TargetRay(IWorld & world, Actor& manager) :
 	Actor(world),
-	mManager(&manager),
 	mColPos(Vector3::Zero),
 	isCol(false),
 	mColSniperPos(Vector3::Zero),
 	isSniperCol(false)
 {
+	//変換
+	mManager = dynamic_cast<PlayerAttackManager*>(&manager);
+
 	parameter.mat = Matrix4::Translate(Vector3::Zero);
 	parameter.isDead = false;
 	parameter.playNumber = manager.GetParameter().playNumber;
@@ -35,10 +37,15 @@ void TargetRay::Update()
 {
 	attackState = dynamic_cast<PlayerAttackManager*>(mManager)->GetState();
 
-	if(attackState==PlayerAttackState::MACHINE_GUN)
-	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::PLATE_GUNRAY_COL);
-	else
-	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::SNIPERLINE_PLATE_COL);
+	//武器ごとのlineとステージとのあたり判定
+	if (attackState == PlayerAttackState::MACHINE_GUN)
+		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::PLATE_GUNRAY_COL);
+	else if (attackState == PlayerAttackState::SNIPER_GUN)
+		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::SNIPERLINE_PLATE_COL);
+
+	//スナイパーlineとプレイヤーのあたり判定（ボタンを離した瞬間だけ）
+	if (mManager->GetChargeCount().isColSniperLine)
+		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_SNIPERLINE_COL);
 
 	switch (attackState)
 	{
@@ -63,6 +70,11 @@ void TargetRay::Draw() const
 {
 	Model::GetInstance().Draw(MODEL_ID::TEST_MODEL, parameter.mat);
 
+	Player* player;
+	player = dynamic_cast<Player*>(world.GetPlayer(mManager->GetParameter().playNumber).get());
+	if (mManager->GetChargeCount().doCharge)
+		DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
+			Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
 }
 
 
@@ -103,6 +115,6 @@ void TargetRay::SniperGun()
 	else
 	{
 		CameraActor* camera = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
-		parameter.mat = Matrix4::Translate(camera->GetTarget());
+		parameter.mat = Matrix4::Translate(GetSniperLine().endPos);
 	}
 }

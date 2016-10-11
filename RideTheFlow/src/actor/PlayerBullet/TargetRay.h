@@ -30,13 +30,12 @@ public:
 	{
 		Player* player = dynamic_cast<Player*>(world.GetPlayer(parameter.playNumber).get());
 		CameraActor* camera = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
-		PlayerAttackManager* manager = dynamic_cast<PlayerAttackManager*>(mManager);
 		//銃の位置からスナイパーターゲットの位置のベクトルを計算
 		Vector3 vec = (camera->GetTarget() - player->GetPlayerGunPos()).Normalized();
 		Line playerGun;
 		playerGun.startPos = player->GetPlayerGunPos();
 		//どのくらいLineが伸びるかをManagerのチャージカウントを使って計算
-		playerGun.endPos = player->GetPlayerGunPos() + vec*manager->GetChargeCount().chargeSniperCount;
+		playerGun.endPos = player->GetPlayerGunPos() + vec*mManager->GetChargeCount().chargeSniperCount;
 		return playerGun;
 	}
 	//武器ごとのターゲットの動き
@@ -45,7 +44,9 @@ private:
 	void SniperGun();
 
 private:
-	Actor* mManager;
+	PlayerAttackManager* mManager;
+	CameraActor* mCamera;
+	Player* mPlayer;
 	//当たった場所のポジション
 	Vector3 mColPos;
 	bool isCol;

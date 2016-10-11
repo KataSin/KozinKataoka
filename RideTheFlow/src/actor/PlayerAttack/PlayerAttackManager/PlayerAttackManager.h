@@ -7,8 +7,12 @@
 
 struct SniperState
 {
+	//チャージ量
 	float chargeSniperCount;
+	//当たるかどうか
 	bool isColSniperLine;
+	//チャージしているか
+	bool doCharge;
 };
 
 class PlayerAttackManager :public Actor
@@ -49,4 +53,6 @@ private:
 	float isColSniperCount;
 	//弾に渡す情報
 	BulletState bulletState;
+	//スナイパーのフラグ
+	bool initSniperFalg;
 };

@@ -12,15 +12,17 @@
 PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
 	overHertCount(0.0f),
-	isColSniperCount(0.0f)
+	isColSniperCount(0.0f),
+	initSniperFalg(true)
 {
 	mSniperState.isColSniperLine = false;
-	mSniperState.chargeSniperCount = 0.0f;
+	mSniperState.chargeSniperCount = 100.0f;
+	mSniperState.doCharge = false;
 
 	mPlayer = &player;
 	parameter.isDead = false;
 	//‰Šú•Ší‚ğİ’è
-	attackState = PlayerAttackState::SNIPER_GUN;
+	attackState = PlayerAttackState::MACHINE_GUN;
 	//‰½ƒvƒŒƒCƒ„[İ’è
 	parameter.playNumber = player.GetParameter().playNumber;
 	//ƒ^[ƒQƒbƒg‚ğ’Ç‰Á
@@ -64,21 +66,6 @@ void PlayerAttackManager::Update()
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::K))
 		attackState = PlayerAttackState::SNIPER_GUN;
 
-	//•ŠíØ‚è‘Ö‚¦(â‘Î’¼‚·)
-	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
-	//{
-	//	attackState = static_cast<PlayerAttackState>((int)attackState + 1);
-	//	if ((int)attackState == 1)
-	//		attackState = static_cast<PlayerAttackState>(0);
-
-	//}
-
-	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
-	//{
-	//	attackState = static_cast<PlayerAttackState>((int)attackState - 1);
-	//	if ((int)attackState == 0)
-	//		attackState = static_cast<PlayerAttackState>(1);
-	//}
 	//•Šíí—Ş‚É‚æ‚Á‚Ä‚ÌUŒ‚
 	if (dynamic_cast<Player*>(mPlayer)->GetPlayerState() != PlayerState::PLAYERRESPAWN)
 		PlayerAttack(attackState);
@@ -144,12 +131,24 @@ void PlayerAttackManager::SniperGun()
 		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))) &&
 		!mSniperState.isColSniperLine)
 	{
-		mSniperState.chargeSniperCount += 5.0f*Time::DeltaTime;
+		if (initSniperFalg)
+		{
+			mSniperState.chargeSniperCount = 10.0f;
+			initSniperFalg = false;
+		}
+		//ƒ`ƒƒ[ƒW‚·‚éuŠÔ‚Éü‚ªÅ‘å‚Ü‚Åˆêu‚¾‚¯L‚Ñ‚é‚Ä‚µ‚Ü‚¤–h~
+		if(mSniperState.chargeSniperCount>=12.0f)
+			mSniperState.doCharge = true;
+		mSniperState.chargeSniperCount += 50.0f*Time::DeltaTime;
+		mSniperState.chargeSniperCount
+			= Math::Clamp(mSniperState.chargeSniperCount, 10.0f, 100.0f);
+
 	}
 	//—£‚µ‚½‚çLine‚É‚ ‚½‚è”»’è‚ğ•t‚¯‚é
-	else if (mSniperState.chargeSniperCount > 0)
+	else if (mSniperState.doCharge)
 	{
 		mSniperState.isColSniperLine = true;
+		mSniperState.doCharge = false;
 	}
 	//—£‚µ‚½‚©‚ç0.1•bŒã‚É‚ ‚½‚è”»’è–³Œø‰»
 	if (mSniperState.isColSniperLine)
@@ -159,7 +158,8 @@ void PlayerAttackManager::SniperGun()
 		{
 			isColSniperCount = 0.0f;
 			mSniperState.isColSniperLine = false;
-			mSniperState.chargeSniperCount = 0.0f;
+			mSniperState.chargeSniperCount = 100.0f;
+			initSniperFalg = true;
 		}
 	}
 

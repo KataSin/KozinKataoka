@@ -110,12 +110,18 @@ CollisionParameter Actor::Player_vs_Player(const Actor & other) const
 CollisionParameter Actor::Player_vs_SniperLine(const Actor & other) const
 {
 	CollisionParameter colpara;
-	Capsule player;
-	player.startPos = parameter.mat.GetPosition();
-	player.endPos = parameter.mat.GetPosition() + Vector3(0.0f, parameter.height, 0.0f);
-	player.radius = parameter.radius;
-
+	//ü‚ÆƒJƒvƒZƒ‹‚Ì‚ ‚½‚è”»’è‚Å‚Í‚È‚¢
+	Sphere player;
+	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, parameter.height/2.0f, 0.0f);
+	player.radius = other.parameter.radius;
 	Line line;
+	line.startPos= dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine().startPos;
+	line.endPos = parameter.mat.GetPosition();
+	colpara = Collisin::GetInstace().SegmentSphere(line, player);
+	colpara.colID = COL_ID::PLAYER_SNIPERLINE_COL;
+	//“¯‚¶‚¾‚Á‚½‚ç“–‚½‚ç‚È‚¢
+	if (other.parameter.playNumber == parameter.playNumber)
+		colpara.colFlag = false;
 	return colpara;
 }
 
@@ -236,7 +242,7 @@ CollisionParameter Actor::SniperLine_vs_Plate(const Actor & other) const
 	CollisionParameter colpara;
 	TargetRay* target = dynamic_cast<TargetRay*>(const_cast<Actor*>(this));
 	Line line;
-	line = target->GetLine();
+	line = target->GetSniperLine();
 
 	Box plate;
 	plate.max = other.parameter.mat.GetPosition() + Vector3(-2.25f, -0.225f, -2.25f);
