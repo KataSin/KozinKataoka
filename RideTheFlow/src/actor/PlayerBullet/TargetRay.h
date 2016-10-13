@@ -38,6 +38,12 @@ public:
 		playerGun.endPos = player->GetPlayerGunPos() + vec*mManager->GetChargeCount().chargeSniperCount;
 		return playerGun;
 	}
+public:
+	PlayerAttackState GetState()
+	{
+		return attackState;
+	}
+	
 	//武器ごとのターゲットの動き
 private:
 	void MachineGun();

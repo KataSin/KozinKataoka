@@ -43,6 +43,8 @@ void TargetRay::Update()
 	else if (attackState == PlayerAttackState::SNIPER_GUN)
 		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::SNIPERLINE_PLATE_COL);
 
+	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_GUNLINE_COL);
+
 	//スナイパーlineとプレイヤーのあたり判定（ボタンを離した瞬間だけ）
 	if (mManager->GetChargeCount().isColSniperLine)
 		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_SNIPERLINE_COL);
@@ -69,9 +71,11 @@ void TargetRay::Update()
 void TargetRay::Draw() const
 {
 	Model::GetInstance().Draw(MODEL_ID::TEST_MODEL, parameter.mat);
-
 	Player* player;
 	player = dynamic_cast<Player*>(world.GetPlayer(mManager->GetParameter().playNumber).get());
+	DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
+		Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
+
 	if (mManager->GetChargeCount().doCharge)
 		DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
 			Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
@@ -88,6 +92,13 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::SNIPERLINE_PLATE_COL)
 	{
 		mColSniperPos = colpara.colPos;
+		isSniperCol = true;
+	}
+	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL)
+	{
+		mColPos = colpara.colPos;
+		mColSniperPos = colpara.colPos;
+		isCol = true;
 		isSniperCol = true;
 	}
 }

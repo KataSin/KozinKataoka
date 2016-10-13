@@ -38,6 +38,7 @@ private:
 	CollisionParameter Player_vs_Plate(const Actor& other)const;
 	CollisionParameter Player_vs_Player(const Actor& other)const;
 	CollisionParameter Player_vs_SniperLine(const Actor& other)const;
+	CollisionParameter Player_vs_GunLine(const Actor& other)const;
 	CollisionParameter Player_vs_Tree(const Actor& other) const;
 	CollisionParameter Bullet_vs_RespawnPoint(const Actor& other)const;
 	CollisionParameter Bullet_vs_Tree(const Actor& other) const;

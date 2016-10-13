@@ -28,6 +28,7 @@ Actor::Actor(IWorld& world_) :world(world_)
 	colFunc[COL_ID::CAMERARAY_PLATE_COL] = std::bind(&Actor::CameraRay_vs_Plate, this, std::placeholders::_1);
 	colFunc[COL_ID::CAMERA_PLATE_COL] = std::bind(&Actor::Camera_vs_Plate, this, std::placeholders::_1);
 	colFunc[COL_ID::SNIPERLINE_PLATE_COL] = std::bind(&Actor::SniperLine_vs_Plate, this, std::placeholders::_1);
+	colFunc[COL_ID::PLAYER_GUNLINE_COL] = std::bind(&Actor::Player_vs_GunLine, this, std::placeholders::_1);
 }
 
 Actor::~Actor()
@@ -112,16 +113,37 @@ CollisionParameter Actor::Player_vs_SniperLine(const Actor & other) const
 	CollisionParameter colpara;
 	//線とカプセルのあたり判定ではない
 	Sphere player;
-	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, parameter.height/2.0f, 0.0f);
+	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.height / 2.0f, 0.0f);
 	player.radius = other.parameter.radius;
 	Line line;
-	line.startPos= dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine().startPos;
+	line.startPos = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine().startPos;
 	line.endPos = parameter.mat.GetPosition();
 	colpara = Collisin::GetInstace().SegmentSphere(line, player);
 	colpara.colID = COL_ID::PLAYER_SNIPERLINE_COL;
 	//同じだったら当たらない
 	if (other.parameter.playNumber == parameter.playNumber)
 		colpara.colFlag = false;
+	return colpara;
+}
+
+CollisionParameter Actor::Player_vs_GunLine(const Actor & other) const
+{
+	CollisionParameter colpara;
+	Sphere player;
+	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.height / 2.0f, 0.0f);
+	player.radius = other.parameter.radius;
+
+	Line line;
+	PlayerAttackState a = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetState();
+	if (dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetState() == PlayerAttackState::MACHINE_GUN)
+		line = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetLine();
+	else
+		line = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine();
+	colpara = Collisin::GetInstace().SegmentSphere(line, player);
+	colpara.colID = COL_ID::PLAYER_GUNLINE_COL;
+	if (other.parameter.playNumber == parameter.playNumber)
+		colpara.colFlag = false;
+
 	return colpara;
 }
 
@@ -137,7 +159,7 @@ CollisionParameter Actor::Player_vs_Tree(const Actor & other) const
 	player.position = other.parameter.mat.GetPosition();
 	player.radius = other.parameter.radius;
 
-	colpara =Collisin::GetInstace().PushedBack_SphereCapsule(player,tree);
+	colpara = Collisin::GetInstace().PushedBack_SphereCapsule(player, tree);
 	//押し返し位置取得
 	colpara.colID = COL_ID::PLAYER_TREE_COL;
 	return colpara;
@@ -176,12 +198,12 @@ CollisionParameter Actor::Bullet_vs_Tree(const Actor & other) const
 	bullet.position = other.parameter.mat.GetPosition();
 	bullet.radius = other.parameter.radius;
 
-	colpara = Collisin::GetInstace().SphereCapsule(bullet,tree);
+	colpara = Collisin::GetInstace().SphereCapsule(bullet, tree);
 
 	if (!colpara.colFlag)
 	{
 		Sphere treeTop;
-		treeTop.position= parameter.mat.GetPosition() + (parameter.mat.GetUp().Normalized()*parameter.height);
+		treeTop.position = parameter.mat.GetPosition() + (parameter.mat.GetUp().Normalized()*parameter.height);
 		treeTop.radius = parameter.radius*2.0f;
 		colpara = Collisin::GetInstace().SphereSphere(bullet, treeTop);
 	}

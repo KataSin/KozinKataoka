@@ -41,8 +41,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	parameter.HP = 10;
 	parameter.playNumber = player;
 	parameter.isDead = false;
-	parameter.radius = 2.0f;
 	parameter.height = 5.0f;
+	parameter.radius = 2.0f;
 	parameter.isRespawn = false;
 	parameter.mat =
 		Matrix4::Scale(0)*
