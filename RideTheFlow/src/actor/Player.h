@@ -91,7 +91,7 @@ private:
 	float respawnCount;
 	bool respawnFlag;
 	Vector3 respawnPoint;
-
+	bool dropDownFlag;
 	//直前に受けたダメージ
 	PLAYER_NUMBER damagePlayerNumber;
 

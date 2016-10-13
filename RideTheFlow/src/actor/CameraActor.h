@@ -20,6 +20,7 @@ enum CameraState
 	ATTACKMACHINEGUN,
 	ATTACKSNIPERGUN,
 	ATTACKSHOTGUN,
+	DROP_DOWN_CAMERA,
 	KILL_CAMERA,
 };
 
@@ -41,6 +42,7 @@ private:
 	void StateUpdate(CameraState state);
 	void Default();
 	void KillCmaera();
+	void DropDownCamera();
 
 public:
 	void SetCameraState(CameraState state);

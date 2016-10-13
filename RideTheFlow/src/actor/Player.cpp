@@ -36,7 +36,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	jumpCount(0.0f),
 	respawnFlag(false),
 	jumpFlag(false),
-	mPosition(position_)
+	mPosition(position_),
+	dropDownFlag(false)
 {
 	parameter.HP = 10;
 	parameter.playNumber = player;
@@ -116,7 +117,11 @@ void Player::Update() {
 	{
 		Respawn();
 	}
-
+	if (parameter.mat.GetPosition().y <= -10.0f)
+	{
+		dropDownFlag = true;
+		Respawn();
+	}
 	//リスポーン中以外は行動可能
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
@@ -142,8 +147,8 @@ void Player::Draw() const {
 	{
 		Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
 	}
-	DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
-		, parameter.radius, 10, 1, 1, FALSE);
+	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
+	//	, parameter.radius, 10, 1, 1, FALSE);
 	//DrawLine3D(Vector3::ToVECTOR(mPosition), Vector3::ToVECTOR(mPosition + vecPos), GetColor(255, 255, 255));
 }
 
@@ -301,11 +306,14 @@ void Player::Respawn()
 	playerState = PlayerState::PLAYERRESPAWN;
 	//カメラをキルカメラに
 	cameraActor->SetCameraState(CameraState::KILL_CAMERA);
+	if (dropDownFlag)
+		cameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
 
 	respawnCount += Time::DeltaTime;
 	if (respawnCount >= 5.0f)
 	{
 		parameter.isRespawn = false;
+		dropDownFlag = false;
 		cameraActor->SetCameraState(CameraState::DEFAULT);
 		respawnCount = 0.0f;
 		parameter.HP = 10;

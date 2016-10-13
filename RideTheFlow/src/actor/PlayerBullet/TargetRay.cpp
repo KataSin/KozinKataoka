@@ -67,15 +67,15 @@ void TargetRay::Update()
 
 void TargetRay::Draw() const
 {
-	Model::GetInstance().Draw(MODEL_ID::TEST_MODEL, parameter.mat);
-	Player* player;
-	player = dynamic_cast<Player*>(world.GetPlayer(mManager->GetParameter().playNumber).get());
-	DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
-		Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
+	//Model::GetInstance().Draw(MODEL_ID::TEST_MODEL, parameter.mat);
+	//Player* player;
+	//player = dynamic_cast<Player*>(world.GetPlayer(mManager->GetParameter().playNumber).get());
+	//DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
+	//	Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
 
-	if (mManager->GetChargeCount().doCharge)
-		DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
-			Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
+	//if (mManager->GetChargeCount().doCharge)
+	//	DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
+	//		Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
 }
 
 

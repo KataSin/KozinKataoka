@@ -26,5 +26,8 @@ void Target::Update(PLAYER_NUMBER player)
 
 void Target::Draw() const
 {
-	Sprite::GetInstance().Draw(SPRITE_ID::TARGET_SPRITE, Vector2(mPosition.x, mPosition.y) - Vector2(32, 16), 1.0f);
+	if (mTarget->GetState() == PlayerAttackState::MACHINE_GUN)
+		Sprite::GetInstance().Draw(SPRITE_ID::TARGET_SPRITE, Vector2(mPosition.x, mPosition.y) - Vector2(32, 16), 1.0f);
+	else if(mTarget->GetState() == PlayerAttackState::SNIPER_GUN)
+		Sprite::GetInstance().Draw(SPRITE_ID::SNEPER_SPRITE, Vector2(mPosition.x, mPosition.y) - Vector2(19.0f/2.0f), 1.0f);
 }

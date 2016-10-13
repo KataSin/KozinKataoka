@@ -133,6 +133,9 @@ void CameraActor::StateUpdate(CameraState state)
 	case KILL_CAMERA:
 		KillCmaera();
 		break;
+	case DROP_DOWN_CAMERA:
+		DropDownCamera();
+		break;
 	}
 }
 
@@ -183,6 +186,10 @@ void CameraActor::KillCmaera()
 	//’Ž‹“_‚à•ÏX
 	target = killPlayer->GetParameter().mat.GetPosition() + Vector3(0, 2, 0);
 	SpringCamra(restPos, 1.0f, 0.2f, 1.0f);
+}
+void CameraActor::DropDownCamera()
+{
+	//—Ž‚¿‚½‚Æ‚«‚Í‰½‚à‚µ‚È‚¢
 }
 Vector3 CameraActor::GetTarget()
 {
