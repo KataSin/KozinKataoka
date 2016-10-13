@@ -45,9 +45,6 @@ void TargetRay::Update()
 
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_GUNLINE_COL);
 
-	//スナイパーlineとプレイヤーのあたり判定（ボタンを離した瞬間だけ）
-	if (mManager->GetChargeCount().isColSniperLine)
-		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_SNIPERLINE_COL);
 
 	switch (attackState)
 	{

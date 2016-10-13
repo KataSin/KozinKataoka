@@ -43,7 +43,10 @@ public:
 	{
 		return attackState;
 	}
-	
+	bool colFlag()
+	{
+		return mManager->GetChargeCount().isColSniperLine;
+	}
 	//武器ごとのターゲットの動き
 private:
 	void MachineGun();

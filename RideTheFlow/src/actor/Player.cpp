@@ -142,7 +142,7 @@ void Player::Draw() const {
 	{
 		Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
 	}
-	DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition()+Vector3(0.0f, parameter.height/2.0f, 0.0f))
+	DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
 		, parameter.radius, 10, 1, 1, FALSE);
 	//DrawLine3D(Vector3::ToVECTOR(mPosition), Vector3::ToVECTOR(mPosition + vecPos), GetColor(255, 255, 255));
 }
@@ -165,7 +165,9 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
 	}
-	if (colpara.colID == COL_ID::PLAYER_SNIPERLINE_COL)
+	//スナイパー用
+	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL&&
+		colpara.colFlagSub)
 	{
 		parameter.HP = 0;
 		damagePlayerNumber = other.GetParameter().playNumber;

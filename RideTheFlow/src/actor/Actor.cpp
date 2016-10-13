@@ -139,11 +139,13 @@ CollisionParameter Actor::Player_vs_GunLine(const Actor & other) const
 		line = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetLine();
 	else
 		line = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine();
+
+
 	colpara = Collisin::GetInstace().SegmentSphere(line, player);
 	colpara.colID = COL_ID::PLAYER_GUNLINE_COL;
 	if (other.parameter.playNumber == parameter.playNumber)
 		colpara.colFlag = false;
-
+	colpara.colFlagSub = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->colFlag();
 	return colpara;
 }
 
