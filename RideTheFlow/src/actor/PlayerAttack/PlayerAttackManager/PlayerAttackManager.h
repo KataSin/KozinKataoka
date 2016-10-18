@@ -32,6 +32,10 @@ public:
 	{
 		return mSniperState;
 	}
+	float GetOverHertCount()
+	{
+		return overHertCount;
+	}
 private:
 	void PlayerAttack(PlayerAttackState state);
 	void MachineGun();
@@ -40,13 +44,17 @@ private:
 	//カメラアクター
 	CameraActor* mCamera;
 	//プレイヤー
-	Actor* mPlayer;
+	Player* mPlayer;
 	//パッドの数字
 	int pad;
 	//装備している武器
 	PlayerAttackState attackState;
+	//マシンガン連続攻撃カウント
+	float machineAttackCount;
 	//オーバーヒートカウント
 	float overHertCount;
+	//オーバーヒートフラグ
+	bool overHertFlag;
 	//スナイパーの弾情報
 	SniperState mSniperState;
 	//スナイパーのあたり判定のカウント
@@ -55,4 +63,8 @@ private:
 	BulletState bulletState;
 	//スナイパーのフラグ
 	bool initSniperFalg;
+	//攻撃しているか？
+	bool attackFlag;
+	//オーバーヒート冷め始める時間
+	float coolHertCount;
 };

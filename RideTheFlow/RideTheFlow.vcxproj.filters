@@ -71,11 +71,10 @@
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\actor\PlayerBullet\TargetRay.h" />
     <ClInclude Include="src\actor\Tree\Tree.h" />
-    <ClInclude Include="src\actor\SniperBullet\SniperBullet.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.h" />
-    <ClInclude Include="src\actor\PlayerAttack\SniperGunLine\SniperGunLine.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
+    <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -125,10 +124,9 @@
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\actor\PlayerBullet\TargetRay.cpp" />
     <ClCompile Include="src\actor\Tree\Tree.cpp" />
-    <ClCompile Include="src\actor\SniperBullet\SniperBullet.cpp" />
     <ClCompile Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.cpp" />
-    <ClCompile Include="src\actor\PlayerAttack\SniperGunLine\SniperGunLine.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
+    <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
   </ItemGroup>
 </Project>

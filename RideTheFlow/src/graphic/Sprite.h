@@ -95,6 +95,10 @@ public:
 	///</summary>
 	void Draw(const SPRITE_ID& id, const Vector2& position, const RECT& rect, const Vector2& origin, float alpha, const Vector2& scale, float angle, bool trans, bool turn);
 	///<summary>
+	/// 通常画像(ゲージに特化)の描画(アセット名、座標 、拡大率、アルファ値、ゲージの伸び具合)
+	///</summary>
+	void DrawGauge(const SPRITE_ID& id, const Vector2& position,Vector2& scale, float alpha, float gaugeCount);
+	///<summary>
 
 	///<summary>
 	/// ブレンド画像の描画(アセット名、座標、原点、拡大率、回転率、ブレンドモード)

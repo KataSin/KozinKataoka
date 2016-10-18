@@ -8,18 +8,26 @@
 #include "../../../input/Keyboard.h"
 
 #include "../../PlayerBullet/TargetRay.h"
-#include "../SniperGunLine/SniperGunLine.h"
+#include "../../../UIactor/AttackGauge/AttackGauge.h"
+
+//武器のオーバーヒート値
+const float OverHertMachine = 2.0f;
+const float OverHertSniper = 50.0f;
+
 PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
-	overHertCount(0.0f),
+	overHertCount(100.0f),
+	machineAttackCount(0.0f),
 	isColSniperCount(0.0f),
+	coolHertCount(0.0f),
+	attackFlag(0.0f),
 	initSniperFalg(true)
 {
 	mSniperState.isColSniperLine = false;
 	mSniperState.chargeSniperCount = 100.0f;
 	mSniperState.doCharge = false;
 
-	mPlayer = &player;
+	mPlayer = dynamic_cast<Player*>(&player);
 	parameter.isDead = false;
 	//初期武器を設定
 	attackState = PlayerAttackState::MACHINE_GUN;
@@ -27,7 +35,8 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	parameter.playNumber = player.GetParameter().playNumber;
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
-	//world.Add(ACTOR_ID::SNIPER_LINE_ACTOR, std::make_shared<SniperGunLine>(world, *this));
+	//オーバーヒートゲージを追加
+	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, this));
 
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
@@ -66,9 +75,23 @@ void PlayerAttackManager::Update()
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::K))
 		attackState = PlayerAttackState::SNIPER_GUN;
 
+	//攻撃していない
+	attackFlag = false;
 	//武器種類によっての攻撃
 	if (dynamic_cast<Player*>(mPlayer)->GetPlayerState() != PlayerState::PLAYERRESPAWN)
 		PlayerAttack(attackState);
+
+	//攻撃していない時にオバーヒート回復
+	if (!attackFlag)
+	{
+		coolHertCount += Time::DeltaTime;
+		if (coolHertCount >= 2.0f)
+			overHertCount += 50.0f*Time::DeltaTime;
+		overHertCount = Math::Clamp(overHertCount, 0.0f, 100.0f);
+	}
+	else
+		coolHertCount = 0.0f;
+
 }
 
 void PlayerAttackManager::Draw() const
@@ -85,12 +108,14 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	{
 	case PlayerAttackState::MACHINE_GUN:
 	{
+		//ターゲットの位置を30に変更
 		mCamera->SetTargetDistance(30.0f);
 		MachineGun();
 		break;
 	}
 	case PlayerAttackState::SNIPER_GUN:
 	{
+		//ターゲットの位置を100に変更
 		mCamera->SetTargetDistance(100.0f);
 		SniperGun();
 		break;
@@ -101,27 +126,31 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 void PlayerAttackManager::MachineGun()
 {
 	if ((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
-		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)) &&
-		overHertCount < 100.0f)
+		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)))
 	{
-		overHertCount += Time::DeltaTime;
-		if (overHertCount >= 0.1f)
+		//攻撃しています
+		attackFlag = true;
+		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
+		//オーバーヒートで弾が出せないよ
+		if (overHertCount < OverHertMachine) {
+			overHertFlag = true;
+			return;
+		}
+		//オーバーヒートしていないよ
+		overHertFlag = false;
+		machineAttackCount += Time::DeltaTime;
+		//0.1秒に1個発射する
+		if (machineAttackCount >= 0.1f)
 		{
-			//overHertCount += 2.0f;
+			overHertCount -= OverHertMachine;
 			//頂点の位置を設定
 			bulletState.vertexPoint = mCamera->GetTarget();
 			//腰の位置ぐらいから発射
 			bulletState.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, bulletState));
-			overHertCount += 2.0f;
+			machineAttackCount = 0.0f;
 		}
 	}
-	else
-	{
-		overHertCount = 2.0f;
-	}
-
-	overHertCount = Math::Clamp(overHertCount, 0.0f, 100.0f);
 }
 
 void PlayerAttackManager::SniperGun()
@@ -131,23 +160,42 @@ void PlayerAttackManager::SniperGun()
 		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))) &&
 		!mSniperState.isColSniperLine)
 	{
+		//攻撃しています
+		attackFlag = true;
+		//プレイヤーは攻撃しています
+		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
+		//オーバーヒートで弾が出せないよ
+		if (overHertCount < OverHertSniper) {
+			overHertFlag = true;
+			return;
+		}
+		//ここに来たらオーバーヒートしていない
+		overHertFlag = false;
+		//スナイパーチャージでの初期化設定
 		if (initSniperFalg)
 		{
+			//チャージの初期量は10
 			mSniperState.chargeSniperCount = 10.0f;
 			initSniperFalg = false;
 		}
 		//チャージする瞬間に線が最大まで一瞬だけ伸びるてしまう防止
 		if(mSniperState.chargeSniperCount>=12.0f)
 			mSniperState.doCharge = true;
+		//チャージ量を増やす
 		mSniperState.chargeSniperCount += 50.0f*Time::DeltaTime;
+		//チャージ量を一定数に収める
 		mSniperState.chargeSniperCount
 			= Math::Clamp(mSniperState.chargeSniperCount, 10.0f, 100.0f);
 
 	}
-	//離したらLineにあたり判定を付ける
+	//ボタンを離したらLineにあたり判定を付ける
 	else if (mSniperState.doCharge)
 	{
+		//オーバーヒート数を引く
+		overHertCount -= OverHertSniper;
+		//あたり判定フラグ
 		mSniperState.isColSniperLine = true;
+		//チャージはもうしていない
 		mSniperState.doCharge = false;
 	}
 	//離した時から0.1秒後にあたり判定無効化
@@ -156,6 +204,7 @@ void PlayerAttackManager::SniperGun()
 		isColSniperCount += Time::DeltaTime;
 		if (isColSniperCount >= 0.1f)
 		{
+			//最初の状態に戻す
 			isColSniperCount = 0.0f;
 			mSniperState.isColSniperLine = false;
 			mSniperState.chargeSniperCount = 100.0f;

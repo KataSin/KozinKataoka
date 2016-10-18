@@ -15,6 +15,9 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("TargetUI.png", SPRITE_ID::TARGET_SPRITE);
 	sprite.Load("SneperTargetUI.png", SPRITE_ID::SNEPER_SPRITE);
 
+	sprite.Load("AttackGaugeIn.png", SPRITE_ID::ATTACK_GAUGE_IN_SPRITE);
+	sprite.Load("AttackGauge.png", SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE);
+
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);
 

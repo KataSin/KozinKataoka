@@ -3,7 +3,6 @@
 #include "../world/IWorld.h"
 #include "PlayerBullet\TargetRay.h"
 #include "CameraActor.h"
-#include "PlayerAttack\SniperGunLine\SniperGunLine.h"
 #include "../math/Math.h"
 #include <list>
 #include <vector>

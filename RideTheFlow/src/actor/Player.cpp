@@ -23,6 +23,9 @@ const float PlayerSpeed = 20.0f;
 const float LowPlayerSpeed = 5.0f;
 const float AttackPlayerSpeed = 5.0f;
 
+const float IsDamageMachineKnockBack = 1.0f;
+const float IsDamageSniperKnockBack = 10.0f;
+const float KnockBackTikara = 50.0f;
 Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER player) :
 	Actor(world),
 	cameraMat(Matrix4::Identity),
@@ -37,9 +40,11 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	respawnFlag(false),
 	jumpFlag(false),
 	mPosition(position_),
-	dropDownFlag(false)
+	dropDownFlag(false),
+	isDamageMachine(false),
+	isDamageSniper(false)
 {
-	parameter.HP = 10;
+	parameter.HP = 0;
 	parameter.playNumber = player;
 	parameter.isDead = false;
 	parameter.height = 5.0f;
@@ -51,7 +56,6 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 		Matrix4::RotateY(angleY)*
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(mPosition);
-
 	//カメラを追加
 	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this));
 	//武器を追加
@@ -94,10 +98,6 @@ Player::~Player() {
 }
 
 void Player::Update() {
-
-	//状態の初期化
-	playerState = PlayerState::PLAYERSTOP;
-
 	//ポジションをセーブ
 	coppyPos = mPosition;
 
@@ -112,11 +112,6 @@ void Player::Update() {
 		mVelocity.y = 0.0f;
 	mPosition += mVelocity*Time::DeltaTime;
 
-	//hpがゼロになったらリスポーン
-	if (parameter.HP <= 0)
-	{
-		Respawn();
-	}
 	if (parameter.mat.GetPosition().y <= -10.0f)
 	{
 		dropDownFlag = true;
@@ -129,6 +124,18 @@ void Player::Update() {
 		Move();
 		//ジャンプ
 		Jump();
+		//ノックバック
+		AttackMove();
+	}
+	//無敵時間
+	if (sniperFlag)
+	{
+		sniperCount += Time::DeltaTime;
+		if (sniperCount >= 0.5f)
+		{
+			sniperCount = 0.0f;
+			sniperFlag = false;
+		}
 	}
 	//マトリクス計算
 	parameter.mat =
@@ -141,12 +148,19 @@ void Player::Update() {
 	//フラグの初期化
 	gravityFlag = true;
 	lowStateFlag = false;
+	//状態の初期化
+	playerState = PlayerState::PLAYERSTOP;
+
 }
 void Player::Draw() const {
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
 		Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
 	}
+	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
+		DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);
+	else
+		DrawFormatString(550, 25 + 32, GetColor(255, 0, 255), "プレイヤー2蓄積ダメージ:%d", (int)parameter.HP);
 	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
 	//	, parameter.radius, 10, 1, 1, FALSE);
 	//DrawLine3D(Vector3::ToVECTOR(mPosition), Vector3::ToVECTOR(mPosition + vecPos), GetColor(255, 255, 255));
@@ -166,27 +180,26 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
 		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_ACTOR)
 	{
-		parameter.HP--;
+		isDamageMachine = true;
+		parameter.HP += 2;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
+		//攻撃されたプレイヤーのポジション
+		damagePlayerPos = other.GetParameter().mat.GetPosition();
 	}
 	//スナイパー用
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL&&
-		colpara.colFlagSub)
+		colpara.colFlagSub&&!sniperFlag)
 	{
-		parameter.HP = 0;
-		damagePlayerNumber = other.GetParameter().playNumber;
-	}
-
-
-	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
-		other.GetParameter().id == ACTOR_ID::DEAD_BULLET_ACTOR)
-	{
-		//死んだ残骸に当たったら即死亡
-		parameter.HP = 0;
+		isDamageSniper = true;
+		sniperFlag = true;
+		parameter.HP += 10;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
+		//攻撃されたプレイヤーのポジション
+		damagePlayerPos = other.GetParameter().mat.GetPosition();
 	}
+
 	if (colpara.colID == COL_ID::PLAYER_TREE_COL)
 	{
 		//めり込み防止
@@ -209,6 +222,19 @@ void Player::RotateMovePlayer()
 	//移動量がゼロだったら直前の角度を保持
 	if (vecPos.x != 0)
 		angleY = -Math::Atan2(vecPos.z, vecPos.x)*180.0f / 3.1415f;
+	//アッタック中のプレイヤー向き
+	if (PlayerState::PLAYERATTACK == playerState)
+	{
+		//カメラの方向を計算
+		Vector3 front = (cameraMat.GetPosition() - cameraActor->GetTarget()).Normalized();
+		Vector3 left = Vector3::Cross(front, Vector3::Up).Normalized();
+		Vector3 up = Vector3::Cross(front, left).Normalized();
+		Matrix4 mat;
+		mat.SetFront(front);
+		mat.SetLeft(left);
+		mat.SetUp(up);
+		angleY = mat.GetRotateDegree().y+90;
+	}
 }
 
 void Player::Move()
@@ -256,21 +282,59 @@ void Player::Move()
 	playerState = PlayerState::PLAYERWALK;
 
 	//敵のプレートに当たってたらスピードダウン
-	if (lowStateFlag)
-	{
-		playerSpeed = LowPlayerSpeed;
-	}
-	else if (!lowStateFlag)
-	{
-		playerSpeed = PlayerSpeed;
-	}
+	//if (lowStateFlag)
+	//{
+	//	playerSpeed = LowPlayerSpeed;
+	//}
+	//else if (!lowStateFlag)
+	//{
+	//	playerSpeed = PlayerSpeed;
+	//}
 }
 
 void Player::AttackMove()
 {
+	//相手から自身のベクトルを計算
+	Vector3 damageToPlayer = (parameter.mat.GetPosition() - damagePlayerPos).Normalized();
+	if (isDamageMachine)
+	{
+		knockBackVelo += damageToPlayer*(parameter.HP)*IsDamageMachineKnockBack;
+		isDamageMachine = false;
+	}
+	if (isDamageSniper)
+	{
+		knockBackVelo += damageToPlayer*(parameter.HP)*IsDamageSniperKnockBack;
+		isDamageSniper = false;
+	}
+	//減速
+	Deceleration(knockBackVelo.x);
+	Deceleration(knockBackVelo.y);
+	Deceleration(knockBackVelo.z);
+	//Y軸は無視
+	knockBackVelo.y = 0;
+	mPosition += knockBackVelo*Time::DeltaTime;
+}
+//減速関数
+void Player::Deceleration(float& pos)
+{
+	//減速処理
+	if ((int)pos != 0)
+	{
+		if (pos < 0)
+		{
+			pos += KnockBackTikara*Time::DeltaTime;
+		}
+		if (pos > 0)
+		{
+			pos -= KnockBackTikara*Time::DeltaTime;
+		}
+	}
+	else
+	{
+		pos = 0;
+	}
 
 }
-
 
 void Player::Jump()
 {
@@ -308,7 +372,8 @@ void Player::Respawn()
 	cameraActor->SetCameraState(CameraState::KILL_CAMERA);
 	if (dropDownFlag)
 		cameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
-
+	//ノックバックの速度を初期化
+	knockBackVelo = Vector3::Zero;
 	respawnCount += Time::DeltaTime;
 	if (respawnCount >= 5.0f)
 	{
@@ -316,7 +381,7 @@ void Player::Respawn()
 		dropDownFlag = false;
 		cameraActor->SetCameraState(CameraState::DEFAULT);
 		respawnCount = 0.0f;
-		parameter.HP = 10;
+		parameter.HP = 0;
 		//ポジションリセットする
 		mPosition = respawnPoint;
 	}

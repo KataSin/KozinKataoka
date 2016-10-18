@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 #include <iomanip>
-
+#include "../math/Math.h"
 #define PI 3.14159265358979
 
 Sprite::~Sprite()
@@ -167,6 +167,14 @@ void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, const RECT& rect
 	DefaultBlend();
 }
 
+void Sprite::DrawGauge(const SPRITE_ID & id, const Vector2 & position, Vector2 & scale, float alpha, float gaugeCount)
+{
+	int texSizeX, texSizeY;
+	GetGraphSize(m_sprites[id], &texSizeX, &texSizeY);
+	float overCount = (float)texSizeY / 100.0f*gaugeCount;
+	DrawRectGraphF(position.x, position.y+overCount, 0, 0, texSizeX, texSizeY-overCount, m_sprites[id], true, true);
+}
+
 void Sprite::DrawBlend(const SPRITE_ID& id, const Vector2& position, const Vector2& origin, const Vector2& scale, float angle, const int& blendmode)
 {
 	SetDrawBlendMode(blendmode, 255);
@@ -313,7 +321,7 @@ std::string Sprite::Split(std::string filename)
 		std::stringstream(filename),
 		id,
 		'.'
-	);
+		);
 	return id;
 }
 

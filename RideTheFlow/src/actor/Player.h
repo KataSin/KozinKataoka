@@ -35,6 +35,9 @@ public:
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
 
 public:
+	void SetPlayerState(PlayerState state) {
+		playerState = state;
+	}
 	PlayerState GetPlayerState();
 	PLAYER_NUMBER GetDamagePlayer();
 	//弾の出現位置取得
@@ -52,6 +55,8 @@ public:
 	}
 private:
 	void RotateMovePlayer();
+	//減速処理
+	void Deceleration(float& pos);
 //プレイヤーの行動系
 private:
 	void Move();
@@ -61,7 +66,6 @@ private:
 private:
 	//プレイヤー状態
 	PlayerAttackState attackState;
-
 	//1フレーム前のポジション
 	Vector3 coppyPos;
 	Vector3 vecPos;
@@ -86,6 +90,10 @@ private:
 	//プレイヤージャンプ
 	bool jumpFlag;
 	float jumpCount;
+	//攻撃受けた時のノックバック関係
+	bool isDamageMachine;
+	bool isDamageSniper;
+	Vector3 knockBackVelo;
 
 	//リスポーン関係
 	float respawnCount;
@@ -94,6 +102,11 @@ private:
 	bool dropDownFlag;
 	//直前に受けたダメージ
 	PLAYER_NUMBER damagePlayerNumber;
+	//直前に攻撃されたプレイヤーのポジション
+	Vector3 damagePlayerPos;
+	//スナイパーに対しての無敵関係
+	float sniperCount;
+	bool sniperFlag;
 
 	Vector3 cameraPos;
 

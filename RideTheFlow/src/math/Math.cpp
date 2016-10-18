@@ -274,3 +274,5 @@ int Math::InfinityClamp(int value, int min, int max){
 		return min;
 	return value;
 }
+
+
