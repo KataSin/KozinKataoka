@@ -20,7 +20,8 @@ void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 {
 	if (mPlayerNumber == playerNumber)
 	{
-		playerMat = world.GetPlayer(mPlayerNumber)->GetParameter().mat;
+		mPlayer = dynamic_cast<Player*>(world.GetPlayer(mPlayerNumber).get());
+		playerMat = mPlayer->GetParameter().mat;
 		mPosition = playerMat.GetLeft()*3.0f + playerMat.GetPosition();
 		//スクリーン座標に
 		mPosition = Vector3::ToVECTOR(ConvWorldPosToScreenPos
@@ -32,8 +33,10 @@ void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 
 void AttackGauge::Draw() const
 {
+	////リスポーン中は表示しない
+	//if (mPlayer->GetPlayerState() == PlayerState::PLAYERRESPAWN) return;
 	//ゲージ中身
-	Sprite::GetInstance().DrawGauge(SPRITE_ID::ATTACK_GAUGE_IN_SPRITE,Vector2(mPosition.x,mPosition.y-256.0f),Vector2(1),1,mOverHertCount);
+	Sprite::GetInstance().DrawGauge(SPRITE_ID::ATTACK_GAUGE_IN_SPRITE, Vector2(mPosition.x, mPosition.y - 256.0f), Vector2(1), 1, mOverHertCount);
 	//ゲージ外側
 	Sprite::GetInstance().Draw(SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE, Vector2(mPosition.x, mPosition.y - 256.0f));
 }

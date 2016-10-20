@@ -15,7 +15,7 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_) :
 	Actor(world),
 	mPlayer(dynamic_cast<Player*>(&parent_)),
 	cameraState(CameraState::DEFAULT),
-    mPosition(Vector3::Zero),
+	mPosition(Vector3::Zero),
 	velocity(Vector3::Zero),
 	mDis(30.0f),
 	rotateLeft(0.0f),
@@ -25,9 +25,9 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_) :
 	//カメラとプレイヤーの紐づけ
 	parent = &parent_;
 	playerMat = parent->GetParameter().mat;
-
+	//注視点を設定
 	target = playerMat.GetPosition() + Vector3(0, 10, 0);
-
+	//パラメーター設定
 	parameter.playNumber = parent_.GetParameter().playNumber;
 	parameter.isDead = false;
 	parameter.mat = Matrix4::Scale(0)*
@@ -69,14 +69,16 @@ CameraActor::~CameraActor()
 }
 void CameraActor::Update()
 {
-	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::CAMERA_PLATE_COL);
-
+	//プレイヤーマトリックス
 	playerMat = parent->GetParameter().mat;
+	//変換
 	mPlayer = dynamic_cast<Player*>(parent);
-
+	//あたり判定
+	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::CAMERA_PLATE_COL);
+	//カメラ状態を更新
 	StateUpdate(cameraState);
 
-
+	//カメラの向きを生成
 	Vector3 cameraFront = (playerMat.GetPosition() - parameter.mat.GetPosition()).Normalized();
 	Vector3 cameraLeft = Vector3::Cross(cameraFront, Vector3::Up).Normalized();
 	Vector3 cameraUp = Vector3::Cross(cameraFront, cameraLeft);
@@ -85,12 +87,14 @@ void CameraActor::Update()
 	parameter.mat.SetFront(cameraFront);
 	parameter.mat.SetLeft(cameraLeft);
 	parameter.mat.SetUp(cameraUp);
-	//カメラの障害物に当たった時の補正関係
+	//カメラの障害物に当たった時の補正
 	if (isColFlag)
 	{
 		mPosition = isColPos;
 	}
+	//ポジションを設定
 	parameter.mat.SetPosition(mPosition);
+	//フラグを初期化
 	isColFlag = false;
 }
 void CameraActor::Draw() const
@@ -141,10 +145,12 @@ void CameraActor::StateUpdate(CameraState state)
 
 void CameraActor::Default()
 {
+	//パットのベクトルを取得
 	Vector2 vec = GamePad::GetInstance().RightStick(pad);
+	//ベクトルを足し算
 	rotateUp += vec.x*CameraSpeed*Time::DeltaTime;
 	rotateLeft -= vec.y*CameraSpeed*Time::DeltaTime;
-
+	//キーボード処理
 	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::LEFT))
 	{
 		rotateUp += CameraSpeed*Time::DeltaTime;
@@ -164,7 +170,9 @@ void CameraActor::Default()
 
 	//Z軸回転制限
 	rotateLeft = Math::Clamp(rotateLeft, -65.0f, 20.0f);
+	//注視点設定
 	target = playerMat.GetPosition() + Vector3(0, 6, 0);
+	//カメラの位置を計算
 	mPosition = Vector3(0, 0, 1)*CameraDis
 		*Matrix4::RotateX(rotateLeft)*Matrix4::RotateY(rotateUp)
 		+ playerMat.GetPosition();
@@ -199,6 +207,32 @@ Vector3 CameraActor::GetTarget()
 	Vector3 targetPos = targetVec * mDis + parameter.mat.GetPosition();
 	//謎の補正
 	return targetPos + Vector3(0.0f, 0.5f, 0.0f);
+}
+
+void CameraActor::SetCamera()
+{
+	//プレイヤーに応じて画面の位置を変更
+	switch (parameter.playNumber)
+	{
+	case PLAYER_NUMBER::PLAYER_1:
+	{
+		SetCameraScreenCenter(640, 540);
+		SetDrawArea(0, 360, 1281, 721);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_2:
+	{
+		SetCameraScreenCenter(640, 180);
+		SetDrawArea(0, 0, 1281, 361);
+		break;
+	}
+	}
+	//カメラ設定
+	Camera::GetInstance().Update();
+	Camera::GetInstance().SetRange(0.1f, 9999.0f);
+	Camera::GetInstance().Position.Set(mPosition);
+	Camera::GetInstance().Target.Set(target);
+	Camera::GetInstance().Up.Set(Vector3::Up);
 }
 
 void CameraActor::SetCameraState(CameraState state)

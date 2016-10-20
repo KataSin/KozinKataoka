@@ -25,6 +25,7 @@ const float AttackPlayerSpeed = 5.0f;
 
 const float IsDamageMachineKnockBack = 1.0f;
 const float IsDamageSniperKnockBack = 10.0f;
+const float IsDamageShotKnockBack = 10.0f;
 const float KnockBackTikara = 50.0f;
 Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER player) :
 	Actor(world),
@@ -42,7 +43,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	mPosition(position_),
 	dropDownFlag(false),
 	isDamageMachine(false),
-	isDamageSniper(false)
+	isDamageSniper(false),
+	isDamageShot(false)
 {
 	parameter.HP = 0;
 	parameter.playNumber = player;
@@ -187,6 +189,18 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//攻撃されたプレイヤーのポジション
 		damagePlayerPos = other.GetParameter().mat.GetPosition();
 	}
+	//ショットガンの弾
+	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
+		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_SHOT_ACTOR)
+	{
+		isDamageShot = true;
+		parameter.HP += 7;
+		//誰の弾を受けたか保存
+		damagePlayerNumber = other.GetParameter().playNumber;
+		//攻撃されたプレイヤーのポジション
+		damagePlayerPos = other.GetParameter().mat.GetPosition();
+	}
+
 	//スナイパー用
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL&&
 		colpara.colFlagSub&&!sniperFlag)
@@ -305,6 +319,11 @@ void Player::AttackMove()
 	{
 		knockBackVelo += damageToPlayer*(parameter.HP)*IsDamageSniperKnockBack;
 		isDamageSniper = false;
+	}
+	if (isDamageShot)
+	{
+		knockBackVelo += damageToPlayer*(parameter.HP)*IsDamageShotKnockBack;
+		isDamageShot = false;
 	}
 	//減速
 	Deceleration(knockBackVelo.x);

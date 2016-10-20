@@ -14,6 +14,7 @@ private:
 	void Spring(float& num, float resNum, float stiffness, float friction, float mass);
 private:
 	PLAYER_NUMBER mPlayerNumber;
+	Player* mPlayer;
 	Vector3 mPosition;
 	Matrix4 playerMat;
 	float mOverHertCount;

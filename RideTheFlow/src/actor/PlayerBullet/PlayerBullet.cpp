@@ -11,7 +11,7 @@
 #include "../Player.h"
 
 
-PlayerBullet::PlayerBullet(IWorld & world, BulletState state) :
+PlayerBullet::PlayerBullet(IWorld & world, BulletState state, float rand) :
 	Actor(world),
 	mBulletState(state),
 	distance(Vector3::Zero),
@@ -21,7 +21,10 @@ PlayerBullet::PlayerBullet(IWorld & world, BulletState state) :
 {
 	parameter.isDead = false;
 	parameter.playNumber = state.playerNumber;
-	parameter.id = ACTOR_ID::PLAYER_BULLET_ACTOR;
+	if (rand == 1.5f)
+		parameter.id = ACTOR_ID::PLAYER_BULLET_ACTOR;
+	else
+		parameter.id = ACTOR_ID::PLAYER_BULLET_SHOT_ACTOR;
 	parameter.radius = 0.5f;
 	parameter.mat =
 		Matrix4::Scale(0)*
@@ -32,9 +35,9 @@ PlayerBullet::PlayerBullet(IWorld & world, BulletState state) :
 
 	//ƒ‰ƒ“ƒ_ƒ€‚ÅŠgŽU‚·‚é
 	randVec = Vector3(
-		Random::GetInstance().Range(-1.5f, 1.5f),
-		Random::GetInstance().Range(-1.0f, 1.0f),
-		Random::GetInstance().Range(-1.5f, 1.5f));
+		Random::GetInstance().Range(-rand, rand),
+		Random::GetInstance().Range(-rand + 0.5f, rand - 0.5f),
+		Random::GetInstance().Range(-rand, rand));
 
 	//bulletstate‚ð‘ã“ü
 	mPosition = state.position;
@@ -79,7 +82,7 @@ void PlayerBullet::Update()
 	{
 		//éx‚·(ƒoƒŒ‚È‚¢)
 		vecY -= 10.0f*Time::DeltaTime;
-		Vector3 vec = distance + Vector3(0.0f,vecY,0.0f);
+		Vector3 vec = distance + Vector3(0.0f, vecY, 0.0f);
 		mPosition += vec*speed*1.5f*Time::DeltaTime;
 	}
 

@@ -19,7 +19,7 @@ struct BulletState
 class PlayerBullet :public Actor, public std::enable_shared_from_this<PlayerBullet>
 {
 public:
-	PlayerBullet(IWorld& world, BulletState state);
+	PlayerBullet(IWorld& world, BulletState state,float rand=1.5f);
 	~PlayerBullet();
 	virtual void Update() override;
 	virtual void Draw() const override;

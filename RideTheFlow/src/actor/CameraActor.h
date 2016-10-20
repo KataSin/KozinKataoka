@@ -34,47 +34,31 @@ public:
 	virtual void OnCollide(Actor & other, CollisionParameter colpara);
 
 private:
+	//バネ補正
 	void SpringCamra(const Vector3& restPosition,
 		float stiffness,
 		float friction,
 		float mass);
 private:
+	//カメラの状態関数
 	void StateUpdate(CameraState state);
 	void Default();
 	void KillCmaera();
 	void DropDownCamera();
 
 public:
+	//カメラの状態をセットする
 	void SetCameraState(CameraState state);
+	//弾を打つターゲットの位置を取得
 	Vector3 GetTarget();
+	//ターゲットの遠さを設定
 	void SetTargetDistance(float dis)
 	{
 		mDis = dis;
 	}
-	void SetCamera()
-	{
-		switch (parameter.playNumber)
-		{
-		case PLAYER_NUMBER::PLAYER_1:
-		{
-			SetCameraScreenCenter(640, 540);
-			SetDrawArea(0, 360, 1281, 721);
-			break;
-		}
-		case PLAYER_NUMBER::PLAYER_2:
-		{
-			SetCameraScreenCenter(640, 180);
-			SetDrawArea(0, 0, 1281, 361);
-			break;
-		}
-		}
-		//カメラ
-		Camera::GetInstance().Update();
-		Camera::GetInstance().SetRange(0.1f, 9999.0f);
-		Camera::GetInstance().Position.Set(mPosition);
-		Camera::GetInstance().Target.Set(target);
-		Camera::GetInstance().Up.Set(Vector3::Up);
-	}
+	//表示位置設定
+	void SetCamera();
+	//注視点とカメラのLineを取得
 	Line GetCameraLine()
 	{
 		Line line;

@@ -20,7 +20,8 @@ enum PlayerState
 enum PlayerAttackState
 {
 	MACHINE_GUN,
-	SNIPER_GUN
+	SNIPER_GUN,
+	SHOT_GUN
 };
 //謎
 class CameraActor;
@@ -93,6 +94,7 @@ private:
 	//攻撃受けた時のノックバック関係
 	bool isDamageMachine;
 	bool isDamageSniper;
+	bool isDamageShot;
 	Vector3 knockBackVelo;
 
 	//リスポーン関係

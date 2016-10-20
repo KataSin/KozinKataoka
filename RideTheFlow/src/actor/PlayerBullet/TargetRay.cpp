@@ -53,6 +53,11 @@ void TargetRay::Update()
 		MachineGun();
 		break;
 	}
+	case PlayerAttackState::SHOT_GUN:
+	{
+		MachineGun();
+		break;
+	}
 	case PlayerAttackState::SNIPER_GUN:
 	{
 		SniperGun();

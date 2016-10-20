@@ -13,14 +13,16 @@
 //武器のオーバーヒート値
 const float OverHertMachine = 2.0f;
 const float OverHertSniper = 50.0f;
+const float OverHertShot = 30.0f;
 
 PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
 	overHertCount(100.0f),
-	machineAttackCount(0.0f),
+	machineAttackCount(0.1f),
 	isColSniperCount(0.0f),
 	coolHertCount(0.0f),
 	attackFlag(0.0f),
+	shotAttackCount(0.0f),
 	initSniperFalg(true)
 {
 	mSniperState.isColSniperLine = false;
@@ -30,7 +32,7 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	mPlayer = dynamic_cast<Player*>(&player);
 	parameter.isDead = false;
 	//初期武器を設定
-	attackState = PlayerAttackState::MACHINE_GUN;
+	attackState = PlayerAttackState::SHOT_GUN;
 	//何プレイヤー設定
 	parameter.playNumber = player.GetParameter().playNumber;
 	//ターゲットを追加
@@ -40,8 +42,8 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
-	//誰の弾かの情報を設定
-	bulletState.playerNumber = mPlayer->GetParameter().playNumber;
+	////誰の弾かの情報を設定
+	//bulletState.playerNumber = mPlayer->GetParameter().playNumber;
 	//パッドのプレイヤー設定
 	switch (mPlayer->GetParameter().playNumber)
 	{
@@ -74,6 +76,11 @@ void PlayerAttackManager::Update()
 
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::K))
 		attackState = PlayerAttackState::SNIPER_GUN;
+
+
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::H))
+		attackState = PlayerAttackState::SHOT_GUN;
+
 
 	//攻撃していない
 	attackFlag = false;
@@ -120,6 +127,13 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 		SniperGun();
 		break;
 	}
+	case PlayerAttackState::SHOT_GUN:
+	{
+		//ターゲットの位置を10に変更
+		mCamera->SetTargetDistance(22.0f);
+		ShotGun();
+		break;
+	}
 	}
 }
 
@@ -143,11 +157,13 @@ void PlayerAttackManager::MachineGun()
 		if (machineAttackCount >= 0.1f)
 		{
 			overHertCount -= OverHertMachine;
+			BulletState machine;
 			//頂点の位置を設定
-			bulletState.vertexPoint = mCamera->GetTarget();
+			machine.vertexPoint = mCamera->GetTarget();
 			//腰の位置ぐらいから発射
-			bulletState.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
-			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, bulletState));
+			machine.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
+			machine.playerNumber = parameter.playNumber;
+			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, machine));
 			machineAttackCount = 0.0f;
 		}
 	}
@@ -179,7 +195,7 @@ void PlayerAttackManager::SniperGun()
 			initSniperFalg = false;
 		}
 		//チャージする瞬間に線が最大まで一瞬だけ伸びるてしまう防止
-		if(mSniperState.chargeSniperCount>=12.0f)
+		if (mSniperState.chargeSniperCount >= 12.0f)
 			mSniperState.doCharge = true;
 		//チャージ量を増やす
 		mSniperState.chargeSniperCount += 50.0f*Time::DeltaTime;
@@ -210,6 +226,45 @@ void PlayerAttackManager::SniperGun()
 			mSniperState.chargeSniperCount = 100.0f;
 			initSniperFalg = true;
 		}
+	}
+
+}
+
+void PlayerAttackManager::ShotGun()
+{
+	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
+		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))
+	{
+		//攻撃しています
+		attackFlag = true;
+		//プレイヤーは攻撃しています
+		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
+		shotAttackCount += Time::DeltaTime;
+		//オーバーヒートで弾が出せないよ
+		if (overHertCount < OverHertShot) {
+			overHertFlag = true;
+			return;
+		}
+		if (shotAttackCount >= 2.0f)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				BulletState shot;
+				//頂点の位置を設定
+				shot.vertexPoint = mCamera->GetTarget();
+				//腰の位置ぐらいから発射
+				shot.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
+				shot.playerNumber = parameter.playNumber;
+				world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
+					std::make_shared<PlayerBullet>(world, shot, 2.5f));
+				shotAttackCount = 0.0f;
+			}
+			overHertCount -= OverHertShot;
+		}
+	}
+	else
+	{
+		shotAttackCount += Time::DeltaTime;
 	}
 
 }

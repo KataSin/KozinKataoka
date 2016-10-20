@@ -40,6 +40,7 @@ private:
 	void PlayerAttack(PlayerAttackState state);
 	void MachineGun();
 	void SniperGun();
+	void ShotGun();
 private:
 	//カメラアクター
 	CameraActor* mCamera;
@@ -59,10 +60,10 @@ private:
 	SniperState mSniperState;
 	//スナイパーのあたり判定のカウント
 	float isColSniperCount;
-	//弾に渡す情報
-	BulletState bulletState;
 	//スナイパーのフラグ
 	bool initSniperFalg;
+	//ショットガン連続攻撃カウント
+	float shotAttackCount;
 	//攻撃しているか？
 	bool attackFlag;
 	//オーバーヒート冷め始める時間
