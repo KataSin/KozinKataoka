@@ -66,6 +66,9 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	float angleY = world.GetCamera(parameter.playNumber)->GetParameter().mat.GetRotateDegree().y;
 	mRotate = Vector3(0.0f, angleY - 90.0f, 0.0f);
 
+
+	animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, MODEL_ID::TEST_PLAYER_MODEL);
+
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
 
@@ -96,10 +99,19 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	test = Vector3::Zero;
 }
 Player::~Player() {
-
+	//delete animeClass;
 }
 
 void Player::Update() {
+	animeClass->update();
+
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM1))
+		animeClass->changeAnim(ANIMATION::PLAYER_ATTACK_ANIM);
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM2))
+		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM3))
+		animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+
 	//ポジションをセーブ
 	coppyPos = mPosition;
 
@@ -141,7 +153,7 @@ void Player::Update() {
 	}
 	//マトリクス計算
 	parameter.mat =
-		Matrix4::Scale(1)*
+		Matrix4::Scale(0.5f)*
 		Matrix4::RotateX(0)*
 		Matrix4::RotateY(angleY - 90)*
 		Matrix4::RotateZ(0)*
@@ -157,7 +169,9 @@ void Player::Update() {
 void Player::Draw() const {
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
-		Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
+		//Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
+		animeClass->draw();
+		
 	}
 	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
 		DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);

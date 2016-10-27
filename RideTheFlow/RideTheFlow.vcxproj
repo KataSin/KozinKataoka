@@ -116,6 +116,7 @@
     <ClInclude Include="src\game\Random.h" />
     <ClInclude Include="src\game\WorkFolder.h" />
     <ClInclude Include="src\graphic\Anime.h" />
+    <ClInclude Include="src\graphic\AnimetionClass.h" />
     <ClInclude Include="src\graphic\BlendMode.h" />
     <ClInclude Include="src\graphic\Light.h" />
     <ClInclude Include="src\graphic\Model.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="src\game\Random.cpp" />
     <ClCompile Include="src\game\WorkFolder.cpp" />
     <ClCompile Include="src\graphic\Anime.cpp" />
+    <ClCompile Include="src\graphic\AnimetionClass.cpp" />
     <ClCompile Include="src\graphic\Light.cpp" />
     <ClCompile Include="src\graphic\Model.cpp" />
     <ClCompile Include="src\graphic\Movie.cpp" />

@@ -37,6 +37,7 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("RespawnModel.mv1", MODEL_ID::RESPAWN_MODEL, async);
 	model.Load("Tree/Tree.mv1", MODEL_ID::TREE_MODEL, async);
 	model.Load("TestModel.mqo", MODEL_ID::TEST_MODEL, async);
+	model.Load("Player/player.pmx", MODEL_ID::TEST_PLAYER_MODEL, async);
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }
 

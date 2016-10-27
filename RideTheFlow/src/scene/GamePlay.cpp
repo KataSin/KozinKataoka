@@ -82,6 +82,5 @@ Scene GamePlay::Next() const
 
 void GamePlay::End()
 {
-	
 	wo.Clear();
 }

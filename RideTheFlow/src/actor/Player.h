@@ -4,6 +4,7 @@
 #include "PlayerBullet\PlayerBullet.h"
 #include "CameraActor.h"
 #include "ID.h"
+#include "../graphic/AnimetionClass.h"
 
 enum PlayerState
 {
@@ -116,4 +117,7 @@ private:
 	int pad;
 
 	Vector3 test;
+
+	AnimationClass* animeClass;
+
 };
