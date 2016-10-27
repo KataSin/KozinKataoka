@@ -118,6 +118,6 @@ private:
 
 	Vector3 test;
 
-	AnimationClass* animeClass;
+	//AnimationClass* animeClass;
 
 };

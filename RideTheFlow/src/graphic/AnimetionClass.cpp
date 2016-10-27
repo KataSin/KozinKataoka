@@ -8,8 +8,10 @@ AnimationClass::AnimationClass(Actor* actor, ANIMATION startAnim, MODEL_ID model
 	mActor(actor),
 	blendNum(0.0f)
 {
+	addAnim(startAnim);
 	mAnimation = startAnim;
-	mPreAnimation = ANIMATION::NULL_ANIM;
+	mPreAnimation = startAnim;
+	MV1SetAttachAnimBlendRate(mModel, attachAnimes[startAnim].index, 1.0f);
 }
 
 AnimationClass::~AnimationClass()
@@ -20,20 +22,18 @@ AnimationClass::~AnimationClass()
 void AnimationClass::update()
 {
 	if (mAnimation == ANIMATION::NULL_ANIM) return;
-	//アニメーションが前回と違う場合(デタッチをしなければならない)
+
 	if (mAnimation != mPreAnimation)
 	{
-		blendNum += 2.0f*Time::DeltaTime;
 		MV1SetAttachAnimBlendRate(mModel, attachAnimes[mAnimation].index, blendNum);
 		MV1SetAttachAnimBlendRate(mModel, attachAnimes[mPreAnimation].index, 1.0f - blendNum);
-		if (blendNum >= 1.0f)
-		{
-			blendNum = 0.0f;
-			mPreAnimation = mAnimation;
+		blendNum += 2.0f*Time::DeltaTime;
+		if (blendNum >= 1.0f) {
 			deleteAnim(mPreAnimation);
+			mPreAnimation = mAnimation;
+			blendNum = 0.0f;
 		}
 	}
-
 	//全てのアニメーションの時間を進める
 	for (auto& itr = attachAnimes.begin(); itr != attachAnimes.end(); ++itr) {
 		itr->second.animTimer += 10 * Time::DeltaTime;
@@ -41,8 +41,6 @@ void AnimationClass::update()
 		if (itr->second.animEndTime <= itr->second.animTimer)
 			itr->second.animTimer = 0.0f;
 	}
-
-
 }
 
 void AnimationClass::draw()
@@ -53,9 +51,11 @@ void AnimationClass::draw()
 void AnimationClass::changeAnim(ANIMATION anim)
 {
 	if (mAnimation == anim) return;
-	addAnim(anim);
-	mAnimation = anim;
-
+	if (blendNum == 0.0f)
+	{
+		addAnim(anim);
+		mAnimation = anim;
+	}
 }
 //
 void AnimationClass::addAnim(ANIMATION anim)
@@ -79,19 +79,4 @@ void AnimationClass::runAnimationBlend(Vector3 velocity)
 	//MV1SetAttachAnimBlendRate(mModel, attachAnimes[ANIMATION::PLATER_RUN_ANIM].index, 1.0f - blend);
 	//MV1SetAttachAnimBlendRate(mModel, attachAnimes[ANIMATION::PLAYER_IDLE_ANIM].index, blend);
 	//Model::GetInstance().Draw(mModel, mActor->GetParameter().mat);
-}
-
-int AnimationClass::getMotion() const
-{
-	return 0;
-}
-
-int AnimationClass::getBoneCount() const
-{
-	return 0;
-}
-
-int AnimationClass::getEndTime() const
-{
-	return 0;
 }

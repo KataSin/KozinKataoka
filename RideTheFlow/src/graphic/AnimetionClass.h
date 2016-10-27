@@ -10,8 +10,6 @@ struct AnimationState {
 	float animEndTime;
 	//アニメーション時間
 	float animTimer = 0.0f;
-	//ブレンド率
-	float animBlend = 0.0f;
 };
 class AnimationClass
 {
@@ -31,12 +29,6 @@ public:
 	void deleteAnim(ANIMATION anim);
 	//走っているときのアニメーションブレンド(プレイヤーの速度)
 	void runAnimationBlend(Vector3 velocity);
-	//現在再生中のモーション
-	int getMotion() const;
-	//ボーン数を返す
-	int getBoneCount() const;
-	//終了時間を返す
-	int getEndTime() const;
 
 private:
 	//アニメーションさせるMODELID
