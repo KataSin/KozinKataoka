@@ -1,5 +1,7 @@
-﻿  AttackGauge.cpp
-  Target.cpp
+﻿  TitleScene.cpp
+  NumberTexture.cpp
+src\UIactor\NumberTexture\NumberTexture.cpp(30): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+src\UIactor\NumberTexture\NumberTexture.cpp(30): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
   コード生成しています。
   コード生成が終了しました。
   RideTheFlow.vcxproj -> C:\Users\ktok\Desktop\個人製作夏休みから\Release\RideTheFlow.exe

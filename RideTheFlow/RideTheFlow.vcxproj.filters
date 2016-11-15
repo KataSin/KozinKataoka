@@ -76,6 +76,7 @@
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
     <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
     <ClInclude Include="src\graphic\AnimetionClass.h" />
+    <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -130,5 +131,6 @@
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
     <ClCompile Include="src\graphic\AnimetionClass.cpp" />
+    <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
   </ItemGroup>
 </Project>

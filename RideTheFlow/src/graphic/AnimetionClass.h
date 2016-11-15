@@ -10,6 +10,8 @@ struct AnimationState {
 	float animEndTime;
 	//アニメーション時間
 	float animTimer = 0.0f;
+	//再生しているか
+	bool animetionFlag = true;
 };
 class AnimationClass
 {
@@ -24,27 +26,34 @@ public:
 	//アニメーションの変更
 	void changeAnim(ANIMATION anim);
 	//アニメーションアタッチ
-	void addAnim(ANIMATION anim);
+	void AttachAnim(ANIMATION anim);
 	//アニメーションデタッチ
-	void deleteAnim(ANIMATION anim);
-	//走っているときのアニメーションブレンド(プレイヤーの速度)
-	void runAnimationBlend(Vector3 velocity);
+	void DetachAnim(ANIMATION anim);
+	//ブレンド
+	void AnimeBlend();
 
 private:
 	//アニメーションさせるMODELID
 	int mModel;
 	//現在のアニメーション
-	ANIMATION mAnimation;
+	ANIMATION mCurAnimation;
 	//前回のアニメーション
 	ANIMATION mPreAnimation;
-	//アニメーションアタッチ番号
-	int mAtatti;
 	//アタッチ情報
 	std::map<ANIMATION, AnimationState> attachAnimes;
 	//アクター情報
 	Actor* mActor;
+	//ブレンド時間
+	float blendTime;
+	//ブレンドしています
+	bool blendFlag;
 
-	//ブレンドテスト
-	float blendNum;
+
+	int test;
+	float testTimer;
+
+	int indexa;
+	int indexRun;
+	int indexIdle;
 };
 

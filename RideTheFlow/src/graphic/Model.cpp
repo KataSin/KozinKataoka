@@ -437,6 +437,12 @@ void Model::Draw(const int handle, const Matrix4& mat)
 	MV1DrawModel(handle);
 }
 
+void Model::DrawNoId(const int handle, const Matrix4 & mat)
+{
+	MV1SetMatrix(handle, Matrix4::ToMATRIX(mat));
+	MV1DrawModel(handle);
+}
+
 
 // ３Ｄ空間に２Ｄ画像を描画する（アセット名、座標、表示コマ番号、横のサイズ）
 void Model::Draw2D(const MODEL_ID& id, const Vector3& position, int frame, float size)

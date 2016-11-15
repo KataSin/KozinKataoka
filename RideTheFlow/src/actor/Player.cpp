@@ -67,7 +67,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	mRotate = Vector3(0.0f, angleY - 90.0f, 0.0f);
 
 
-	//animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, MODEL_ID::TEST_PLAYER_MODEL);
+	animeClass = new AnimationClass(this,ANIMATION::PLAYER_RUN_ANIM, MODEL_ID::TEST2_PLAYER_MODEL);
 
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
@@ -103,14 +103,14 @@ Player::~Player() {
 }
 
 void Player::Update() {
-	//animeClass->update();
+	animeClass->update();
 
-	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM1))
-	//	animeClass->changeAnim(ANIMATION::PLAYER_ATTACK_ANIM);
-	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM2))
-	//	animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
-	//if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM3))
-	//	animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM1))
+		animeClass->changeAnim(ANIMATION::TESTANIM);
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM2))
+		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM3))
+		animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
 
 	//ポジションをセーブ
 	coppyPos = mPosition;
@@ -170,7 +170,7 @@ void Player::Draw() const {
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
 		Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
-		//animeClass->draw();
+		animeClass->draw();
 	}
 	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
 		DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);

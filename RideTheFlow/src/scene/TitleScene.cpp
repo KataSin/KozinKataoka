@@ -15,6 +15,7 @@
 #include "../UIactor/fadePanel/FadePanel.h"
 #include "../game/Random.h"
 
+#include "../UIactor/NumberTexture/NumberTexture.h"
 //コンストラクタ
 TitleScene::TitleScene()
 {
