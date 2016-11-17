@@ -44,12 +44,14 @@ void AnimationClass::draw()
 
 void AnimationClass::changeAnim(ANIMATION anim)
 {
-	if (anim == mCurAnimation&&!blendFlag) return;
+	if (anim == mCurAnimation||blendFlag) return;
 	mPreAnimation = mCurAnimation;
 	mCurAnimation = anim;
 	AttachAnim(mCurAnimation);
 	attachAnimes[mPreAnimation].animetionFlag = false;
 	blendFlag = true;
+	blendTime = 0.0f;
+	AnimeBlend();
 }
 
 void AnimationClass::AttachAnim(ANIMATION anim)
@@ -71,10 +73,9 @@ void AnimationClass::AnimeBlend()
 	if (!blendFlag) return;
 	MV1SetAttachAnimBlendRate(mModel, attachAnimes[mPreAnimation].index, 1.0f - blendTime);
 	MV1SetAttachAnimBlendRate(mModel, attachAnimes[mCurAnimation].index, blendTime);
-	blendTime += 2.0f*Time::DeltaTime;
+	blendTime += 10.0f*Time::DeltaTime;
 	blendTime = Math::Clamp(blendTime, 0.0f, 1.0f);
 	if (blendTime >= 1.0f) {
-		blendTime = 0.0f;
 		blendFlag = false;
 		DetachAnim(mPreAnimation);
 	}

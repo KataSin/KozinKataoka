@@ -216,14 +216,26 @@ void CameraActor::SetCamera()
 	{
 	case PLAYER_NUMBER::PLAYER_1:
 	{
-		SetCameraScreenCenter(640, 540);
-		SetDrawArea(0, 360, 1281, 721);
+		SetCameraScreenCenter(320, 180);
+		SetDrawArea(0,0,640,360);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_2:
 	{
-		SetCameraScreenCenter(640, 180);
-		SetDrawArea(0, 0, 1281, 361);
+		SetCameraScreenCenter(960, 180);
+		SetDrawArea(640, 0, 1280, 360);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_3:
+	{
+		SetCameraScreenCenter(320, 720-180);
+		SetDrawArea(0, 360, 640, 720);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_4:
+	{
+		SetCameraScreenCenter(960, 720-180);
+		SetDrawArea(640, 360, 1280, 720);
 		break;
 	}
 	}

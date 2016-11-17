@@ -14,8 +14,6 @@
 #include "../actor/CameraActor.h"
 #include "../UIactor/fadePanel/FadePanel.h"
 #include "../game/Random.h"
-
-#include "../UIactor/NumberTexture/NumberTexture.h"
 //コンストラクタ
 TitleScene::TitleScene()
 {
@@ -32,6 +30,7 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	mIsEnd = false;
+
 }
 
 void TitleScene::Update()

@@ -144,6 +144,7 @@
     <ClInclude Include="src\time\Time.h" />
     <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
     <ClInclude Include="src\UIactor\Beziers.h" />
+    <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
     <ClInclude Include="src\UIactor\fadePanel\FadePanel.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="src\sound\Sound.cpp" />
     <ClCompile Include="src\time\Time.cpp" />
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
+    <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
     <ClCompile Include="src\UIactor\fadePanel\FadePanel.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />

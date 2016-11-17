@@ -4,6 +4,7 @@
 #include "ISceneMediator.h"
 #include "../world/World.h"
 #include <array>
+#include "../UIactor/NumberTexture/NumberTexture.h"
 
 class  TitleScene : public IScene
 {

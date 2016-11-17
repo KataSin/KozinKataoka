@@ -1,26 +1,2 @@
-﻿  WorldActor.cpp
-c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\world\worldactor.cpp : fatal error C1041: プログラム データベース 'c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\debug\vc120.idb' を開けません。複数の CL.EXE が同じ .PDB ファイルに書き込む場合、/FS を使用してください。
-  World.cpp
-  TitleScene.cpp
-  Model.cpp
-  AnimetionClass.cpp
-  Anime.cpp
-  GameFrame.cpp
-  Game1.cpp
-  Tree.cpp
-  DefaultPlate.cpp
-  Stage.cpp
-  DeadBullet.cpp
-  ActorManager.cpp
-  UIActorManager.cpp
-  コードを生成中...
-  コンパイル中...
-  GamePlay.cpp
-  Content.cpp
-  RespawnPoint.cpp
-  TargetRay.cpp
-  PlayerBullet.cpp
-  Player.cpp
-  Actor.cpp
-  コードを生成中...
-cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
+﻿  AnimetionClass.cpp
+  RideTheFlow.vcxproj -> C:\Users\ktok\Desktop\個人製作夏休みから\Debug\RideTheFlow.exe

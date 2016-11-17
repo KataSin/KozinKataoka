@@ -1,9 +1,9 @@
 #include "NumberTexture.h"
 #include <sstream>
 #include <iomanip>
-
-NumberTexture::NumberTexture(int texture, int width, int height):
-	mTextureIndex(texture),
+#include "../../graphic/Sprite.h"
+NumberTexture::NumberTexture(SPRITE_ID texture, int width, int height):
+	mTexture(texture),
 	mWidth(width),
 	mHeight(height)
 {
@@ -27,6 +27,6 @@ void NumberTexture::draw(const Vector2 & position, const std::string & num, Vect
 		if (num[i] == ' ') continue;
 		const int n = num[i] - '0';
 		const Vector2 pos(position.x + i * mWidth, position.y);
-		DrawRectGraph(pos.x, pos.y, n * mWidth, 0.0f, (n * mWidth) + mWidth, mHeight,mTextureIndex,TRUE,FALSE);
+		DrawRectGraph(pos.x, pos.y, n * mWidth, 0.0f, mWidth , mHeight, Sprite::GetInstance().GetIndex(mTexture) , TRUE, FALSE);
 	}
 }

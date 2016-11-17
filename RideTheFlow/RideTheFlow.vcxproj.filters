@@ -77,6 +77,7 @@
     <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
     <ClInclude Include="src\graphic\AnimetionClass.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
+    <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -132,5 +133,6 @@
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
     <ClCompile Include="src\graphic\AnimetionClass.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
+    <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
   </ItemGroup>
 </Project>

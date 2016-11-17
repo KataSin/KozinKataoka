@@ -18,6 +18,7 @@
 #include "DeadBullet\DeadBulletManager.h"
 #include "PlayerBullet\TargetRay.h"
 #include "PlayerAttack\PlayerAttackManager\PlayerAttackManager.h"
+#include "../UIactor/DamageUI/DamageUI.h"
 
 const float PlayerSpeed = 20.0f;
 const float LowPlayerSpeed = 5.0f;
@@ -46,6 +47,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	isDamageSniper(false),
 	isDamageShot(false)
 {
+	testaaa = -200;
+
 	parameter.HP = 0;
 	parameter.playNumber = player;
 	parameter.isDead = false;
@@ -65,9 +68,12 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//カメラの向いている方向にプレイヤーも向く
 	float angleY = world.GetCamera(parameter.playNumber)->GetParameter().mat.GetRotateDegree().y;
 	mRotate = Vector3(0.0f, angleY - 90.0f, 0.0f);
+	//プレイヤー個別設定
+	PlayerNumSet(parameter.playNumber);
+	//ダメージUIを追加
+	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world,uiDamagePos, this));
 
-
-	animeClass = new AnimationClass(this,ANIMATION::PLAYER_RUN_ANIM, MODEL_ID::TEST2_PLAYER_MODEL);
+	animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, MODEL_ID::TEST_PLAYER_MODEL);
 
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
@@ -76,41 +82,17 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	playerSpeed = PlayerSpeed;
 	//リスポーン地点設定
 	respawnPoint = position_;
-	//パッドのプレイヤー設定
-	switch (player)
-	{
-	case PLAYER_NULL:
-		break;
-	case PLAYER_1:
-		pad = PADNUM::PAD1;
-		break;
-	case PLAYER_2:
-		pad = PADNUM::PAD2;
-		break;
-	case PLAYER_3:
-		pad = PADNUM::PAD3;
-		break;
-	case PLAYER_4:
-		pad = PADNUM::PAD4;
-		break;
-	}
-
 
 	test = Vector3::Zero;
 }
 Player::~Player() {
-	//delete animeClass;
+	delete animeClass;
 }
 
 void Player::Update() {
+	Deceleration(testaaa);
+	
 	animeClass->update();
-
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM1))
-		animeClass->changeAnim(ANIMATION::TESTANIM);
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM2))
-		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::NUM3))
-		animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
 
 	//ポジションをセーブ
 	coppyPos = mPosition;
@@ -153,7 +135,7 @@ void Player::Update() {
 	}
 	//マトリクス計算
 	parameter.mat =
-		Matrix4::Scale(0.5f)*
+		Matrix4::Scale(0.2f)*
 		Matrix4::RotateX(0)*
 		Matrix4::RotateY(angleY - 90)*
 		Matrix4::RotateZ(0)*
@@ -169,13 +151,13 @@ void Player::Update() {
 void Player::Draw() const {
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
-		Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
+		//Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
 		animeClass->draw();
 	}
 	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
 		DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);
 	else
-		DrawFormatString(550, 25 + 32, GetColor(255, 0, 255), "プレイヤー2蓄積ダメージ:%d", (int)parameter.HP);
+		DrawFormatString(550, 25 + 32, GetColor(255, 0, 255), "プレイヤー2蓄積ダメージ:%f", testaaa);
 	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
 	//	, parameter.radius, 10, 1, 1, FALSE);
 	//DrawLine3D(Vector3::ToVECTOR(mPosition), Vector3::ToVECTOR(mPosition + vecPos), GetColor(255, 255, 255));
@@ -280,10 +262,16 @@ void Player::Move()
 	Vector2 vec;
 	vec = GamePad::GetInstance().Stick(pad)*playerSpeed;
 
+	//if (vec.x == 0 && vec.y == 0)
+	//	animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+	//else
+	//	animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
+
 	mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
 	mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
 
-	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
+	//キーボード処理　テスト用
+	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_3)
 	{
 		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
 		{
@@ -302,7 +290,6 @@ void Player::Move()
 			mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
 		}
 	}
-
 	//移動先に回転※移動した最後に実行すること
 	RotateMovePlayer();
 	cameraActor->SetCameraState(CameraState::DEFAULT);
@@ -350,13 +337,13 @@ void Player::AttackMove()
 void Player::Deceleration(float& pos)
 {
 	//減速処理
-	if ((int)pos != 0)
+	if (pos > 0.2f||pos<-0.2f)
 	{
-		if (pos < 0)
+		if (pos < 0.0f)
 		{
 			pos += KnockBackTikara*Time::DeltaTime;
 		}
-		if (pos > 0)
+		if (pos > 0.0f)
 		{
 			pos -= KnockBackTikara*Time::DeltaTime;
 		}
@@ -428,4 +415,35 @@ PlayerState Player::GetPlayerState()
 PLAYER_NUMBER Player::GetDamagePlayer()
 {
 	return damagePlayerNumber;
+}
+
+
+
+void Player::PlayerNumSet(PLAYER_NUMBER num)
+{
+	//パッドのプレイヤー設定
+	switch (num)
+	{
+	case PLAYER_NULL:
+		break;
+	case PLAYER_1: {
+		pad = PADNUM::PAD1;
+		uiDamagePos = Vector2(0,0);
+		break;
+	}
+	case PLAYER_2: {
+		pad = PADNUM::PAD2;
+		uiDamagePos = Vector2(0, 360);
+		break;
+	}
+	case PLAYER_3: {
+		pad = PADNUM::PAD3;
+		break;
+	}
+	case PLAYER_4: {
+		pad = PADNUM::PAD4;
+		break;
+	}
+	}
+
 }

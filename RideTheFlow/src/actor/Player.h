@@ -59,6 +59,8 @@ private:
 	void RotateMovePlayer();
 	//減速処理
 	void Deceleration(float& pos);
+	//プレイヤー個別の設定
+	void PlayerNumSet(PLAYER_NUMBER num);
 //プレイヤーの行動系
 private:
 	void Move();
@@ -115,9 +117,11 @@ private:
 
 	//pad情報
 	int pad;
-
+	//ダメージUIの座標
+	Vector2 uiDamagePos;
 	Vector3 test;
 
+	float testaaa;
 	AnimationClass* animeClass;
 
 };

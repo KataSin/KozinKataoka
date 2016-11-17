@@ -35,6 +35,17 @@ skyMat(Matrix4::Identity){
 		135.0f,
 		PLAYER_NUMBER::PLAYER_2));
 
+	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
+		Vector3(0, 0, 90),
+		135.0f,
+		PLAYER_NUMBER::PLAYER_3));
+
+	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
+		Vector3(90, 0, 0),
+		135.0f,
+		PLAYER_NUMBER::PLAYER_4));
+
+
 	//–Ø‚Ì’Ç‰Á
 	world.Add(ACTOR_ID::TREE_ACTOR, std::make_shared<Tree>(world,
 		Vector3(15,0,15)));

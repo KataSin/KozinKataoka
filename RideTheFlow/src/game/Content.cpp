@@ -14,6 +14,7 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 
 	sprite.Load("TargetUI.png", SPRITE_ID::TARGET_SPRITE);
 	sprite.Load("SneperTargetUI.png", SPRITE_ID::SNEPER_SPRITE);
+	sprite.Load("suuzi.png", SPRITE_ID::SUUZI_SPRITE);
 
 	sprite.Load("AttackGaugeIn.png", SPRITE_ID::ATTACK_GAUGE_IN_SPRITE);
 	sprite.Load("AttackGauge.png", SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE);
@@ -37,7 +38,7 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("RespawnModel.mv1", MODEL_ID::RESPAWN_MODEL, async);
 	model.Load("Tree/Tree.mv1", MODEL_ID::TREE_MODEL, async);
 	model.Load("TestModel.mqo", MODEL_ID::TEST_MODEL, async);
-	model.Load("Player/player.pmx", MODEL_ID::TEST_PLAYER_MODEL, async);
+	model.Load("Player/Player1.mv1", MODEL_ID::TEST_PLAYER_MODEL, async);
 	model.Load("PlayerTest/player.mv1", MODEL_ID::TEST2_PLAYER_MODEL, async);
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }

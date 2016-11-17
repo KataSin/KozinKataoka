@@ -59,10 +59,16 @@ void GamePlay::Draw()
 	//カメラの描写の位置を設定
 	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_1).get())->SetCamera();
 	//カメラの描写位置を設定し終わった後にプレイヤーごとのUIをUpdateしてDrawをしなくてはいけない
-	wo.UpdateUI(PLAYER_NUMBER::PLAYER_2);
+	wo.UpdateUI(PLAYER_NUMBER::PLAYER_4);
 	wo.Draw();
 	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_2).get())->SetCamera();
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
+	wo.Draw();
+	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_3).get())->SetCamera();
+	wo.UpdateUI(PLAYER_NUMBER::PLAYER_2);
+	wo.Draw();
+	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_4).get())->SetCamera();
+	wo.UpdateUI(PLAYER_NUMBER::PLAYER_3);
 	wo.Draw();
 	DrawFormatString(0, 368, GetColor(255, 255, 255), "ゲームプレイシーン");
 	//DrawSphere3D(Vector3::ToVECTOR(Vector3(0,0,0)), 1.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);

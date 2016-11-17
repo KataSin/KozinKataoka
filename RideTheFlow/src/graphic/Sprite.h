@@ -178,7 +178,10 @@ public:
 		GetGraphSize(m_sprites.at(id), &size.x, &size.y);
 		return size;
 	}
-
+	int GetIndex(const SPRITE_ID& id)
+	{
+		return m_sprites[id];
+	}
 private:
 	///<summary>
 	/// ƒtƒ@ƒCƒ‹–¼‚Ì'.'‚©‚çŒã‚ğæ‚èœ‚­
