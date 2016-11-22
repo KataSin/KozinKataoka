@@ -135,7 +135,7 @@ void Player::Update() {
 	}
 	//マトリクス計算
 	parameter.mat =
-		Matrix4::Scale(0.2f)*
+		Matrix4::Scale(0.15f)*
 		Matrix4::RotateX(0)*
 		Matrix4::RotateY(angleY - 90)*
 		Matrix4::RotateZ(0)*

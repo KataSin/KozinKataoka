@@ -55,6 +55,13 @@ void Sprite::Draw(const SPRITE_ID& id, const Vector2& position)
 	DrawRotaGraph3((int)position.x, (int)position.y, 0, 0,
 		1.0f, 1.0f, 0.0, m_sprites[id], true, false);
 }
+// 通常画像の描画(アセット名、座標、カラー)
+void Sprite::Draw(const SPRITE_ID & id, const Vector2 & position, const Vector4 color)
+{
+	SetDrawBright(color.x, color.y, color.z);
+	DrawGraph(position.x, position.y, m_sprites[id], TRUE);
+	SetDrawBright(255, 255, 255);
+}
 
 // 通常画像の描画(アセット名、座標、アルファ値)
 void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, float alpha = 1.0f)
@@ -173,6 +180,15 @@ void Sprite::DrawGauge(const SPRITE_ID & id, const Vector2 & position, Vector2 &
 	GetGraphSize(m_sprites[id], &texSizeX, &texSizeY);
 	float overCount = (float)texSizeY / 100.0f*gaugeCount;
 	DrawRectGraphF(position.x, position.y+overCount, 0, 0, texSizeX, texSizeY-overCount, m_sprites[id], true, true);
+}
+
+void Sprite::DrawGaugeCircle(const SPRITE_ID & id, const Vector2 & position, const Vector4 & color, float gaugeCount)
+{
+	SetDrawBright(color.x, color.y, color.z);
+	int texSizeX, texSizeY;
+	GetGraphSize(m_sprites[id], &texSizeX, &texSizeY);
+	DrawCircleGauge(position.x+texSizeX/2.0f, position.y+texSizeY/2.0f, gaugeCount, m_sprites[id]);
+	SetDrawBright(255, 255, 255);
 }
 
 void Sprite::DrawBlend(const SPRITE_ID& id, const Vector2& position, const Vector2& origin, const Vector2& scale, float angle, const int& blendmode)

@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 #include "BlendMode.h"
-
+#include "../math/Vector4.h"
 
 class Sprite
 {
@@ -15,7 +15,7 @@ private:
 	Sprite() = default;
 	~Sprite();
 public:
-	static Sprite &GetInstance(){
+	static Sprite &GetInstance() {
 		static Sprite s;
 		return s;
 	}
@@ -41,6 +41,10 @@ public:
 	/// 通常画像の描画(アセット名、座標)
 	///</summary>
 	void Draw(const SPRITE_ID& id, const Vector2& position);
+	///<summary>
+	/// 通常画像の描画(アセット名、座標、カラー)
+	///</summary>
+	void Draw(const SPRITE_ID& id, const Vector2& position, const Vector4 color);
 	///<summary>
 	/// 通常画像の描画(アセット名、座標、アルファ値)
 	///</summary>
@@ -97,9 +101,12 @@ public:
 	///<summary>
 	/// 通常画像(ゲージに特化)の描画(アセット名、座標 、拡大率、アルファ値、ゲージの伸び具合)
 	///</summary>
-	void DrawGauge(const SPRITE_ID& id, const Vector2& position,Vector2& scale, float alpha, float gaugeCount);
+	void DrawGauge(const SPRITE_ID& id, const Vector2& position, Vector2& scale, float alpha, float gaugeCount);
 	///<summary>
-
+	/// 通常画像(円ゲージに特化)の描画(アセット名、座標 、拡大率、アルファ値、ゲージの伸び具合)
+	///</summary>
+	void DrawGaugeCircle(const SPRITE_ID& id, const Vector2& position, const Vector4& color, float gaugeCount);
+	///<summary>
 	///<summary>
 	/// ブレンド画像の描画(アセット名、座標、原点、拡大率、回転率、ブレンドモード)
 	///</summary>

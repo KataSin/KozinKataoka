@@ -18,7 +18,7 @@
 #include "../actor/Player.h"
 #include "../actor/Stage.h"
 #include "../actor/StagePlate/DefaultPlate.h"
-
+#include "../actor/ParticleManager/ParticleManager.h"
 #include "../actor/ID.h"
 //コンストラクタ
 GamePlay::GamePlay()
@@ -46,6 +46,8 @@ void GamePlay::Initialize()
 void GamePlay::Update()
 {
 	wo.Update();
+
+
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
 	{
 		mIsEnd = true;

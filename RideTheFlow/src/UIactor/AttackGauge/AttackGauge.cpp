@@ -1,9 +1,11 @@
 #include "AttackGauge.h"
 #include "../../world/IWorld.h"
-AttackGauge::AttackGauge(IWorld & world, Actor* manager) :
+#include "../../math/Math.h"
+AttackGauge::AttackGauge(IWorld & world,Vector2 position, Actor* manager) :
 	UIActor(world),
-	mPosition(Vector3::Zero),
+	mPosition(position),
 	playerMat(Matrix4::Identity),
+	mColor(255,255,255,1),
 	velo(0.0f)
 {
 	parameter.isDead = false;
@@ -18,27 +20,17 @@ AttackGauge::~AttackGauge()
 
 void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 {
-	if (mPlayerNumber == playerNumber)
-	{
-		mPlayer = dynamic_cast<Player*>(world.GetPlayer(mPlayerNumber).get());
-		playerMat = mPlayer->GetParameter().mat;
-		mPosition = playerMat.GetLeft()*3.0f + playerMat.GetPosition();
-		//スクリーン座標に
-		mPosition = Vector3::ToVECTOR(ConvWorldPosToScreenPos
-			(Vector3::ToVECTOR(mPosition)));
-		//ぬるぬるゲージが動く
-		Spring(mOverHertCount, mManager->GetOverHertCount(), 0.2f, 0.5f, 2.0f);
-	}
+	//ぬるぬるゲージが動く
+	Spring(mOverHertCount, mManager->GetOverHertCount(), 0.1f, 0.5f, 2.0f);
+	float leap = Math::Lerp(0.0f, 255.0f, mOverHertCount/100.0f);
+	mColor = Vector4(255.0f - leap, leap, 0.0f, 0.0f);
 }
 
 void AttackGauge::Draw() const
 {
-	////リスポーン中は表示しない
-	//if (mPlayer->GetPlayerState() == PlayerState::PLAYERRESPAWN) return;
-	//ゲージ中身
-	Sprite::GetInstance().DrawGauge(SPRITE_ID::ATTACK_GAUGE_IN_SPRITE, Vector2(mPosition.x, mPosition.y - 256.0f), Vector2(1), 1, mOverHertCount);
-	//ゲージ外側
-	Sprite::GetInstance().Draw(SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE, Vector2(mPosition.x, mPosition.y - 256.0f));
+	Sprite::GetInstance().DrawGaugeCircle
+		(SPRITE_ID::ATTACK_GAUGE_IN_SPRITE, mPosition, mColor, Math::Lerp(0.0f, 75.0f, mOverHertCount / 100.0f));
+	Sprite::GetInstance().Draw(SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE, mPosition);
 }
 
 void AttackGauge::Spring(float& num, float resNum, float stiffness, float friction, float mass)

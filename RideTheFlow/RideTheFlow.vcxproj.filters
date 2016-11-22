@@ -78,6 +78,8 @@
     <ClInclude Include="src\graphic\AnimetionClass.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
     <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
+    <ClInclude Include="src\actor\ParticleManager\Particle\Particle.h" />
+    <ClInclude Include="src\actor\ParticleManager\ParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -134,5 +136,7 @@
     <ClCompile Include="src\graphic\AnimetionClass.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
+    <ClCompile Include="src\actor\ParticleManager\Particle\Particle.cpp" />
+    <ClCompile Include="src\actor\ParticleManager\ParticleManager.cpp" />
   </ItemGroup>
 </Project>

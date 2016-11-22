@@ -6,9 +6,9 @@
 #include "../../game/Random.h"
 #include "../../time/Time.h"
 #include "../../graphic/Model.h"
+#include "../ParticleManager/ParticleManager.h"
 
-
-const float RespawnTime = 10.0f;
+const float RespawnTime = 20.0f;
 const int HP = 3;
 DefaultPlate::DefaultPlate(IWorld & world, Vector3 position) :
 	Actor(world),
@@ -21,7 +21,7 @@ DefaultPlate::DefaultPlate(IWorld & world, Vector3 position) :
 {
 	parameter.isDead = false;
 	parameter.HP = HP;
-	parameter.radius = 2.0f;
+	parameter.radius = 10.0f;
 	parameter.playNumber = PLAYER_NUMBER::PLAYER_NULL;
 	parameter.mat =
 		Matrix4::Scale(1.0f)*
@@ -40,11 +40,13 @@ void DefaultPlate::Update()
 	parameter.playNumber = playerNum;
 
 	//éÄÇÒÇæÇÁÇµÉXÉ|Å[ÉìèÛë‘Ç÷
-	if (parameter.HP <= 0)
+	if (parameter.HP <= 0&&!mIsDead)
 	{
+		world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<ParticleManager>(world, parameter.mat.GetPosition(),plateClor));
 		mIsDead = true;
-		respawnCount += Time::DeltaTime;
 	}
+	if(mIsDead)
+		respawnCount += Time::DeltaTime;
 	//ïúäàÇµÇΩÇÁèâä˙èÛë‘Ç…ñﬂÇÈ
 	if (respawnCount >= RespawnTime)
 	{
@@ -101,6 +103,7 @@ void DefaultPlate::Update()
 
 void DefaultPlate::Draw() const
 {
+	//DrawSphere3D(Vector3::ToVECTOR(Vector3(parameter.mat.GetPosition())- Vector3(0.0f, parameter.radius, 0.0f)), parameter.radius, 10, 1, 1, TRUE);
 	//éÄÇÒÇæÇÁï`é ÇµÇ»Ç¢
 	if(!mIsDead)
 	Model::GetInstance().Draw(MODEL_ID::DEFAULT_PLATE_MODEL, parameter.mat, 1.0f, plateClor);

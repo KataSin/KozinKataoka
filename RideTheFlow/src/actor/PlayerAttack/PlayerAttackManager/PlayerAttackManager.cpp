@@ -22,7 +22,7 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	isColSniperCount(0.0f),
 	coolHertCount(0.0f),
 	attackFlag(0.0f),
-	shotAttackCount(0.0f),
+	shotAttackCount(3.0f),
 	initSniperFalg(true)
 {
 	mSniperState.isColSniperLine = false;
@@ -30,38 +30,21 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	mSniperState.doCharge = false;
 
 	mPlayer = dynamic_cast<Player*>(&player);
+	PlayerNumSet(mPlayer->GetParameter().playNumber);
 	parameter.isDead = false;
 	//初期武器を設定
-	attackState = PlayerAttackState::SHOT_GUN;
+	attackState = PlayerAttackState::MACHINE_GUN;
 	//何プレイヤー設定
 	parameter.playNumber = player.GetParameter().playNumber;
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
 	//オーバーヒートゲージを追加
-	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, this));
+	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, uiPos, this));
 
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	////誰の弾かの情報を設定
 	//bulletState.playerNumber = mPlayer->GetParameter().playNumber;
-	//パッドのプレイヤー設定
-	switch (mPlayer->GetParameter().playNumber)
-	{
-	case PLAYER_NULL:
-		break;
-	case PLAYER_1:
-		pad = PADNUM::PAD1;
-		break;
-	case PLAYER_2:
-		pad = PADNUM::PAD2;
-		break;
-	case PLAYER_3:
-		pad = PADNUM::PAD3;
-		break;
-	case PLAYER_4:
-		pad = PADNUM::PAD4;
-		break;
-	}
 }
 
 PlayerAttackManager::~PlayerAttackManager()
@@ -132,6 +115,36 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 		//ターゲットの位置を10に変更
 		mCamera->SetTargetDistance(22.0f);
 		ShotGun();
+		break;
+	}
+	}
+}
+
+void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
+{
+	//パッドのプレイヤー設定
+	switch (num)
+	{
+	case PLAYER_NULL:
+		break;
+	case PLAYER_1: {
+		pad = PADNUM::PAD1;
+		uiPos = Vector2(WINDOW_WIDTH-128, WINDOW_HEIGHT/2-128);
+		break;
+	}
+	case PLAYER_2: {
+		pad = PADNUM::PAD2;
+		uiPos = Vector2(0, WINDOW_HEIGHT-128);
+		break;
+	}
+	case PLAYER_3: {
+		pad = PADNUM::PAD3;
+		uiPos = Vector2(WINDOW_WIDTH-128 , WINDOW_HEIGHT-128);
+		break;
+	}
+	case PLAYER_4: {
+		pad = PADNUM::PAD4;
+		uiPos = Vector2(0, WINDOW_HEIGHT/2-128);
 		break;
 	}
 	}
@@ -232,6 +245,7 @@ void PlayerAttackManager::SniperGun()
 
 void PlayerAttackManager::ShotGun()
 {
+	shotAttackCount += Time::DeltaTime;
 	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
 		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))
 	{
@@ -239,7 +253,6 @@ void PlayerAttackManager::ShotGun()
 		attackFlag = true;
 		//プレイヤーは攻撃しています
 		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
-		shotAttackCount += Time::DeltaTime;
 		//オーバーヒートで弾が出せないよ
 		if (overHertCount < OverHertShot) {
 			overHertFlag = true;
@@ -247,7 +260,7 @@ void PlayerAttackManager::ShotGun()
 		}
 		if (shotAttackCount >= 2.0f)
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 15; i++)
 			{
 				BulletState shot;
 				//頂点の位置を設定
@@ -258,13 +271,9 @@ void PlayerAttackManager::ShotGun()
 				world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
 					std::make_shared<PlayerBullet>(world, shot, 2.5f));
 				shotAttackCount = 0.0f;
+				if (i == 1)
+					overHertCount -= 30.0f;
 			}
-			overHertCount -= OverHertShot;
 		}
 	}
-	else
-	{
-		shotAttackCount += Time::DeltaTime;
-	}
-
 }

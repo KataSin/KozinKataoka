@@ -16,8 +16,8 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("SneperTargetUI.png", SPRITE_ID::SNEPER_SPRITE);
 	sprite.Load("suuzi.png", SPRITE_ID::SUUZI_SPRITE);
 
-	sprite.Load("AttackGaugeIn.png", SPRITE_ID::ATTACK_GAUGE_IN_SPRITE);
-	sprite.Load("AttackGauge.png", SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE);
+	sprite.Load("GaugeInUI.png", SPRITE_ID::ATTACK_GAUGE_IN_SPRITE);
+	sprite.Load("GaugeOutUI.png", SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE);
 
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);
@@ -33,13 +33,15 @@ void Content::LoadModel(Model& model, bool async)
 
 	model.Load("player.mv1", MODEL_ID::PLAYER_MODEL, async);
 	model.Load("SkyDemo/sky_dome_11.X", MODEL_ID::SKY_DEMO_MODEL, async);
-	model.Load("DefaultPlate.mv1", MODEL_ID::DEFAULT_PLATE_MODEL, async);
+	model.Load("DefPlate/Plate.mv1", MODEL_ID::DEFAULT_PLATE_MODEL, async);
 	model.Load("playerBullet.mv1", MODEL_ID::PLAYER_BULLET_MODEL, async);
 	model.Load("RespawnModel.mv1", MODEL_ID::RESPAWN_MODEL, async);
 	model.Load("Tree/Tree.mv1", MODEL_ID::TREE_MODEL, async);
 	model.Load("TestModel.mqo", MODEL_ID::TEST_MODEL, async);
 	model.Load("Player/Player1.mv1", MODEL_ID::TEST_PLAYER_MODEL, async);
 	model.Load("PlayerTest/player.mv1", MODEL_ID::TEST2_PLAYER_MODEL, async);
+	model.Load("Particle/Particle.mv1", MODEL_ID::PARTICLE_MODEL, async);
+	model.Load("Stage/Stage01.mqo", MODEL_ID::STAGE01_MODEL, async);
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }
 

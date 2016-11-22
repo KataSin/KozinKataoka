@@ -10,6 +10,8 @@
 #include "../graphic/Model.h"
 #include "Player.h"
 
+const Vector3 MinPlate = Vector3(-10.0f, -0.5f, -10.0f);
+const Vector3 MaxPlate = Vector3(10.0f, 1.5f, 10.0f);
 
 Actor::Actor(IWorld& world_) :world(world_)
 {
@@ -75,8 +77,8 @@ CollisionParameter Actor::Player_vs_Plate(const Actor & other) const
 	player.endPos = other.parameter.mat.GetPosition() + Vector3(0, 6, 0);
 
 	Box plate;
-	plate.max = parameter.mat.GetPosition() + Vector3(-2.25f, -0.225f, -2.25f);
-	plate.min = parameter.mat.GetPosition() + Vector3(2.25f, 0.225f, 2.25f);
+	plate.max = parameter.mat.GetPosition() + MaxPlate;
+	plate.min = parameter.mat.GetPosition() + MinPlate;
 
 	colpara = Collisin::GetInstace().SegmentBoxAABB(player, plate);
 
@@ -222,8 +224,8 @@ CollisionParameter Actor::GunRay_vs_Plate(const Actor & other) const
 	line = target->GetLine();
 
 	Box plate;
-	plate.max = other.parameter.mat.GetPosition() + Vector3(-2.25f, -0.225f, -2.25f);
-	plate.min = other.parameter.mat.GetPosition() + Vector3(2.25f, 0.225f, 2.25f);
+	plate.max = other.parameter.mat.GetPosition() + MaxPlate;
+	plate.min = other.parameter.mat.GetPosition() + MinPlate;
 
 	colpara = Collisin::GetInstace().SegmentBoxAABB(line, plate);
 	colpara.colID = COL_ID::PLATE_GUNRAY_COL;
@@ -252,8 +254,8 @@ CollisionParameter Actor::Camera_vs_Plate(const Actor & other) const
 	Line camera;
 	camera = dynamic_cast<CameraActor*>(const_cast<Actor*>(this))->GetCameraLine();
 	Box plate;
-	plate.max = other.parameter.mat.GetPosition() + Vector3(-2.25f, -0.225f, -2.25f);
-	plate.min = other.parameter.mat.GetPosition() + Vector3(2.25f, 0.225f, 2.25f);
+	plate.max = other.parameter.mat.GetPosition() + MaxPlate;
+	plate.min = other.parameter.mat.GetPosition() + MinPlate;
 
 	colpara = Collisin::GetInstace().SegmentBoxAABB(camera, plate);
 	colpara.colID = COL_ID::CAMERA_PLATE_COL;
@@ -268,8 +270,8 @@ CollisionParameter Actor::SniperLine_vs_Plate(const Actor & other) const
 	line = target->GetSniperLine();
 
 	Box plate;
-	plate.max = other.parameter.mat.GetPosition() + Vector3(-2.25f, -0.225f, -2.25f);
-	plate.min = other.parameter.mat.GetPosition() + Vector3(2.25f, 0.225f, 2.25f);
+	plate.max = other.parameter.mat.GetPosition() + MaxPlate;
+	plate.min = other.parameter.mat.GetPosition() + MinPlate;
 
 	colpara = Collisin::GetInstace().SegmentBoxAABB(line, plate);
 	colpara.colID = COL_ID::SNIPERLINE_PLATE_COL;

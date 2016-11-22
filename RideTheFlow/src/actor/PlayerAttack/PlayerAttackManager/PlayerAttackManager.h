@@ -38,6 +38,7 @@ public:
 	}
 private:
 	void PlayerAttack(PlayerAttackState state);
+	void PlayerNumSet(PLAYER_NUMBER num);
 	void MachineGun();
 	void SniperGun();
 	void ShotGun();
@@ -68,4 +69,6 @@ private:
 	bool attackFlag;
 	//オーバーヒート冷め始める時間
 	float coolHertCount;
+	//uiの場所
+	Vector2 uiPos;
 };

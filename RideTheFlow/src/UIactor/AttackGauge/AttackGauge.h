@@ -5,7 +5,7 @@
 class AttackGauge : public UIActor
 {
 public:
-	AttackGauge(IWorld& world,Actor* manager);
+	AttackGauge(IWorld& world,Vector2 position,Actor* manager);
 	~AttackGauge();
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
@@ -15,8 +15,9 @@ private:
 private:
 	PLAYER_NUMBER mPlayerNumber;
 	Player* mPlayer;
-	Vector3 mPosition;
+	Vector2 mPosition;
 	Matrix4 playerMat;
+	Vector4 mColor;
 	float mOverHertCount;
 	float velo;
 	PlayerAttackManager* mManager;

@@ -15,5 +15,6 @@ public:
 private:
 	int PixelShaderHandle;
 	int VertexShaderHandle;
+	Vector3 mStagePos;
 	Matrix4 skyMat;
 };
