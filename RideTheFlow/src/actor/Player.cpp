@@ -47,8 +47,6 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	isDamageSniper(false),
 	isDamageShot(false)
 {
-	testaaa = -200;
-
 	parameter.HP = 0;
 	parameter.playNumber = player;
 	parameter.isDead = false;
@@ -73,7 +71,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//ダメージUIを追加
 	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world,uiDamagePos, this));
 
-	animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, MODEL_ID::TEST_PLAYER_MODEL);
+	animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, mModelId);
 
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
@@ -83,14 +81,12 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//リスポーン地点設定
 	respawnPoint = position_;
 
-	test = Vector3::Zero;
 }
 Player::~Player() {
 	delete animeClass;
 }
 
 void Player::Update() {
-	Deceleration(testaaa);
 	
 	animeClass->update();
 
@@ -156,8 +152,8 @@ void Player::Draw() const {
 	}
 	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
 		DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);
-	else
-		DrawFormatString(550, 25 + 32, GetColor(255, 0, 255), "プレイヤー2蓄積ダメージ:%f", testaaa);
+	//else
+	//	DrawFormatString(550, 25 + 32, GetColor(255, 0, 255), "プレイヤー2蓄積ダメージ:%f", testaaa);
 	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
 	//	, parameter.radius, 10, 1, 1, FALSE);
 	//DrawLine3D(Vector3::ToVECTOR(mPosition), Vector3::ToVECTOR(mPosition + vecPos), GetColor(255, 255, 255));
@@ -262,16 +258,16 @@ void Player::Move()
 	Vector2 vec;
 	vec = GamePad::GetInstance().Stick(pad)*playerSpeed;
 
-	//if (vec.x == 0 && vec.y == 0)
-	//	animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
-	//else
-	//	animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
+	if (vec.x == 0 && vec.y == 0)
+		animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+	else
+		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
 
 	mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
 	mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
 
 	//キーボード処理　テスト用
-	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_3)
+	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
 	{
 		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
 		{
@@ -429,19 +425,23 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 	case PLAYER_1: {
 		pad = PADNUM::PAD1;
 		uiDamagePos = Vector2(0,0);
+		mModelId = MODEL_ID::PLAYER1_MODEL;
 		break;
 	}
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
 		uiDamagePos = Vector2(0, 360);
+		mModelId = MODEL_ID::PLAYER2_MODEL;
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
+		mModelId = MODEL_ID::PLAYER3_MODEL;
 		break;
 	}
 	case PLAYER_4: {
 		pad = PADNUM::PAD4;
+		mModelId = MODEL_ID::PLAYER4_MODEL;
 		break;
 	}
 	}

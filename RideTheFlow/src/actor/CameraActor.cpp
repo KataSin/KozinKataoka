@@ -10,6 +10,7 @@
 #include"Player.h"
 #include <string>
 #include "../input/GamePad.h"
+#include "../Def.h"
 
 CameraActor::CameraActor(IWorld& world, Actor &parent_) :
 	Actor(world),
@@ -217,34 +218,34 @@ void CameraActor::SetCamera()
 	case PLAYER_NUMBER::PLAYER_1:
 	{
 		SetCameraScreenCenter(320, 180);
-		SetDrawArea(0,0,640,360);
+		SetDrawArea(0,0,WINDOW_WIDTH/2+1,WINDOW_HEIGHT/2 + 1);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_2:
 	{
 		SetCameraScreenCenter(960, 180);
-		SetDrawArea(640, 0, 1280, 360);
+		SetDrawArea(WINDOW_WIDTH/2, 0, WINDOW_WIDTH + 1, WINDOW_HEIGHT/2 + 1);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_3:
 	{
 		SetCameraScreenCenter(320, 720-180);
-		SetDrawArea(0, 360, 640, 720);
+		SetDrawArea(0, WINDOW_HEIGHT/2, WINDOW_WIDTH/2 + 1, WINDOW_HEIGHT + 1);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_4:
 	{
 		SetCameraScreenCenter(960, 720-180);
-		SetDrawArea(640, 360, 1280, 720);
+		SetDrawArea(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, WINDOW_WIDTH + 1,WINDOW_HEIGHT + 1);
 		break;
 	}
 	}
 	//ÉJÉÅÉâê›íË
-	Camera::GetInstance().Update();
 	Camera::GetInstance().SetRange(0.1f, 9999.0f);
 	Camera::GetInstance().Position.Set(mPosition);
 	Camera::GetInstance().Target.Set(target);
 	Camera::GetInstance().Up.Set(Vector3::Up);
+	Camera::GetInstance().Update();
 }
 
 void CameraActor::SetCameraState(CameraState state)

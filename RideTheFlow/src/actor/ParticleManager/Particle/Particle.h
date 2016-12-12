@@ -19,6 +19,10 @@ private:
 	Vector3 mPosition;
 	//カラー
 	Vector4 mColor;
+	//回転
+	Vector3 mRotate;
+	//回転量
+	Vector3 mRotateVelo;
 	//初速度
 	Vector3 mInitialVelocity;
 	//ベクトル

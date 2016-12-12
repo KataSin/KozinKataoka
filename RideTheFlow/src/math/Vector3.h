@@ -152,6 +152,8 @@ public:
 	/// 座標から座標へ向かう単位ベクトルを返す
 	///</summary>
 	static Vector3 Direction(const Vector3& start, const Vector3& end);
+	//2点間のx zでの角度を求める
+	static float GetAngle2D(const Vector3& pos1, const Vector3& pos2);
 
 public:
 	///<summary>

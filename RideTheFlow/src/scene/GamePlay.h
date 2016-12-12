@@ -32,4 +32,6 @@ private:
 	bool  mIsEnd;
 	World wo;
 	Light light;
+
+	int test;
 };

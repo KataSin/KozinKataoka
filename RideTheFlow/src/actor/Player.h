@@ -114,14 +114,13 @@ private:
 	bool sniperFlag;
 
 	Vector3 cameraPos;
-
+	//モデルID
+	MODEL_ID mModelId;
 	//pad情報
 	int pad;
 	//ダメージUIの座標
 	Vector2 uiDamagePos;
-	Vector3 test;
 
-	float testaaa;
 	AnimationClass* animeClass;
 
 };

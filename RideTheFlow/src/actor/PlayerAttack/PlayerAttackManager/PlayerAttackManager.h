@@ -49,6 +49,8 @@ private:
 	Player* mPlayer;
 	//パッドの数字
 	int pad;
+	//プレイヤー武器int型
+	int attacStateInt;
 	//装備している武器
 	PlayerAttackState attackState;
 	//マシンガン連続攻撃カウント

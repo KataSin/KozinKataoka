@@ -39,6 +39,36 @@ void DefaultPlate::Update()
 {
 	parameter.playNumber = playerNum;
 
+	//当てたプレイヤーによって色を変える
+	switch (playerNum)
+	{
+	case PLAYER_NUMBER::PLAYER_1:
+	{
+		plateClor = Vector4(0.0f, 0.0f, clor, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_2:
+	{
+		plateClor = Vector4(clor, 0.0f, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_3:
+	{
+		plateClor = Vector4(0.0f, clor, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_4:
+	{
+		plateClor = Vector4(clor, clor, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_NULL:
+	{
+		plateClor = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		break;
+	}
+	}
+
 	//死んだらしスポーン状態へ
 	if (parameter.HP <= 0&&!mIsDead)
 	{
@@ -63,35 +93,7 @@ void DefaultPlate::Update()
 		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_BULLET_ACTOR, COL_ID::PLATE_BULLET_COL);
 		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLATE_PLAYER_COL);
 	}
-	//当てたプレイヤーによって色を変える
-	switch (playerNum)
-	{
-	case PLAYER_NUMBER::PLAYER_1:
-	{
-		plateClor = Vector4(clor, 0.0f, 0.0f, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_2:
-	{
-		plateClor = Vector4(0.0f, clor, 0.0f, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_3:
-	{
-		plateClor = Vector4(0.0f, 0.0f, clor, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_4:
-	{
-		plateClor = Vector4(0.0f, clor, clor, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_NULL:
-	{
-		plateClor = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
-		break;
-	}
-	}
+
 
 	parameter.mat =
 		Matrix4::Scale(1.0f)*

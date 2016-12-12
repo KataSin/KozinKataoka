@@ -207,6 +207,11 @@ Vector3 Vector3::Direction(const Vector3& start, const Vector3& end)
 	return Normalize(end - start);
 }
 
+float Vector3::GetAngle2D(const Vector3 & pos1, const Vector3 & pos2)
+{
+	return Math::Degree(Math::Atan2(pos2.z - pos1.z, pos2.x - pos1.x));
+}
+
 VECTOR Vector3::ToVECTOR(const Vector3& v)
 {
 	VECTOR result;

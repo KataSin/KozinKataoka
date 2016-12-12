@@ -9,6 +9,7 @@
 
 #include "../../PlayerBullet/TargetRay.h"
 #include "../../../UIactor/AttackGauge/AttackGauge.h"
+#include "../../../UIactor/GunUI/GunUI.h"
 
 //武器のオーバーヒート値
 const float OverHertMachine = 2.0f;
@@ -34,13 +35,15 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	parameter.isDead = false;
 	//初期武器を設定
 	attackState = PlayerAttackState::MACHINE_GUN;
+	attacStateInt = (int)PlayerAttackState::MACHINE_GUN;
 	//何プレイヤー設定
 	parameter.playNumber = player.GetParameter().playNumber;
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
 	//オーバーヒートゲージを追加
 	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, uiPos, this));
-
+	//武器UI追加
+	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, uiPos, this));
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	////誰の弾かの情報を設定
@@ -54,16 +57,13 @@ PlayerAttackManager::~PlayerAttackManager()
 
 void PlayerAttackManager::Update()
 {
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
-		attackState = PlayerAttackState::MACHINE_GUN;
 
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::K))
-		attackState = PlayerAttackState::SNIPER_GUN;
-
-
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::H))
-		attackState = PlayerAttackState::SHOT_GUN;
-
+	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM5, pad) ||
+		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
+	{
+		attacStateInt++;
+		attackState = (PlayerAttackState)(attacStateInt % 3);
+	}
 
 	//攻撃していない
 	attackFlag = false;
@@ -129,22 +129,23 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 		break;
 	case PLAYER_1: {
 		pad = PADNUM::PAD1;
-		uiPos = Vector2(WINDOW_WIDTH-128, WINDOW_HEIGHT/2-128);
+		uiPos = Vector2(0, WINDOW_HEIGHT / 2 - 128);
 		break;
 	}
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
-		uiPos = Vector2(0, WINDOW_HEIGHT-128);
+		uiPos = Vector2(WINDOW_WIDTH - 128, WINDOW_HEIGHT / 2 - 128);
+
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
-		uiPos = Vector2(WINDOW_WIDTH-128 , WINDOW_HEIGHT-128);
+		uiPos = Vector2(0, WINDOW_HEIGHT - 128);
 		break;
 	}
 	case PLAYER_4: {
 		pad = PADNUM::PAD4;
-		uiPos = Vector2(0, WINDOW_HEIGHT/2-128);
+		uiPos = Vector2(WINDOW_WIDTH - 128, WINDOW_HEIGHT - 128);
 		break;
 	}
 	}

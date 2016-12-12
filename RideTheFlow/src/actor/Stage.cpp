@@ -5,6 +5,7 @@
 #include"../world/IWorld.h"
 #include "RespawnPoint.h"
 #include "Tree\Tree.h"
+#include "Pool\Pool.h"
 static const int MODEL_SIZE = 240;
 
 Stage::Stage(IWorld& world) :
@@ -47,6 +48,10 @@ skyMat(Matrix4::Identity){
 		135.0f,
 		PLAYER_NUMBER::PLAYER_4));
 
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20,0,20)+Vector3(-10,0,-10), Vector3(20*11, 0, 20) + Vector3(10, 0, -10)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20)-Vector3(-10, 0, 10), Vector3(20 * 11, 0, 20*11)+Vector3(10,0,10)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20 * 11) + Vector3(10, 0, 10), Vector3(20, 0, 20 * 11) + Vector3(-10, 0, 10)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20 * 11) + Vector3(-10, 0, 10), Vector3(20 , 0, 20) + Vector3(-10, 0, -10)));
 
 	//–Ø‚Ì’Ç‰Á
 	world.Add(ACTOR_ID::TREE_ACTOR, std::make_shared<Tree>(world,

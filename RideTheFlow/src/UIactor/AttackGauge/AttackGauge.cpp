@@ -28,6 +28,7 @@ void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 
 void AttackGauge::Draw() const
 {
+
 	Sprite::GetInstance().DrawGaugeCircle
 		(SPRITE_ID::ATTACK_GAUGE_IN_SPRITE, mPosition, mColor, Math::Lerp(0.0f, 75.0f, mOverHertCount / 100.0f));
 	Sprite::GetInstance().Draw(SPRITE_ID::ATTACK_GAUGE_OUT_SPRITE, mPosition);
@@ -46,3 +47,6 @@ void AttackGauge::Spring(float& num, float resNum, float stiffness, float fricti
 	// ç¿ïWÇÃçXêV
 	num += velo;
 }
+
+
+

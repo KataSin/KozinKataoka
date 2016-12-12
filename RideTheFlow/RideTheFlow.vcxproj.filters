@@ -80,6 +80,9 @@
     <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
     <ClInclude Include="src\actor\ParticleManager\Particle\Particle.h" />
     <ClInclude Include="src\actor\ParticleManager\ParticleManager.h" />
+    <ClInclude Include="src\UIactor\GunUI\GunUI.h" />
+    <ClInclude Include="src\actor\StageLineManager\StageLine\StageLine.h" />
+    <ClInclude Include="src\actor\Pool\Pool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -138,5 +141,8 @@
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
     <ClCompile Include="src\actor\ParticleManager\Particle\Particle.cpp" />
     <ClCompile Include="src\actor\ParticleManager\ParticleManager.cpp" />
+    <ClCompile Include="src\UIactor\GunUI\GunUI.cpp" />
+    <ClCompile Include="src\actor\StageLineManager\StageLine\StageLine.cpp" />
+    <ClCompile Include="src\actor\Pool\Pool.cpp" />
   </ItemGroup>
 </Project>

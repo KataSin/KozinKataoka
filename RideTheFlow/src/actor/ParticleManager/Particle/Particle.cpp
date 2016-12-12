@@ -2,18 +2,24 @@
 #include "../../Collision.h"
 #include "../../../time/Time.h"
 #include "../../../graphic/Model.h"
+#include "../../../game/Random.h"
 Particle::Particle(IWorld & world, Vector3 position,Vector3 vec, Vector4 color):
 	Actor(world),
 	mPosition(position),
 	mVec(vec),
 	mDeadTime(0.0f),
 	mAlpha(1.0f),
-	mColor(color)
+	mColor(color),
+	mRotate(Vector3::Zero)
 {
 	parameter.isDead = false;
 	parameter.mat =
 		Matrix4::Scale(0.3f)*
 		Matrix4::Translate(mPosition);
+
+	mRotateVelo = Vector3(Random::GetInstance().Range(-50, 50),
+		Random::GetInstance().Range(-50, 50), 
+		Random::GetInstance().Range(-50, 50));
 }
 
 Particle::~Particle()
@@ -29,8 +35,13 @@ void Particle::Update()
 	Deceleration(mVec.y);
 	Deceleration(mVec.z);
 	
-	parameter.mat = 
+	mRotate += mRotateVelo*Time::DeltaTime;
+
+	parameter.mat =
 		Matrix4::Scale(0.3f)*
+		Matrix4::RotateX(mRotate.x)*
+		Matrix4::RotateY(mRotate.y)*
+		Matrix4::RotateZ(mRotate.z)*
 		Matrix4::Translate(mPosition);
 
 	if (mDeadTime >= 1.0f) {

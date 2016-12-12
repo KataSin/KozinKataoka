@@ -66,7 +66,7 @@ ActorPtr World::GetCamera(PLAYER_NUMBER playerNumber)
 
 void World::SetCamera(PLAYER_NUMBER playerNumber)
 {
-	dynamic_cast<CameraActor*>(actors.GetCamera(playerNumber).get())->SetCamera();
+	//dynamic_cast<CameraActor*>(actors.GetCamera(playerNumber).get())->SetCamera();
 }
 
 
