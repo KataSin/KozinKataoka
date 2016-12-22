@@ -10,8 +10,8 @@
 #include "../graphic/Model.h"
 #include "Player.h"
 
-const Vector3 MinPlate = Vector3(-10.0f, -0.5f, -10.0f);
-const Vector3 MaxPlate = Vector3(10.0f, 1.5f, 10.0f);
+const Vector3 MinPlate = Vector3(-12.0f, -0.5f, -12.0f);
+const Vector3 MaxPlate = Vector3(12.0f, 1.5f, 12.0f);
 
 Actor::Actor(IWorld& world_) :world(world_)
 {
@@ -74,7 +74,7 @@ CollisionParameter Actor::Player_vs_Plate(const Actor & other) const
 	CollisionParameter colpara;
 	Line player;
 	player.startPos = other.parameter.mat.GetPosition();
-	player.endPos = other.parameter.mat.GetPosition() + Vector3(0, 6, 0);
+	player.endPos = other.parameter.mat.GetPosition() + Vector3(0.0f, 0.6f, 0.0f);
 
 	Box plate;
 	plate.max = parameter.mat.GetPosition() + MaxPlate;
@@ -126,26 +126,29 @@ CollisionParameter Actor::Player_vs_SniperLine(const Actor & other) const
 		colpara.colFlag = false;
 	return colpara;
 }
-
+//ここが全てのターゲットと自分の線とプレイヤーのあたり判定
 CollisionParameter Actor::Player_vs_GunLine(const Actor & other) const
 {
 	CollisionParameter colpara;
 	Sphere player;
-	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.height / 2.0f, 0.0f);
-	player.radius = other.parameter.radius;
+	//プレイヤーの高さの1/2の半径
+	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.radius*2.0f / 2.0f, 0.0f);
+	player.radius = other.parameter.radius*2.0f;
 
 	Line line;
-	PlayerAttackState a = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetState();
+	//どの武器を今使っているか
 	if (dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetState() == PlayerAttackState::MACHINE_GUN)
 		line = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetLine();
 	else
 		line = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine();
 
-
 	colpara = Collisin::GetInstace().SegmentSphere(line, player);
 	colpara.colID = COL_ID::PLAYER_GUNLINE_COL;
+
+	//同じだったら当たらない
 	if (other.parameter.playNumber == parameter.playNumber)
 		colpara.colFlag = false;
+
 	colpara.colFlagSub = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->colFlag();
 	return colpara;
 }
@@ -172,18 +175,18 @@ CollisionParameter Actor::Player_vs_Tree(const Actor & other) const
 CollisionParameter Actor::Bullet_vs_RespawnPoint(const Actor & other) const
 {
 	CollisionParameter colpara;
-	Sphere bullet;
-	bullet.position = parameter.mat.GetPosition();
-	bullet.radius = parameter.radius;
+	//Sphere bullet;
+	//bullet.position = parameter.mat.GetPosition();
+	//bullet.radius = parameter.radius;
 
-	Sphere rePoint;
-	rePoint.position = other.parameter.mat.GetPosition();
-	rePoint.radius = other.parameter.radius;
+	//Sphere rePoint;
+	//rePoint.position = other.parameter.mat.GetPosition();
+	//rePoint.radius = other.parameter.radius;
 
-	colpara = Collisin::GetInstace().SphereSphere(bullet, rePoint);
-	colpara.colID = COL_ID::BULLET_RESPAENPOINT_COL;
-	//同じだったら当たらない
-	if (other.parameter.playNumber == parameter.playNumber)
+	//colpara = Collisin::GetInstace().SphereSphere(bullet, rePoint);
+	//colpara.colID = COL_ID::BULLET_RESPAENPOINT_COL;
+	////同じだったら当たらない
+	//if (other.parameter.playNumber == parameter.playNumber)
 		colpara.colFlag = false;
 
 	return colpara;

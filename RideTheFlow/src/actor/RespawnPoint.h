@@ -16,4 +16,6 @@ public:
 private:
 	Vector3 mPosition;
 	PLAYER_NUMBER mPlayerNum;
+	MODEL_ID mModelId;
+	float mRotateY;
 };

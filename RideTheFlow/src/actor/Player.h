@@ -46,19 +46,17 @@ public:
 	Vector3 GetPlayerGunPos() {
 		return parameter.mat.GetPosition() + Vector3(0.0f, 2.0f, 0.0f);
 	}
-	//今装備している武器を取得
-	PlayerAttackState GetAttackState()
-	{
-		return attackState;
-	}
 	void SetRotateY(float AngleY)
 	{
 		angleY = AngleY;
 	}
+public:
+	//カラー
+	Vector4 mColor;
 private:
 	void RotateMovePlayer();
 	//減速処理
-	void Deceleration(float& pos);
+	void Deceleration(Vector3& pos);
 	//プレイヤー個別の設定
 	void PlayerNumSet(PLAYER_NUMBER num);
 //プレイヤーの行動系
@@ -120,7 +118,8 @@ private:
 	int pad;
 	//ダメージUIの座標
 	Vector2 uiDamagePos;
-
+	//アニメーションクラス
 	AnimationClass* animeClass;
+
 
 };

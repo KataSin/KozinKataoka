@@ -174,12 +174,18 @@ void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, const RECT& rect
 	DefaultBlend();
 }
 
-void Sprite::DrawGauge(const SPRITE_ID & id, const Vector2 & position, Vector2 & scale, float alpha, float gaugeCount)
+void Sprite::DrawGauge(const SPRITE_ID & id, const Vector2 & position,const Vector4& color ,Vector2 & scale, float alpha, float gaugeCount)
 {
+	int handle = DerivationGraph(0, 0, scale.x, scale.y, m_sprites[id]);
+	SetDrawBright(color.x, color.y, color.z);
 	int texSizeX, texSizeY;
 	GetGraphSize(m_sprites[id], &texSizeX, &texSizeY);
 	float overCount = (float)texSizeY / 100.0f*gaugeCount;
+	AlphaBlend(alpha);
 	DrawRectGraphF(position.x, position.y+overCount, 0, 0, texSizeX, texSizeY-overCount, m_sprites[id], true, true);
+	DeleteGraph(handle);
+	SetDrawBright(255, 255, 255);
+	DefaultBlend();
 }
 
 void Sprite::DrawGaugeCircle(const SPRITE_ID & id, const Vector2 & position, const Vector4 & color, float gaugeCount)

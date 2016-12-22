@@ -36,6 +36,11 @@ public:
 	{
 		return overHertCount;
 	}
+	//UŒ‚‚µ‚Ä‚¢‚é‚©H
+	bool GetIsAttack()
+	{
+		return attackFlag;
+	}
 private:
 	void PlayerAttack(PlayerAttackState state);
 	void PlayerNumSet(PLAYER_NUMBER num);
@@ -73,4 +78,6 @@ private:
 	float coolHertCount;
 	//ui‚ÌêŠ
 	Vector2 uiPos;
+	//Fî•ñ
+	Vector4 mColor;
 };

@@ -43,10 +43,12 @@ void WorldActor::Draw() const{
 	//全キャラ描画
 	std::for_each(managers.begin(), managers.end(),
 		[&](ActorManagerPair pair){pair.second->Draw(); });
-
+}
+void WorldActor::UIDraw() const
+{
 	//全エフェクト描画
 	std::for_each(UImanagers.begin(), UImanagers.end(),
-		[&](UIActorManagerPair UIpair){UIpair.second->Draw(); });
+		[&](UIActorManagerPair UIpair) {UIpair.second->Draw(); });
 }
 void WorldActor::Add(ACTOR_ID id, ActorPtr actor){
 	managers[id]->Add(actor);

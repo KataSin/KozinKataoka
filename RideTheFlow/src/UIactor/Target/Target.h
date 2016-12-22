@@ -12,7 +12,6 @@ public:
 
 private:
 	PLAYER_NUMBER mPlayerNumber;
-	Vector3 mPosition;
 	TargetRay* mTarget;
 	Player* mPlayer;
 };

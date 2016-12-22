@@ -29,6 +29,7 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("Player/Player2.png", SPRITE_ID::PLAYER2_MODEL_SPRITE);
 	sprite.Load("Player/Player3.png", SPRITE_ID::PLAYER3_MODEL_SPRITE);
 	sprite.Load("Player/Player4.png", SPRITE_ID::PLAYER4_MODEL_SPRITE);
+	sprite.Load("GameFrame04.png", SPRITE_ID::GAME_FRAME_SPRITE);
 
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);
@@ -50,14 +51,18 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("SkyDemo/sky_dome_11.X", MODEL_ID::SKY_DEMO_MODEL, async);
 	model.Load("SkyDemo/sky_dome_11.X", MODEL_ID::SKY_DEMO_MODEL, async);
 	model.Load("DefPlate/Plate.mv1", MODEL_ID::DEFAULT_PLATE_MODEL, async);
-	model.Load("playerBullet.mv1", MODEL_ID::PLAYER_BULLET_MODEL, async);
-	model.Load("RespawnModel.mv1", MODEL_ID::RESPAWN_MODEL, async);
+	model.Load("Bullet/playerBullet.mv1", MODEL_ID::PLAYER_BULLET_MODEL, async);
+	model.Load("RespawnPoint/RespawnPoint01.mv1", MODEL_ID::RESPAWNPOINT01_MODEL, async);
+	model.Load("RespawnPoint/RespawnPoint02.mv1", MODEL_ID::RESPAWNPOINT02_MODEL, async);
+	model.Load("RespawnPoint/RespawnPoint03.mv1", MODEL_ID::RESPAWNPOINT03_MODEL, async);
+	model.Load("RespawnPoint/RespawnPoint04.mv1", MODEL_ID::RESPAWNPOINT04_MODEL, async);
 	model.Load("Tree/Tree.mv1", MODEL_ID::TREE_MODEL, async);
 	model.Load("TestModel.mqo", MODEL_ID::TEST_MODEL, async);
 	model.Load("Line/Line.mv1", MODEL_ID::LINE_MODEL, async);
 	model.Load("Particle/Particle.mv1", MODEL_ID::PARTICLE_MODEL, async);
 	model.Load("Stage/Stage01.mqo", MODEL_ID::STAGE01_MODEL, async);
 	model.Load("Pool/Pool.mv1", MODEL_ID::POOL_MODEL, async);
+	model.Load("NoBreakPlate/NoBreakPlate.mv1", MODEL_ID::NOBREAKPLATE_MODEL, async);
 
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }

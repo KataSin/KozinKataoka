@@ -19,7 +19,8 @@
 #include "PlayerBullet\TargetRay.h"
 #include "PlayerAttack\PlayerAttackManager\PlayerAttackManager.h"
 #include "../UIactor/DamageUI/DamageUI.h"
-
+#include "../Def.h"
+#include "ParticleManager\ParticleManager.h"
 const float PlayerSpeed = 20.0f;
 const float LowPlayerSpeed = 5.0f;
 const float AttackPlayerSpeed = 5.0f;
@@ -45,7 +46,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	dropDownFlag(false),
 	isDamageMachine(false),
 	isDamageSniper(false),
-	isDamageShot(false)
+	isDamageShot(false),
+	sniperFlag(false)
 {
 	parameter.HP = 0;
 	parameter.playNumber = player;
@@ -59,6 +61,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 		Matrix4::RotateY(angleY)*
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(mPosition);
+	playerState = PlayerState::PLAYERSTOP;
 	//カメラを追加
 	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this));
 	//武器を追加
@@ -81,13 +84,40 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//リスポーン地点設定
 	respawnPoint = position_;
 
+	//当てたプレイヤーによって色を変える
+	switch (parameter.playNumber)
+	{
+	case PLAYER_NUMBER::PLAYER_1:
+	{
+		mColor = Vector4(0.0f, 0.0f, 255.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_2:
+	{
+		mColor = Vector4(255.0f, 0.0f, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_3:
+	{
+		mColor = Vector4(0.0f, 255.0f, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_4:
+	{
+		mColor = Vector4(255.0f, 255.0f, 0.0f, 1.0f);
+		break;
+	}
+	}
+
+
 }
 Player::~Player() {
 	delete animeClass;
 }
 
 void Player::Update() {
-	
+
+
 	animeClass->update();
 
 	//ポジションをセーブ
@@ -119,6 +149,7 @@ void Player::Update() {
 		//ノックバック
 		AttackMove();
 	}
+
 	//無敵時間
 	if (sniperFlag)
 	{
@@ -140,8 +171,7 @@ void Player::Update() {
 	//フラグの初期化
 	gravityFlag = true;
 	lowStateFlag = false;
-	//状態の初期化
-	playerState = PlayerState::PLAYERSTOP;
+
 
 }
 void Player::Draw() const {
@@ -150,8 +180,8 @@ void Player::Draw() const {
 		//Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
 		animeClass->draw();
 	}
-	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
-		DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);
+	//if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
+		//DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);
 	//else
 	//	DrawFormatString(550, 25 + 32, GetColor(255, 0, 255), "プレイヤー2蓄積ダメージ:%f", testaaa);
 	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition() + Vector3(0.0f, parameter.height / 2.0f, 0.0f))
@@ -196,8 +226,11 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL&&
 		colpara.colFlagSub&&!sniperFlag)
 	{
+		//ノックバック用フラグ
 		isDamageSniper = true;
+		//無敵判定のフラグ
 		sniperFlag = true;
+		//ダメージを食らう
 		parameter.HP += 10;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
@@ -263,11 +296,13 @@ void Player::Move()
 	else
 		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
 
-	mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
-	mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
+	if (parameter.playNumber != PLAYER_NUMBER::PLAYER_2) {
+		mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
+		mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
+	}
 
 	//キーボード処理　テスト用
-	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
+	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_2)
 	{
 		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
 		{
@@ -322,33 +357,19 @@ void Player::AttackMove()
 		isDamageShot = false;
 	}
 	//減速
-	Deceleration(knockBackVelo.x);
-	Deceleration(knockBackVelo.y);
-	Deceleration(knockBackVelo.z);
+	Deceleration(knockBackVelo);
 	//Y軸は無視
 	knockBackVelo.y = 0;
 	mPosition += knockBackVelo*Time::DeltaTime;
 }
 //減速関数
-void Player::Deceleration(float& pos)
+void Player::Deceleration(Vector3& pos)
 {
-	//減速処理
-	if (pos > 0.2f||pos<-0.2f)
-	{
-		if (pos < 0.0f)
-		{
-			pos += KnockBackTikara*Time::DeltaTime;
-		}
-		if (pos > 0.0f)
-		{
-			pos -= KnockBackTikara*Time::DeltaTime;
-		}
-	}
-	else
-	{
-		pos = 0;
-	}
+	pos += -pos.Normalized()*KnockBackTikara*Time::DeltaTime;
 
+	if (pos.x<=0.5f&&pos.x>=-0.5f) {
+		pos = Vector3::Zero;
+	}
 }
 
 void Player::Jump()
@@ -376,20 +397,21 @@ void Player::Jump()
 void Player::Respawn()
 {
 	parameter.isRespawn = true;
-	//死んだ時めっちゃ球出す
-	if (respawnCount == 0.0f)
-		world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
-			std::make_shared<DeadBulletManager>(world, parameter.mat.GetPosition() + Vector3(0, 5, 0)
-				, damagePlayerNumber));
 	//プレイヤーの状態変更
 	playerState = PlayerState::PLAYERRESPAWN;
-	//カメラをキルカメラに
-	cameraActor->SetCameraState(CameraState::KILL_CAMERA);
+	if (respawnCount == 0)
+		world.Add(ACTOR_ID::PARTICLE_ACTOR, std::make_shared<ParticleManager>
+			(world, parameter.mat.GetPosition(),
+				Vector3::Zero,
+				mColor,
+				5,
+				Vector3(20, 20, 20),
+				Vector3(-20, -20, -20)));
+
 	if (dropDownFlag)
 		cameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
 	//ノックバックの速度を初期化
 	knockBackVelo = Vector3::Zero;
-	respawnCount += Time::DeltaTime;
 	if (respawnCount >= 5.0f)
 	{
 		parameter.isRespawn = false;
@@ -398,7 +420,9 @@ void Player::Respawn()
 		respawnCount = 0.0f;
 		parameter.HP = 0;
 		//ポジションリセットする
+		mVelocity.y = 0.0f;
 		mPosition = respawnPoint;
+		playerState = PlayerState::PLAYERSTOP;
 	}
 }
 
@@ -424,23 +448,25 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 		break;
 	case PLAYER_1: {
 		pad = PADNUM::PAD1;
-		uiDamagePos = Vector2(0,0);
+		uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
 		mModelId = MODEL_ID::PLAYER1_MODEL;
 		break;
 	}
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
-		uiDamagePos = Vector2(0, 360);
+		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
 		mModelId = MODEL_ID::PLAYER2_MODEL;
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
+		uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
 		mModelId = MODEL_ID::PLAYER3_MODEL;
 		break;
 	}
 	case PLAYER_4: {
 		pad = PADNUM::PAD4;
+		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
 		mModelId = MODEL_ID::PLAYER4_MODEL;
 		break;
 	}

@@ -38,7 +38,12 @@ DefaultPlate::~DefaultPlate()
 void DefaultPlate::Update()
 {
 	parameter.playNumber = playerNum;
-
+	//あたり判定(死んだら判定しない)
+	if (!mIsDead)
+	{
+		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_BULLET_ACTOR, COL_ID::PLATE_BULLET_COL);
+		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLATE_PLAYER_COL);
+	}
 	//当てたプレイヤーによって色を変える
 	switch (playerNum)
 	{
@@ -72,7 +77,14 @@ void DefaultPlate::Update()
 	//死んだらしスポーン状態へ
 	if (parameter.HP <= 0&&!mIsDead)
 	{
-		world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<ParticleManager>(world, parameter.mat.GetPosition(),plateClor));
+		world.Add(ACTOR_ID::PARTICLE_ACTOR, std::make_shared<ParticleManager>
+			(world, parameter.mat.GetPosition(),
+				Vector3(4,0,4),
+				plateClor,
+				5,
+				Vector3(5,5,5),
+				Vector3(-5,0,-5),
+				Vector3(10,0,10)));
 		mIsDead = true;
 	}
 	if(mIsDead)
@@ -86,14 +98,6 @@ void DefaultPlate::Update()
 		respawnCount = 0.0f;
 		mIsDead = false;
 	}
-
-	//あたり判定(死んだら判定しない)
-	if (!mIsDead)
-	{
-		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_BULLET_ACTOR, COL_ID::PLATE_BULLET_COL);
-		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLATE_PLAYER_COL);
-	}
-
 
 	parameter.mat =
 		Matrix4::Scale(1.0f)*
@@ -117,9 +121,6 @@ void DefaultPlate::OnCollide(Actor & other, CollisionParameter colpara)
 	{
 		playerNum = other.GetParameter().playNumber;
 		parameter.HP--;
-		//デッド弾だったら一発でぶっ壊れる
-		if (other.GetParameter().id == ACTOR_ID::DEAD_BULLET_ACTOR)
-			parameter.HP = 0;
 		clor += 1.0f / 2.0f;
 	}
 }

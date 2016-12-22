@@ -11,11 +11,12 @@
 #include "../Player.h"
 
 
-PlayerBullet::PlayerBullet(IWorld & world, BulletState state, float rand) :
+PlayerBullet::PlayerBullet(IWorld & world, BulletState state,const Vector4& color ,float rand) :
 	Actor(world),
 	mBulletState(state),
 	distance(Vector3::Zero),
 	vec(Vector3::Zero),
+	mRotate(Vector3::Zero),
 	vecY(0.0f),
 	time(0.0f)
 {
@@ -39,6 +40,11 @@ PlayerBullet::PlayerBullet(IWorld & world, BulletState state, float rand) :
 		Random::GetInstance().Range(-rand + 0.5f, rand - 0.5f),
 		Random::GetInstance().Range(-rand, rand));
 
+	mRandRotate = Vector3(
+		Random::GetInstance().Range(-100, 100),
+		Random::GetInstance().Range(-100, 100),
+		Random::GetInstance().Range(-100, 100));
+
 	//bulletstateを代入
 	mPosition = state.position;
 	mVertexPoint = state.vertexPoint;
@@ -46,6 +52,8 @@ PlayerBullet::PlayerBullet(IWorld & world, BulletState state, float rand) :
 	//距離を求める計算
 	distance = (mVertexPoint + randVec - startPos);
 	coppyPosY = startPos.y;
+	//カラーを設定
+	mColor = color;
 }
 
 PlayerBullet::~PlayerBullet()
@@ -56,7 +64,7 @@ void PlayerBullet::Update()
 {
 	//あたり判定を設定
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYERBULLET_PLAYER_COL);
-	world.SetCollideSelect(shared_from_this(), ACTOR_ID::RESPAWNPOINT_ACTOR, COL_ID::BULLET_RESPAENPOINT_COL);
+	//world.SetCollideSelect(shared_from_this(), ACTOR_ID::RESPAWNPOINT_ACTOR, COL_ID::BULLET_RESPAENPOINT_COL);
 	float speed = 3.0f;
 	//タイム加算
 	time += Time::DeltaTime;
@@ -85,22 +93,23 @@ void PlayerBullet::Update()
 		Vector3 vec = distance + Vector3(0.0f, vecY, 0.0f);
 		mPosition += vec*speed*1.5f*Time::DeltaTime;
 	}
+	mRotate += mRandRotate*Time::DeltaTime;
 
 	//下に行ったら死亡
 	if (parameter.mat.GetPosition().y <= -5.0f)
 		parameter.isDead = true;
 	//マトリクス計算
 	parameter.mat =
-		Matrix4::Scale(1)*
-		Matrix4::RotateX(0)*
-		Matrix4::RotateY(0)*
-		Matrix4::RotateZ(0)*
+		Matrix4::Scale(0.1f)*
+		Matrix4::RotateX(mRotate.x)*
+		Matrix4::RotateY(mRotate.y)*
+		Matrix4::RotateZ(mRotate.z)*
 		Matrix4::Translate(mPosition);
 }
 
 void PlayerBullet::Draw() const
 {
-	Model::GetInstance().Draw(MODEL_ID::PLAYER_BULLET_MODEL, parameter.mat);
+	Model::GetInstance().Draw(MODEL_ID::PLAYER_BULLET_MODEL, parameter.mat,1.0f,mColor);
 
 	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition()), parameter.radius, 20, GetColor(255, 0, 0), GetColor(255, 0, 0), FALSE);
 }

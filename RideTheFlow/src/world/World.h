@@ -12,6 +12,7 @@ public:
 	void Update();
 	void UpdateUI(PLAYER_NUMBER player);
 	void Draw() const;
+	void UIDraw() const;
 	void Clear();
 	virtual void Add(ACTOR_ID id, ActorPtr actor);
 	virtual void UIAdd(UI_ID id, UIActorPtr UIactor);

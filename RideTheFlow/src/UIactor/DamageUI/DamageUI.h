@@ -14,4 +14,5 @@ private:
 	Actor* mPlayer;
 	int mDamageNum;
 	Vector2 mPosition;
+	float mScale;
 };

@@ -12,6 +12,9 @@ struct UIActorParameter
 {
 	UI_ID id;
 	bool isDead;
+	Vector2 position;
+	PLAYER_NUMBER playerNum;
+
 };
 
 class UIActor{

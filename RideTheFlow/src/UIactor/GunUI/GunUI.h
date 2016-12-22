@@ -5,7 +5,7 @@
 class GunUI : public UIActor
 {
 public:
-	GunUI(IWorld& world, Vector2 position, Actor* manager);
+	GunUI(IWorld& world, Vector2 position, Actor& manager);
 	~GunUI();
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
@@ -15,4 +15,8 @@ private:
 	Vector4 mColor;
 	PlayerAttackManager* mManager;
 	SPRITE_ID mTexture;
+	//‰æ‘œ‚ð”½“]‚·‚é‚©‚Ç‚¤‚©
+	bool mTurn;
+	//‰æ‘œ‚Ì‰ñ“]
+	float mAngle;
 };

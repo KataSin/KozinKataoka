@@ -83,6 +83,9 @@
     <ClInclude Include="src\UIactor\GunUI\GunUI.h" />
     <ClInclude Include="src\actor\StageLineManager\StageLine\StageLine.h" />
     <ClInclude Include="src\actor\Pool\Pool.h" />
+    <ClInclude Include="src\GameManager\GameManager.h" />
+    <ClInclude Include="src\actor\StagePlate\NoBreakPlate.h" />
+    <ClInclude Include="src\UIactor\GameTimer\GameTimerUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -144,5 +147,8 @@
     <ClCompile Include="src\UIactor\GunUI\GunUI.cpp" />
     <ClCompile Include="src\actor\StageLineManager\StageLine\StageLine.cpp" />
     <ClCompile Include="src\actor\Pool\Pool.cpp" />
+    <ClCompile Include="src\GameManager\GameManager.cpp" />
+    <ClCompile Include="src\actor\StagePlate\NoBreakPlate.cpp" />
+    <ClCompile Include="src\UIactor\GameTimer\GameTimerUI.cpp" />
   </ItemGroup>
 </Project>

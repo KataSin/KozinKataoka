@@ -12,11 +12,11 @@ public:
 	// コンストラクタ
 	NumberTexture(SPRITE_ID texture, int width, int height);
 	// 描画
-	void draw(const Vector2& position, int num, int digit, Vector4 color, char fill = '0') const;
+	//void draw(const Vector2& position, int num, int digit, Vector4 color, float scale = 1, char fill = '0') const;
 	// 描画
-	void draw(const Vector2& position, int num, Vector4 color) const;
+	void draw(const Vector2& position, int num, Vector4 color, float scale=1) const;
 	// 描画
-	void draw(const Vector2& position, const std::string& num, Vector4 color = Vector4(255, 255, 255, 1)) const;
+	void draw(const Vector2& position, const std::string& num, Vector4 color = Vector4(255, 255, 255, 1), float scale = 1) const;
 
 private:
 	// テクスチャ

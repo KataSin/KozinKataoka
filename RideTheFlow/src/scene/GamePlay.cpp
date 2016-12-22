@@ -22,6 +22,7 @@
 #include "../actor/ID.h"
 #include "../actor/StageLineManager/StageLine/StageLine.h"
 #include "../actor/Pool/Pool.h"
+#include "../UIactor/GameTimer/GameTimerUI.h"
 //コンストラクタ
 GamePlay::GamePlay()
 {
@@ -41,6 +42,7 @@ void GamePlay::Initialize()
 	mIsEnd = false;
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
 
+	wo.UIAdd(UI_ID::GAMETIMER_UI, std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 360.0f));
 	SetLightEnable(true);
 	SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
 
@@ -75,7 +77,13 @@ void GamePlay::Draw()
 	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_4).get())->SetCamera();
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_4);
 	wo.Draw();
-
+	//UI表示のため設定を初期化
+	SetCameraScreenCenter(WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
+	SetDrawArea(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	//ゲームフレームを描写
+	Sprite::GetInstance().Draw(SPRITE_ID::GAME_FRAME_SPRITE, Vector2::Zero);
+	//UIは一回だけdrawでOK
+	wo.UIDraw();
 	DrawFormatString(0, 368, GetColor(255, 255, 255), "ゲームプレイシーン");
 	//DrawSphere3D(Vector3::ToVECTOR(Vector3(0,0,0)), 1.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
 }

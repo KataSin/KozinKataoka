@@ -2,12 +2,20 @@
 #include "../../world/IWorld.h"
 #include "../../math/Math.h"
 #include "../../actor/PlayerAttack/PlayerAttackManager/PlayerAttackManager.h"
-GunUI::GunUI(IWorld & world, Vector2 position, Actor * manager):
+GunUI::GunUI(IWorld & world, Vector2 position, Actor & manager) :
 	UIActor(world),
 	mPosition(position)
 {
+	parameter.isDead = false;
 	//•ÏŠ·
-	mManager = dynamic_cast<PlayerAttackManager*>(manager);
+	mManager = dynamic_cast<PlayerAttackManager*>(&manager);
+
+	if (mManager->GetParameter().playNumber == PLAYER_NUMBER::PLAYER_1 ||
+		mManager->GetParameter().playNumber == PLAYER_NUMBER::PLAYER_3)
+		mTurn = false;
+	else
+		mTurn = true;
+
 	//•ŠíŽí—ÞŽæ“¾
 	mAttackState = mManager->GetState();
 }
@@ -19,6 +27,8 @@ GunUI::~GunUI()
 void GunUI::Update(PLAYER_NUMBER playerNumber)
 {
 	mAttackState = mManager->GetState();
+
+	mAngle += 0.1f;
 
 	switch (mAttackState)
 	{
@@ -43,6 +53,6 @@ void GunUI::Update(PLAYER_NUMBER playerNumber)
 
 void GunUI::Draw() const
 {
-	Sprite::GetInstance().Draw(
-		mTexture,mPosition+(Sprite::GetInstance().GetSize(mTexture)/2));
+	Vector2 size = Sprite::GetInstance().GetSize(mTexture);
+	Sprite::GetInstance().Draw(mTexture, mPosition, 1.0f, Vector2(0.7f), 0.0f, true, mTurn);
 }

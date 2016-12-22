@@ -45,7 +45,7 @@ void TargetRay::Update()
 
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_GUNLINE_COL);
 
-
+	//どのターゲット移動をするか
 	switch (attackState)
 	{
 	case PlayerAttackState::MACHINE_GUN:
@@ -104,7 +104,7 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 		isSniperCol = true;
 	}
 }
-
+//マシンガン＆ショットガン用ターゲット移動
 void TargetRay::MachineGun()
 {
 	if (isCol)
@@ -118,7 +118,7 @@ void TargetRay::MachineGun()
 	}
 
 }
-
+//スナイパー用ターゲット移動
 void TargetRay::SniperGun()
 {
 	if (isSniperCol)

@@ -19,7 +19,7 @@ struct BulletState
 class PlayerBullet :public Actor, public std::enable_shared_from_this<PlayerBullet>
 {
 public:
-	PlayerBullet(IWorld& world, BulletState state,float rand=1.5f);
+	PlayerBullet(IWorld& world, BulletState state, const Vector4& color,float rand=1.5f);
 	~PlayerBullet();
 	virtual void Update() override;
 	virtual void Draw() const override;
@@ -44,6 +44,12 @@ private:
 	float time;
 	//ランダム座標
 	Vector3 randVec;
+	//ランダム回転
+	Vector3 mRandRotate;
+	//回転
+	Vector3 mRotate;
+	//カラー
+	Vector4 mColor;
 
 	float coppyPosY;
 };

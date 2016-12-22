@@ -101,7 +101,7 @@ public:
 	///<summary>
 	/// 通常画像(ゲージに特化)の描画(アセット名、座標 、拡大率、アルファ値、ゲージの伸び具合)
 	///</summary>
-	void DrawGauge(const SPRITE_ID& id, const Vector2& position, Vector2& scale, float alpha, float gaugeCount);
+	void DrawGauge(const SPRITE_ID& id, const Vector2& position, const Vector4& color, Vector2& scale, float alpha, float gaugeCount);
 	///<summary>
 	/// 通常画像(円ゲージに特化)の描画(アセット名、座標 、拡大率、アルファ値、ゲージの伸び具合)
 	///</summary>

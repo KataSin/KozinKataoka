@@ -21,6 +21,10 @@ void World::UpdateUI(PLAYER_NUMBER playerNumber){
 void World::Draw() const{
 	actors.Draw();
 }
+void World::UIDraw() const
+{
+	actors.UIDraw();
+}
 void World::Clear(){
 	actors.Clear();
 	playerActor = nullptr;

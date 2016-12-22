@@ -31,6 +31,7 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	mSniperState.doCharge = false;
 
 	mPlayer = dynamic_cast<Player*>(&player);
+
 	PlayerNumSet(mPlayer->GetParameter().playNumber);
 	parameter.isDead = false;
 	//初期武器を設定
@@ -41,9 +42,9 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
 	//オーバーヒートゲージを追加
-	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, uiPos, this));
+	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, uiPos, *this));
 	//武器UI追加
-	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, uiPos, this));
+	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, uiPos, *this));
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	////誰の弾かの情報を設定
@@ -57,7 +58,12 @@ PlayerAttackManager::~PlayerAttackManager()
 
 void PlayerAttackManager::Update()
 {
-
+	//武器種類によっての攻撃
+	if (mPlayer->GetPlayerState() == PlayerState::PLAYERRESPAWN) {
+		return;
+	}
+	//カラーを設定
+	mColor = mPlayer->mColor;
 	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM5, pad) ||
 		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
 	{
@@ -67,8 +73,7 @@ void PlayerAttackManager::Update()
 
 	//攻撃していない
 	attackFlag = false;
-	//武器種類によっての攻撃
-	if (dynamic_cast<Player*>(mPlayer)->GetPlayerState() != PlayerState::PLAYERRESPAWN)
+
 		PlayerAttack(attackState);
 
 	//攻撃していない時にオバーヒート回復
@@ -129,23 +134,22 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 		break;
 	case PLAYER_1: {
 		pad = PADNUM::PAD1;
-		uiPos = Vector2(0, WINDOW_HEIGHT / 2 - 128);
+		uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
 		break;
 	}
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
-		uiPos = Vector2(WINDOW_WIDTH - 128, WINDOW_HEIGHT / 2 - 128);
-
+		uiPos = Vector2(WINDOW_WIDTH -55, WINDOW_HEIGHT / 2 - 125);
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
-		uiPos = Vector2(0, WINDOW_HEIGHT - 128);
+		uiPos = Vector2(10, WINDOW_HEIGHT - 125);
 		break;
 	}
 	case PLAYER_4: {
 		pad = PADNUM::PAD4;
-		uiPos = Vector2(WINDOW_WIDTH - 128, WINDOW_HEIGHT - 128);
+		uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
 		break;
 	}
 	}
@@ -177,7 +181,7 @@ void PlayerAttackManager::MachineGun()
 			//腰の位置ぐらいから発射
 			machine.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 			machine.playerNumber = parameter.playNumber;
-			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, machine));
+			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, machine,mColor));
 			machineAttackCount = 0.0f;
 		}
 	}
@@ -232,7 +236,7 @@ void PlayerAttackManager::SniperGun()
 	if (mSniperState.isColSniperLine)
 	{
 		isColSniperCount += Time::DeltaTime;
-		if (isColSniperCount >= 0.1f)
+		if (isColSniperCount >= 0.2f)
 		{
 			//最初の状態に戻す
 			isColSniperCount = 0.0f;
@@ -270,7 +274,7 @@ void PlayerAttackManager::ShotGun()
 				shot.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 				shot.playerNumber = parameter.playNumber;
 				world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
-					std::make_shared<PlayerBullet>(world, shot, 2.5f));
+					std::make_shared<PlayerBullet>(world, shot,mColor, 2.5f));
 				shotAttackCount = 0.0f;
 				if (i == 1)
 					overHertCount -= 30.0f;
