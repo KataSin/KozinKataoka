@@ -4,7 +4,7 @@
 DamageUI::DamageUI(IWorld & world, Vector2 position, Actor * player):
 	UIActor(world),
 	mPosition(position),
-	mScale(1.5f)
+	mScale(1.0f)
 {
 	mPlayer = player;
 	parameter.isDead = false;
@@ -22,6 +22,6 @@ void DamageUI::Update(PLAYER_NUMBER playerNumber)
 
 void DamageUI::Draw() const
 {
-	NumberTexture num(SPRITE_ID::SUUZI_SPRITE,12,24);
+	NumberTexture num(SPRITE_ID::SUUZI_SPRITE,32,64);
 	num.draw(mPosition, mDamageNum, Vector4(255, 0, 255, 1),mScale);
 }

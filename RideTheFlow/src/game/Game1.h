@@ -8,6 +8,7 @@
 #include "../time/Time.h"
 #include "../camera/Camera.h"
 #include "../scene/SceneManager.h"
+#include "../GameManager/GameManager.h"
 #include "Random.h"
 #include <vector>
 
@@ -25,6 +26,8 @@ public:
 	}
 
 private:
+	typedef std::shared_ptr<GameManager> GameManagerPtr;
+	GameManagerPtr mGameManager;
 	Time mTime;
 	Content mContent;
 

@@ -79,6 +79,18 @@ void CameraActor::Update()
 	//カメラ状態を更新
 	StateUpdate(cameraState);
 
+
+	//一番近い当たったポジションにする
+	if (isColFlag) {
+		Vector3 playerPos = parent->GetParameter().mat.GetPosition();
+		Vector3 colPos = Vector3(999999);
+		for (auto& i : isColVectorPos) {
+			if (Vector3::Distance(playerPos, i) <= Vector3::Distance(colPos, playerPos))
+				colPos = i;
+		}
+		isColPos = colPos;
+		isColVectorPos.clear();
+	}
 	//カメラの向きを生成
 	Vector3 cameraFront = (playerMat.GetPosition() - parameter.mat.GetPosition()).Normalized();
 	Vector3 cameraLeft = Vector3::Cross(cameraFront, Vector3::Up).Normalized();
@@ -108,7 +120,7 @@ void CameraActor::OnCollide(Actor & other, CollisionParameter colpara)
 	if (COL_ID::CAMERA_PLATE_COL == colpara.colID)
 	{
 		isColFlag = true;
-		isColPos = colpara.colPos;
+		isColVectorPos.push_back(colpara.colPos);
 	}
 
 }

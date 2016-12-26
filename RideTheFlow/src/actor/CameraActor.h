@@ -5,6 +5,7 @@
 #include "../math/Matrix4.h"
 #include <memory>
 #include "Collision.h"
+#include <vector>
 //#include "Player.h"
 
 //カメラ感度
@@ -93,6 +94,7 @@ private:
 	int pad;
 	//カメラの当たった関係
 	Vector3 isColPos;
+	std::vector<Vector3>isColVectorPos;
 	bool isColFlag;
 	//ターゲットとプレイヤーの距離
 	float mDis;

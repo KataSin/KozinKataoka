@@ -31,6 +31,10 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("Player/Player4.png", SPRITE_ID::PLAYER4_MODEL_SPRITE);
 	sprite.Load("GameFrame04.png", SPRITE_ID::GAME_FRAME_SPRITE);
 
+	sprite.Load("sinda.png", SPRITE_ID::SINDA_SPRITE);
+	sprite.Load("sinuyo.png", SPRITE_ID::SINUYO_SPRITE);
+	sprite.Load("DamageBack.png", SPRITE_ID::DAMAGE_BACK_SPRITE);
+
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);
 

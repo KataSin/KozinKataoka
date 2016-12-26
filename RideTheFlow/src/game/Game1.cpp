@@ -3,6 +3,7 @@
 #include "../scene/SceneManager.h"
 #include "../scene/TitleScene.h"
 #include "../scene/GamePlay.h"
+#include "../scene/Result.h"
 #include "../Def.h"
 #include "../graphic/Model.h"
 #include "../graphic/Anime.h"
@@ -11,10 +12,11 @@
 #include <thread>
 
 Game1::Game1() :
-effectTime(0.0f),
-mPixelShader(-1), 
-mRenderTarget(-1),
-mIsLoaded(false)
+	effectTime(0.0f),
+	mPixelShader(-1),
+	mRenderTarget(-1),
+	mIsLoaded(false),
+	mGameManager(std::make_shared<GameManager>())
 {
 
 }
@@ -31,8 +33,10 @@ void Game1::Initialize()
 	mContent.LoadSound(Sound::GetInstance());
 	mContent.LoadModel(Model::GetInstance(), false);
 
+
 	mSceneManager.Add(Scene::Title, std::make_shared<TitleScene>());
-	mSceneManager.Add(Scene::GamePlay, std::make_shared<GamePlay>());
+	mSceneManager.Add(Scene::GamePlay, std::make_shared<GamePlay>(*mGameManager.get()));
+	mSceneManager.Add(Scene::Result, std::make_shared<Result>(*mGameManager.get()));
 
 	mSceneManager.SetScene(Scene::Title);
 }

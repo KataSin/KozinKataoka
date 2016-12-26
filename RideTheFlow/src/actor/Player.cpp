@@ -21,6 +21,7 @@
 #include "../UIactor/DamageUI/DamageUI.h"
 #include "../Def.h"
 #include "ParticleManager\ParticleManager.h"
+#include "../UIactor/DamageBackUI/DamageBackUI.h"
 const float PlayerSpeed = 20.0f;
 const float LowPlayerSpeed = 5.0f;
 const float AttackPlayerSpeed = 5.0f;
@@ -73,6 +74,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	PlayerNumSet(parameter.playNumber);
 	//ダメージUIを追加
 	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world,uiDamagePos, this));
+	world.UIAdd(UI_ID::DAMAGE_BACK_UI, std::make_shared<DamageBackUI>(world, uiDamageBackPos, *this));
+
 
 	animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, mModelId);
 
@@ -203,7 +206,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
 		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_ACTOR)
 	{
-		isDamageMachine = true;
+		//isDamageMachine = true;
 		parameter.HP += 2;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
@@ -449,23 +452,27 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 	case PLAYER_1: {
 		pad = PADNUM::PAD1;
 		uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
+		uiDamageBackPos = Vector2::Zero;
 		mModelId = MODEL_ID::PLAYER1_MODEL;
 		break;
 	}
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
 		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
+		uiDamageBackPos = Vector2(WINDOW_WIDTH/2,0);
 		mModelId = MODEL_ID::PLAYER2_MODEL;
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
 		uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
+		uiDamageBackPos = Vector2(0,WINDOW_HEIGHT/2);
 		mModelId = MODEL_ID::PLAYER3_MODEL;
 		break;
 	}
 	case PLAYER_4: {
 		pad = PADNUM::PAD4;
+		uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
 		mModelId = MODEL_ID::PLAYER4_MODEL;
 		break;

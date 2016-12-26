@@ -98,7 +98,7 @@
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
     <ClInclude Include="src\actor\StagePlate\NoBreakPlate.h" />
-    <ClInclude Include="src\GameManager\GameManager.h" />
+    <ClInclude Include="src\GamePlayManager\GamePlayManager.h" />
     <ClInclude Include="src\actor\ParticleManager\ParticleManager.h" />
     <ClInclude Include="src\actor\ParticleManager\Particle\Particle.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.h" />
@@ -143,6 +143,7 @@
     <ClInclude Include="src\scene\IScene.h" />
     <ClInclude Include="src\scene\ISceneMediator.h" />
     <ClInclude Include="src\scene\IScenePtr.h" />
+    <ClInclude Include="src\scene\Result.h" />
     <ClInclude Include="src\scene\Scene.h" />
     <ClInclude Include="src\scene\SceneManager.h" />
     <ClInclude Include="src\scene\TitleScene.h" />
@@ -150,8 +151,10 @@
     <ClInclude Include="src\time\Time.h" />
     <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
     <ClInclude Include="src\UIactor\Beziers.h" />
+    <ClInclude Include="src\UIactor\DamageBackUI\DamageBackUI.h" />
     <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
     <ClInclude Include="src\UIactor\fadePanel\FadePanel.h" />
+    <ClInclude Include="src\UIactor\GameFrameUI\GameFrameUI.h" />
     <ClInclude Include="src\UIactor\GameTimer\GameTimerUI.h" />
     <ClInclude Include="src\UIactor\GunUI\GunUI.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
@@ -159,6 +162,7 @@
     <ClInclude Include="src\UIactor\UIActor.h" />
     <ClInclude Include="src\UIactor\UIActorManager.h" />
     <ClInclude Include="src\UIactor\UIActorPtr.h" />
+    <ClInclude Include="src\GameManager\GameManager.h" />
     <ClInclude Include="src\world\IWorld.h" />
     <ClInclude Include="src\world\World.h" />
     <ClInclude Include="src\world\WorldActor.h" />
@@ -173,7 +177,7 @@
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\actor\FogActor.cpp" />
     <ClCompile Include="src\actor\StagePlate\NoBreakPlate.cpp" />
-    <ClCompile Include="src\GameManager\GameManager.cpp" />
+    <ClCompile Include="src\GamePlayManager\GamePlayManager.cpp" />
     <ClCompile Include="src\actor\ParticleManager\ParticleManager.cpp" />
     <ClCompile Include="src\actor\ParticleManager\Particle\Particle.cpp" />
     <ClCompile Include="src\actor\Player.cpp" />
@@ -211,19 +215,23 @@
     <ClCompile Include="src\math\Vector3.cpp" />
     <ClCompile Include="src\math\Vector4.cpp" />
     <ClCompile Include="src\scene\GamePlay.cpp" />
+    <ClCompile Include="src\scene\Result.cpp" />
     <ClCompile Include="src\scene\SceneManager.cpp" />
     <ClCompile Include="src\scene\TitleScene.cpp" />
     <ClCompile Include="src\sound\Sound.cpp" />
     <ClCompile Include="src\time\Time.cpp" />
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
+    <ClCompile Include="src\UIactor\DamageBackUI\DamageBackUI.cpp" />
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
     <ClCompile Include="src\UIactor\fadePanel\FadePanel.cpp" />
+    <ClCompile Include="src\UIactor\GameFrameUI\GameFrameUI.cpp" />
     <ClCompile Include="src\UIactor\GameTimer\GameTimerUI.cpp" />
     <ClCompile Include="src\UIactor\GunUI\GunUI.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\UIactor\UIActor.cpp" />
     <ClCompile Include="src\UIactor\UIActorManager.cpp" />
+    <ClCompile Include="src\GameManager\GameManager.cpp" />
     <ClCompile Include="src\world\World.cpp" />
     <ClCompile Include="src\world\WorldActor.cpp" />
   </ItemGroup>

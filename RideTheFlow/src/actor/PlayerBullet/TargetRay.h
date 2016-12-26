@@ -1,6 +1,7 @@
 #pragma once
 #include "../Actor.h"
 #include <memory>
+#include <vector>
 #include "../ID.h"
 #include "../Player.h"
 #include "../CameraActor.h"
@@ -53,10 +54,12 @@ private:
 	void SniperGun();
 
 private:
+
 	PlayerAttackManager* mManager;
 	CameraActor* mCamera;
 	Player* mPlayer;
-	//当たった場所のポジション
+	//当たった場所のポジションたち
+	std::vector<Vector3> mColVectorPos;
 	Vector3 mColPos;
 	bool isCol;
 	//スナイパーの当たっている場所

@@ -37,6 +37,19 @@ void TargetRay::Update()
 {
 	attackState = dynamic_cast<PlayerAttackManager*>(mManager)->GetState();
 
+	//一番近い当たったポジションにする
+	if (isCol) {
+		Vector3 playerPos = dynamic_cast<Player*>(world.GetPlayer(mManager->GetParameter().playNumber).get())->GetPlayerGunPos();
+		Vector3 colPos = Vector3(999999);
+		for (auto& i : mColVectorPos) {
+			if (Vector3::Distance(playerPos, i) <= Vector3::Distance(colPos, playerPos))
+				colPos = i;
+		}
+		mColPos = colPos;
+		mColVectorPos.clear();
+
+	}
+
 	//武器ごとのlineとステージとのあたり判定
 	if (attackState == PlayerAttackState::MACHINE_GUN)
 		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::PLATE_GUNRAY_COL);
@@ -88,7 +101,7 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 {
 	if (colpara.colID == COL_ID::PLATE_GUNRAY_COL)
 	{
-		mColPos = colpara.colPos;
+		mColVectorPos.push_back(colpara.colPos);
 		isCol = true;
 	}
 	if (colpara.colID == COL_ID::SNIPERLINE_PLATE_COL)
@@ -98,7 +111,7 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 	}
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL)
 	{
-		mColPos = colpara.colPos;
+		mColVectorPos.push_back(colpara.colPos);
 		mColSniperPos = colpara.colPos;
 		isCol = true;
 		isSniperCol = true;

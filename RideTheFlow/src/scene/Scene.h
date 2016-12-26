@@ -5,4 +5,5 @@ enum class Scene{
 	None,
 	Title,
 	GamePlay,
+	Result
 };

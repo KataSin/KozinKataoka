@@ -66,8 +66,8 @@ void SceneManager::Change(Scene name){
 		if (mCurrentScene == i.second)
 			now = i.first;
 	}
-	if (name == now)
-		return;
+	//if (name == now)
+	//	return;
 	
 	End();
 	FadePanel::GetInstance().Initialize();

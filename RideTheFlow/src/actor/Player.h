@@ -118,6 +118,8 @@ private:
 	int pad;
 	//ダメージUIの座標
 	Vector2 uiDamagePos;
+	//ダメージバックUIの座標
+	Vector2 uiDamageBackPos;
 	//アニメーションクラス
 	AnimationClass* animeClass;
 

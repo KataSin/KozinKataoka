@@ -23,8 +23,11 @@
 #include "../actor/StageLineManager/StageLine/StageLine.h"
 #include "../actor/Pool/Pool.h"
 #include "../UIactor/GameTimer/GameTimerUI.h"
+#include "../UIactor/GameFrameUI/GameFrameUI.h"
 //コンストラクタ
-GamePlay::GamePlay()
+GamePlay::GamePlay(GameManager& gameManager) :
+	mGameManager(&gameManager),
+	mRandCount(0)
 {
 
 }
@@ -38,11 +41,16 @@ GamePlay::~GamePlay()
 //開始
 void GamePlay::Initialize()
 {
-	test = 0;
 	mIsEnd = false;
+	mNextScene = Scene::GamePlay;
+	//ラウンドを設定
+	mEndRaundCount = 3;
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
+	wo.UIAdd(UI_ID::GAMETIMER_UI, std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 20.0f));
+	wo.UIAdd(UI_ID::GAMEFRAME_UI, std::make_shared<GameFrameUI>(wo, Vector2::Zero));
 
-	wo.UIAdd(UI_ID::GAMETIMER_UI, std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 360.0f));
+	mGamePlayManager = std::make_shared<GamePlayManager>(wo);
+
 	SetLightEnable(true);
 	SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
 
@@ -53,11 +61,17 @@ void GamePlay::Initialize()
 void GamePlay::Update()
 {
 	wo.Update();
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
-	{
+	if (mGamePlayManager->EndRaund()) {
 		mIsEnd = true;
+		mGamePlayManager->IsWinPlayer();
+		mRandCount++;
+		//全ラウンド終わってたらリザルトへ
+		if (mRandCount>mEndRaundCount) {
+			mNextScene = Scene::Result;
+			//勝った人たちをセット
+			mGameManager->SetPlayerRank(mGamePlayManager->IsFinalWinPlayer());
+		}
 	}
-
 }
 
 //描画
@@ -78,10 +92,8 @@ void GamePlay::Draw()
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_4);
 	wo.Draw();
 	//UI表示のため設定を初期化
-	SetCameraScreenCenter(WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
+	SetCameraScreenCenter(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	SetDrawArea(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	//ゲームフレームを描写
-	Sprite::GetInstance().Draw(SPRITE_ID::GAME_FRAME_SPRITE, Vector2::Zero);
 	//UIは一回だけdrawでOK
 	wo.UIDraw();
 	DrawFormatString(0, 368, GetColor(255, 255, 255), "ゲームプレイシーン");
@@ -97,10 +109,14 @@ bool GamePlay::IsEnd() const
 //次のシーンを返す
 Scene GamePlay::Next() const
 {
-	return Scene::Title;
+	return mNextScene;
 }
 
 void GamePlay::End()
 {
+	mRandCount++;
+	//リザルトだったら0にする
+	if (mNextScene == Scene::Result)
+		mRandCount = 0;
 	wo.Clear();
 }

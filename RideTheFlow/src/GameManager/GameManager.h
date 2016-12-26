@@ -1,24 +1,24 @@
 #pragma once
-#include "../world/IWorld.h"
 #include "../actor/ID.h"
-#include <vector>
-#include <map>
-class GameManager {
+#include <list>
+class GameManager
+{
+	//ランクはlistに格納されている順番
 public:
-	GameManager(IWorld& world);
+	GameManager();
 	~GameManager();
-	//そのラウンドで勝ったプレイヤーを返す
-	PLAYER_NUMBER IsWinPlayer();
-	//最終的な勝っているプレイヤーを返す
-	std::vector<PLAYER_NUMBER> IsFinalWinPlayer();
-	//最後の一人になったらtrueを返す
-	bool EndRaund();
-	//タイムアップの場合Trueを返す
-	bool TimeUp();
-	
+	//プレイヤーのランクをセット
+	void SetPlayerRank(std::list<PLAYER_NUMBER> playerRank);
+	//プレイヤーのランクを取得
+	std::list<PLAYER_NUMBER> GetPlayerRank();
+	//プレイヤーの勝ちを初期化
+	void Initialize();
+	//ラウンド数を取得
+	int GetRaundCount();
+	//ラウンド数を設定
+	void SetRaundCount(int raundCount);
 
 private:
-	IWorld& mWorld;
-	std::map<PLAYER_NUMBER, int> mWinCount;
-
+	std::list<PLAYER_NUMBER> mPlayerRank;
+	int mRaund;
 };
