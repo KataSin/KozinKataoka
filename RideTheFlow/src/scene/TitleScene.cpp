@@ -14,6 +14,7 @@
 #include "../actor/CameraActor.h"
 #include "../UIactor/fadePanel/FadePanel.h"
 #include "../game/Random.h"
+#include "../UIactor/SceneChangeManager/SceneChangeManager.h"
 //コンストラクタ
 TitleScene::TitleScene()
 {
@@ -30,12 +31,13 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	mIsEnd = false;
-
+	wo.UIAdd(UI_ID::PARTICLE_UI, std::make_shared<SceneChangeManager>(wo, Vector2(800, 500)));
 }
 
 void TitleScene::Update()
 {	
 	wo.Update();
+	wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
 	{
 		mIsEnd = true;
@@ -46,6 +48,7 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 	wo.Draw();
+	wo.UIDraw();
 	DrawFormatString(0, 368, GetColor(255, 255, 255), "タイトルシーン");
 }
 

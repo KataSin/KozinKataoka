@@ -24,12 +24,13 @@
 #include "../actor/Pool/Pool.h"
 #include "../UIactor/GameTimer/GameTimerUI.h"
 #include "../UIactor/GameFrameUI/GameFrameUI.h"
+#include "../UIactor/ResultUI/ResultUI.h"
 //コンストラクタ
 GamePlay::GamePlay(GameManager& gameManager) :
 	mGameManager(&gameManager),
 	mRandCount(0)
 {
-
+	mGamePlayManager = std::make_shared<GamePlayManager>(wo);
 }
 
 //デストラクタ
@@ -42,14 +43,19 @@ GamePlay::~GamePlay()
 void GamePlay::Initialize()
 {
 	mIsEnd = false;
+	mIsEndRanund = false;
 	mNextScene = Scene::GamePlay;
 	//ラウンドを設定
 	mEndRaundCount = 3;
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
-	wo.UIAdd(UI_ID::GAMETIMER_UI, std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 20.0f));
+	//タイマー設定
+	auto gameTimer = std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 20.0f);
+	wo.UIAdd(UI_ID::GAMETIMER_UI, gameTimer);
+	mGameTimer = gameTimer.get();
+
 	wo.UIAdd(UI_ID::GAMEFRAME_UI, std::make_shared<GameFrameUI>(wo, Vector2::Zero));
 
-	mGamePlayManager = std::make_shared<GamePlayManager>(wo);
+
 
 	SetLightEnable(true);
 	SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
@@ -60,18 +66,27 @@ void GamePlay::Initialize()
 
 void GamePlay::Update()
 {
-	wo.Update();
-	if (mGamePlayManager->EndRaund()) {
-		mIsEnd = true;
-		mGamePlayManager->IsWinPlayer();
-		mRandCount++;
-		//全ラウンド終わってたらリザルトへ
-		if (mRandCount>mEndRaundCount) {
-			mNextScene = Scene::Result;
-			//勝った人たちをセット
-			mGameManager->SetPlayerRank(mGamePlayManager->IsFinalWinPlayer());
+	if (mIsEndRanund) {
+		if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
+			mIsEnd = true;
+			mRandCount++;
+			//全ラウンド終わってたらリザルトへ
+			if (mRandCount > mEndRaundCount) {
+				mNextScene = Scene::Result;
+				//勝った人たちをセット
+				mGameManager->SetPlayerRank(mGamePlayManager->IsFinalWinPlayer());
+			}
 		}
 	}
+	else
+	{
+		if (mGamePlayManager->EndRaund()/*||mGamePlayManager->TimeUp()*/) {
+			PLAYER_NUMBER winPlayer = mGamePlayManager->IsWinPlayer();
+			wo.UIAdd(UI_ID::RESULT_UI, std::make_shared<ResultUI>(wo, *mGamePlayManager.get(),winPlayer));
+			mIsEndRanund = true;
+		}
+	}
+	wo.Update();
 }
 
 //描画

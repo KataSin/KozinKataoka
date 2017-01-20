@@ -90,6 +90,11 @@
     <ClInclude Include="src\scene\Result.h" />
     <ClInclude Include="src\GamePlayManager\GamePlayManager.h" />
     <ClInclude Include="src\GameManager\GameManager.h" />
+    <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
+    <ClInclude Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.h" />
+    <ClInclude Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.h" />
+    <ClInclude Include="src\graphic\Shader.h" />
+    <ClInclude Include="src\UIactor\ResultUI\ResultUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -158,5 +163,9 @@
     <ClCompile Include="src\scene\Result.cpp" />
     <ClCompile Include="src\GamePlayManager\GamePlayManager.cpp" />
     <ClCompile Include="src\GameManager\GameManager.cpp" />
+    <ClCompile Include="src\UIactor\SceneChangeManager\SceneChangeManager.cpp" />
+    <ClCompile Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.cpp" />
+    <ClCompile Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.cpp" />
+    <ClCompile Include="src\UIactor\ResultUI\ResultUI.cpp" />
   </ItemGroup>
 </Project>

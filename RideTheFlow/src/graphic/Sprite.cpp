@@ -96,12 +96,14 @@ void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, const Vector2& o
 }
 
 // 通常画像の描画(アセット名、座標、原点、アルファ値、拡大率、回転率)
-void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, const Vector2& origin = Vector2::Zero, float alpha = 1.0f, const Vector2& scale = Vector2::One, float angle = 0.0f)
+void Sprite::Draw(const SPRITE_ID& id, const Vector2& position,const Vector4& color, const Vector2& origin = Vector2::Zero, float alpha = 1.0f, const Vector2& scale = Vector2::One, float angle = 0.0f)
 {
+	SetDrawBright(color.x, color.y, color.z);
 	AlphaBlend(alpha);
 	DrawRotaGraph3((int)position.x, (int)position.y, (int)origin.x, (int)origin.y,
 		(double)scale.x, (double)scale.y, angle * PI / 180.0, m_sprites[id], true, false);
 	DefaultBlend();
+	SetDrawBright(255,255,255);
 }
 
 // 通常画像の描画(アセット名、座標、透過、反転) 
@@ -142,7 +144,11 @@ void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, const Vector2& o
 	DrawRotaGraph3((int)position.x, (int)position.y, (int)origin.x, (int)origin.y,
 		(double)scale.x, (double)scale.y, (double)angle * PI / 180.0, m_sprites[id], trans, turn);
 }
-
+void Sprite::Draw(const int& handle, const Vector2& position, const Vector2& origin = Vector2::Zero, const Vector2& scale = Vector2::One, float angle = 0.0f, bool trans = true, bool turn = false)
+{
+	DrawRotaGraph3((int)position.x, (int)position.y, (int)origin.x, (int)origin.y,
+		(double)scale.x, (double)scale.y, (double)angle * PI / 180.0, handle, trans, turn);
+}
 // 通常画像の描画(アセット名、座標、原点、アルファ値、拡大率、回転率、透過、反転)
 void Sprite::Draw(const SPRITE_ID& id, const Vector2& position, const Vector2& origin = Vector2::Zero, float alpha = 1.0f, const Vector2& scale = Vector2::One, float angle = 0.0f, bool trans = true, bool turn = false)
 {

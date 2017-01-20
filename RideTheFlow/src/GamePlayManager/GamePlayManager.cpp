@@ -79,3 +79,8 @@ bool GamePlayManager::TimeUp()
 		return true;
 	return false;
 }
+
+std::map<PLAYER_NUMBER, int> GamePlayManager::GetWinCount()
+{
+	return mWinCount;
+}

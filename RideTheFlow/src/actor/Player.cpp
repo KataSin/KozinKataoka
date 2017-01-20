@@ -73,11 +73,11 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//プレイヤー個別設定
 	PlayerNumSet(parameter.playNumber);
 	//ダメージUIを追加
-	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world,uiDamagePos, this));
+	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world, uiDamagePos, this));
 	world.UIAdd(UI_ID::DAMAGE_BACK_UI, std::make_shared<DamageBackUI>(world, uiDamageBackPos, *this));
 
 
-	animeClass = new AnimationClass(this,ANIMATION::PLAYER_IDLE_ANIM, mModelId);
+	animeClass = new AnimationClass(this, ANIMATION::PLAYER_IDLE_ANIM, mModelId);
 
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
@@ -86,7 +86,6 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	playerSpeed = PlayerSpeed;
 	//リスポーン地点設定
 	respawnPoint = position_;
-
 	//当てたプレイヤーによって色を変える
 	switch (parameter.playNumber)
 	{
@@ -120,7 +119,6 @@ Player::~Player() {
 
 void Player::Update() {
 
-
 	animeClass->update();
 
 	//ポジションをセーブ
@@ -130,21 +128,25 @@ void Player::Update() {
 	cameraMat = cameraActor->GetParameter().mat;
 	cameraPos = cameraMat.GetPosition();
 
-	//重力処理
-	if (gravityFlag)
-		mVelocity.y -= 30.0f*Time::DeltaTime;
-	else if (playerState != PlayerState::PLAYERJUMP)
-		mVelocity.y = 0.0f;
-	mPosition += mVelocity*Time::DeltaTime;
+
 
 	if (parameter.mat.GetPosition().y <= -10.0f)
 	{
 		dropDownFlag = true;
 		Respawn();
 	}
+
+
+
 	//リスポーン中以外は行動可能
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
+		//重力処理
+		if (gravityFlag)
+			mVelocity.y -= 30.0f*Time::DeltaTime;
+		else if (playerState != PlayerState::PLAYERJUMP)
+			mVelocity.y = 0.0f;
+		mPosition += mVelocity*Time::DeltaTime;
 		//歩き
 		Move();
 		//ジャンプ
@@ -246,6 +248,11 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//めり込み防止
 		mPosition = colpara.colPos;
 	}
+	if (colpara.colID == COL_ID::PLAYER_STAGELINE_COL&&
+		playerState != PlayerState::PLAYERRESPAWN) {
+		//線に当たったら死ぬ
+		Respawn();
+	}
 }
 
 void Player::RotateMovePlayer()
@@ -274,7 +281,7 @@ void Player::RotateMovePlayer()
 		mat.SetFront(front);
 		mat.SetLeft(left);
 		mat.SetUp(up);
-		angleY = mat.GetRotateDegree().y+90;
+		angleY = mat.GetRotateDegree().y + 90;
 	}
 }
 
@@ -370,7 +377,7 @@ void Player::Deceleration(Vector3& pos)
 {
 	pos += -pos.Normalized()*KnockBackTikara*Time::DeltaTime;
 
-	if (pos.x<=0.5f&&pos.x>=-0.5f) {
+	if (pos.x <= 0.5f&&pos.x >= -0.5f) {
 		pos = Vector3::Zero;
 	}
 }
@@ -399,10 +406,7 @@ void Player::Jump()
 
 void Player::Respawn()
 {
-	parameter.isRespawn = true;
-	//プレイヤーの状態変更
-	playerState = PlayerState::PLAYERRESPAWN;
-	if (respawnCount == 0)
+	if (playerState!= PlayerState::PLAYERRESPAWN)
 		world.Add(ACTOR_ID::PARTICLE_ACTOR, std::make_shared<ParticleManager>
 			(world, parameter.mat.GetPosition(),
 				Vector3::Zero,
@@ -410,6 +414,10 @@ void Player::Respawn()
 				5,
 				Vector3(20, 20, 20),
 				Vector3(-20, -20, -20)));
+	parameter.isRespawn = true;
+	//プレイヤーの状態変更
+	playerState = PlayerState::PLAYERRESPAWN;
+
 
 	if (dropDownFlag)
 		cameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
@@ -459,14 +467,14 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
 		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
-		uiDamageBackPos = Vector2(WINDOW_WIDTH/2,0);
+		uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, 0);
 		mModelId = MODEL_ID::PLAYER2_MODEL;
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
 		uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
-		uiDamageBackPos = Vector2(0,WINDOW_HEIGHT/2);
+		uiDamageBackPos = Vector2(0, WINDOW_HEIGHT / 2);
 		mModelId = MODEL_ID::PLAYER3_MODEL;
 		break;
 	}

@@ -109,7 +109,9 @@ void PlayerBullet::Update()
 
 void PlayerBullet::Draw() const
 {
+	SetLightEnable(false);
 	Model::GetInstance().Draw(MODEL_ID::PLAYER_BULLET_MODEL, parameter.mat,1.0f,mColor);
+	SetLightEnable(true);
 
 	//DrawSphere3D(Vector3::ToVECTOR(parameter.mat.GetPosition()), parameter.radius, 20, GetColor(255, 0, 0), GetColor(255, 0, 0), FALSE);
 }

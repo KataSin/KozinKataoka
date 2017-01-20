@@ -64,11 +64,12 @@ public:
 	///<summary>
 	/// 通常画像の描画(アセット名、座標、原点、アルファ値、拡大率、回転率)
 	///</summary>
-	void Draw(const SPRITE_ID& id, const Vector2& position, const Vector2& origin, float alpha, const Vector2& scale, float angle);
+	void Draw(const SPRITE_ID& id, const Vector2& position, const Vector4& color, const Vector2& origin, float alpha, const Vector2& scale, float angle);
 	///<summary>
 	/// 通常画像の描画(アセット名、座標、透過、反転)
 	///</summary>
 	void Draw(const SPRITE_ID& id, const Vector2& position, bool trans, bool turn);
+	void Draw(const int& handle, const Vector2& position, const Vector2& origin , const Vector2& , float angle, bool trans, bool turn);
 	///<summary>
 	/// 通常画像の描画(アセット名、座標、アルファ値、透過、反転)
 	///</summary>
@@ -183,6 +184,12 @@ public:
 	{
 		Point size;
 		GetGraphSize(m_sprites.at(id), &size.x, &size.y);
+		return size;
+	}
+	Point GetSize(const int& handle) const
+	{
+		Point size;
+		GetGraphSize(handle, &size.x, &size.y);
 		return size;
 	}
 	int GetIndex(const SPRITE_ID& id)

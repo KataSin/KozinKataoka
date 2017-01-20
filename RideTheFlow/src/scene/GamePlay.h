@@ -8,6 +8,8 @@
 #include "../GamePlayManager/GamePlayManager.h"
 #include "../GameManager/GameManager.h"
 
+class GameTimerUI;
+
 class  GamePlay : public IScene
 {
 
@@ -38,9 +40,12 @@ private:
 	bool  mIsEnd;
 	World wo;
 	Light light;
+	GameTimerUI* mGameTimer;
 
 	int test;
 
 	int mRandCount;
 	int mEndRaundCount;
+
+	bool mIsEndRanund;
 };

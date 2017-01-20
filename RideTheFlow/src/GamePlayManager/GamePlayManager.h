@@ -15,6 +15,8 @@ public:
 	bool EndRaund();
 	//タイムアップの場合Trueを返す
 	bool TimeUp();
+	//勝ち数を返す
+	std::map<PLAYER_NUMBER, int> GetWinCount();
 
 private:
 	IWorld& mWorld;

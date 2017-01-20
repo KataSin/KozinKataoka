@@ -8,12 +8,13 @@
 #include "../../../input/Keyboard.h"
 #include "../../../graphic/Model.h"
 #include "../../Collision.h"
-StageLine::StageLine(IWorld & world, Matrix4& mat) :
+StageLine::StageLine(IWorld & world, Matrix4& mat, Line& line) :
 	Actor(world),
 	mAlpha(1.0f),
 	mAlphaTimer(0.0f),
 	mDeadTimer(0.0f),
-	mPosition(mat.GetPosition())
+	mPosition(mat.GetPosition()),
+	mLine(line)
 {
 	parameter.mat = mat;
 	mRotateY = mat.GetRotate().y;
@@ -26,6 +27,8 @@ StageLine::~StageLine()
 
 void StageLine::Update()
 {
+	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_STAGELINE_COL);
+
 	mPosition.y += 4.0f * Time::DeltaTime;
 	mAlphaTimer += Time::DeltaTime;
 	if (mAlphaTimer >= 1.8f) {
@@ -34,6 +37,9 @@ void StageLine::Update()
 		if (mAlpha <= 0.0f)
 			parameter.isDead = true;
 	}
+	//Line‚ðXV
+	mLine.startPos.y = mPosition.y;
+	mLine.endPos.y = mPosition.y;
 	parameter.mat.SetPosition(mPosition);
 }
 
@@ -47,4 +53,5 @@ void StageLine::Draw() const
 
 void StageLine::OnCollide(Actor & other, CollisionParameter colpara)
 {
+
 }

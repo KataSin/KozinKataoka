@@ -19,7 +19,7 @@ void Target::Update(PLAYER_NUMBER player)
 {
 	mPlayer = dynamic_cast<Player*>(world.GetPlayer(mTarget->GetParameter().playNumber).get());
 	//(•s‹ï‡‚È‚µ)
-	if (mTarget->GetParameter().playNumber == player)
+	if (player==parameter.playerNum)
 	{
 		parameter.position =
 			Vector3::ToVECTOR(ConvWorldPosToScreenPos(Vector3::ToVECTOR(mTarget->GetParameter().mat.GetPosition())));

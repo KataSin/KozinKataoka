@@ -9,6 +9,7 @@
 
 #include "../graphic/Model.h"
 #include "Player.h"
+#include "StageLineManager\StageLine\StageLine.h"
 
 const Vector3 MinPlate = Vector3(-12.0f, -0.5f, -12.0f);
 const Vector3 MaxPlate = Vector3(12.0f, 1.5f, 12.0f);
@@ -30,6 +31,7 @@ Actor::Actor(IWorld& world_) :world(world_)
 	colFunc[COL_ID::CAMERA_PLATE_COL] = std::bind(&Actor::Camera_vs_Plate, this, std::placeholders::_1);
 	colFunc[COL_ID::SNIPERLINE_PLATE_COL] = std::bind(&Actor::SniperLine_vs_Plate, this, std::placeholders::_1);
 	colFunc[COL_ID::PLAYER_GUNLINE_COL] = std::bind(&Actor::Player_vs_GunLine, this, std::placeholders::_1);
+	colFunc[COL_ID::PLAYER_STAGELINE_COL] = std::bind(&Actor::Player_vs_StageLine, this, std::placeholders::_1);
 }
 
 Actor::~Actor()
@@ -122,7 +124,8 @@ CollisionParameter Actor::Player_vs_SniperLine(const Actor & other) const
 	colpara = Collisin::GetInstace().SegmentSphere(line, player);
 	colpara.colID = COL_ID::PLAYER_SNIPERLINE_COL;
 	//“¯‚¶‚¾‚Á‚½‚ç“–‚½‚ç‚È‚¢
-	if (other.parameter.playNumber == parameter.playNumber)
+	if (other.parameter.playNumber == parameter.playNumber ||
+		other.parameter.isRespawn || parameter.isRespawn)
 		colpara.colFlag = false;
 	return colpara;
 }
@@ -146,7 +149,8 @@ CollisionParameter Actor::Player_vs_GunLine(const Actor & other) const
 	colpara.colID = COL_ID::PLAYER_GUNLINE_COL;
 
 	//“¯‚¶‚¾‚Á‚½‚ç“–‚½‚ç‚È‚¢
-	if (other.parameter.playNumber == parameter.playNumber)
+	if ((other.parameter.playNumber == parameter.playNumber) ||
+		(other.parameter.isRespawn || parameter.isRespawn))
 		colpara.colFlag = false;
 
 	colpara.colFlagSub = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->colFlag();
@@ -187,7 +191,7 @@ CollisionParameter Actor::Bullet_vs_RespawnPoint(const Actor & other) const
 	//colpara.colID = COL_ID::BULLET_RESPAENPOINT_COL;
 	////“¯‚¶‚¾‚Á‚½‚ç“–‚½‚ç‚È‚¢
 	//if (other.parameter.playNumber == parameter.playNumber)
-		colpara.colFlag = false;
+	colpara.colFlag = false;
 
 	return colpara;
 }
@@ -281,3 +285,20 @@ CollisionParameter Actor::SniperLine_vs_Plate(const Actor & other) const
 
 	return colpara;
 }
+
+CollisionParameter Actor::Player_vs_StageLine(const Actor & other) const
+{
+	CollisionParameter colpara;
+
+	Line line = dynamic_cast<StageLine*>(const_cast<Actor*>(this))->GetLine();
+
+	Sphere player;
+	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.height / 2.0f, 0.0f);
+	player.radius = other.parameter.radius;
+
+	colpara = Collisin::GetInstace().SegmentSphere(line, player);
+
+	colpara.colID = COL_ID::PLAYER_STAGELINE_COL;
+	return colpara;
+}
+

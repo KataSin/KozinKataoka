@@ -30,10 +30,24 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("Player/Player3.png", SPRITE_ID::PLAYER3_MODEL_SPRITE);
 	sprite.Load("Player/Player4.png", SPRITE_ID::PLAYER4_MODEL_SPRITE);
 	sprite.Load("GameFrame04.png", SPRITE_ID::GAME_FRAME_SPRITE);
+	sprite.Load("Kekka.png", SPRITE_ID::KEKKA_SPRITE);
+	sprite.Load("trophy.png", SPRITE_ID::TROPHY_SPRITE);
+
+	sprite.Load("PlayerGanmen/Player1Egao.png", SPRITE_ID::PLAYER1_KAO_E);
+	sprite.Load("PlayerGanmen/Player2Egao.png", SPRITE_ID::PLAYER2_KAO_E);
+	sprite.Load("PlayerGanmen/Player3Egao.png", SPRITE_ID::PLAYER3_KAO_E);
+	sprite.Load("PlayerGanmen/Player4Egao.png", SPRITE_ID::PLAYER4_KAO_E);
+	sprite.Load("PlayerGanmen/Player1Magao.png", SPRITE_ID::PLAYER1_KAO_M);
+	sprite.Load("PlayerGanmen/Player2Magao.png", SPRITE_ID::PLAYER2_KAO_M);
+	sprite.Load("PlayerGanmen/Player3Magao.png", SPRITE_ID::PLAYER3_KAO_M);
+	sprite.Load("PlayerGanmen/Player4Magao.png", SPRITE_ID::PLAYER4_KAO_M);
 
 	sprite.Load("sinda.png", SPRITE_ID::SINDA_SPRITE);
 	sprite.Load("sinuyo.png", SPRITE_ID::SINUYO_SPRITE);
 	sprite.Load("DamageBack.png", SPRITE_ID::DAMAGE_BACK_SPRITE);
+	sprite.Load("SceneChangeBlock.png", SPRITE_ID::CHANGE_SCENE_PARTICLE_SPRITE);
+
+	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);
@@ -80,6 +94,11 @@ void Content::LoadSound(Sound& sound)
 
 	sound.SetAllBGMVolume(BGMVOLUME);
 	sound.SetAllSEVolume(SEVOLUME);
+}
+
+void Content::LoadShader()
+{
+	LoadPixelShader("res/Shader/vs.vso");
 }
 
 void Content::EnableASync()

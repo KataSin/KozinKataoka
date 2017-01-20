@@ -26,6 +26,8 @@ public:
 	///</summary>
 	void LoadSound(Sound& sound);
 
+	void LoadShader();
+
 	///<summary>
 	/// ”ñ“¯Šú“Ç‚İ‚İ‚ğ—LŒø‰»
 	///</summary>

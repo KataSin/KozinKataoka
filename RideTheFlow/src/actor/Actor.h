@@ -13,7 +13,7 @@ struct ActorParameter
 {
 	ACTOR_ID id;
 	bool isDead;
-	bool isRespawn;
+	bool isRespawn=false;
 	float radius;
 	Matrix4 mat;
 	float   HP;
@@ -46,6 +46,8 @@ private:
 	CollisionParameter CameraRay_vs_Plate(const Actor& other)const;
 	CollisionParameter Camera_vs_Plate(const Actor& other)const;
 	CollisionParameter SniperLine_vs_Plate(const Actor& other)const;
+
+	CollisionParameter Player_vs_StageLine(const Actor& other)const;
 	//弾とトルネードのあたり判定
 	//CollisionParameter Bullet_vs_Tornad(const Actor& other)const;
 

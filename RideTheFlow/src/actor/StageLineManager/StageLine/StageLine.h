@@ -1,14 +1,19 @@
 #pragma once
 #include "../../Actor.h"
-
-class StageLine :public Actor
+#include <memory>
+#include "../../Collision.h"
+class StageLine :public Actor, public std::enable_shared_from_this<StageLine>
 {
 public:
-	StageLine(IWorld& world, Matrix4& mat);
+	StageLine(IWorld& world, Matrix4& mat,Line& line);
 	~StageLine();
 	virtual void Update() override;
 	virtual void Draw() const override;
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
+
+	Line GetLine() {
+		return mLine;
+	}
 private:
 	//Ž€‚Ê‚Ü‚Å‚ÌŽžŠÔ
 	float mDeadTimer;
@@ -20,5 +25,6 @@ private:
 	Vector3 mPosition;
 	//‰ñ“]Y
 	float mRotateY;
-
+	//ƒ‰ƒCƒ“
+	Line mLine;
 };

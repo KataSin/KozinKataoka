@@ -127,6 +127,7 @@
     <ClInclude Include="src\graphic\Light.h" />
     <ClInclude Include="src\graphic\Model.h" />
     <ClInclude Include="src\graphic\Movie.h" />
+    <ClInclude Include="src\graphic\Shader.h" />
     <ClInclude Include="src\graphic\ShadowMap.h" />
     <ClInclude Include="src\graphic\Sprite.h" />
     <ClInclude Include="src\graphic\TextDraw.h" />
@@ -158,6 +159,10 @@
     <ClInclude Include="src\UIactor\GameTimer\GameTimerUI.h" />
     <ClInclude Include="src\UIactor\GunUI\GunUI.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
+    <ClInclude Include="src\UIactor\ResultUI\ResultUI.h" />
+    <ClInclude Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.h" />
+    <ClInclude Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.h" />
+    <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\UIactor\UIActor.h" />
     <ClInclude Include="src\UIactor\UIActorManager.h" />
@@ -228,6 +233,10 @@
     <ClCompile Include="src\UIactor\GameTimer\GameTimerUI.cpp" />
     <ClCompile Include="src\UIactor\GunUI\GunUI.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
+    <ClCompile Include="src\UIactor\ResultUI\ResultUI.cpp" />
+    <ClCompile Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.cpp" />
+    <ClCompile Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.cpp" />
+    <ClCompile Include="src\UIactor\SceneChangeManager\SceneChangeManager.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\UIactor\UIActor.cpp" />
     <ClCompile Include="src\UIactor\UIActorManager.cpp" />

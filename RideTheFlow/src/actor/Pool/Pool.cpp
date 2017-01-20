@@ -39,7 +39,11 @@ void Pool::Update()
 
 	mTimer += Time::DeltaTime;
 	if (mTimer >= 1.0f) {
-		world.Add(ACTOR_ID::STAGELINE_ACTOR, std::make_shared<StageLine>(world, lineMat));
+		Line line;
+		//Line‚ğİ’è
+		line.startPos = mPos1;
+		line.endPos = mPos2;
+		world.Add(ACTOR_ID::STAGELINE_ACTOR, std::make_shared<StageLine>(world, lineMat,line));
 		mTimer = 0.0f;
 	}
 }
