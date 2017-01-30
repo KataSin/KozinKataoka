@@ -156,6 +156,7 @@
     <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
     <ClInclude Include="src\UIactor\fadePanel\FadePanel.h" />
     <ClInclude Include="src\UIactor\GameFrameUI\GameFrameUI.h" />
+    <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
     <ClInclude Include="src\UIactor\GameTimer\GameTimerUI.h" />
     <ClInclude Include="src\UIactor\GunUI\GunUI.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
     <ClCompile Include="src\UIactor\fadePanel\FadePanel.cpp" />
     <ClCompile Include="src\UIactor\GameFrameUI\GameFrameUI.cpp" />
+    <ClCompile Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.cpp" />
     <ClCompile Include="src\UIactor\GameTimer\GameTimerUI.cpp" />
     <ClCompile Include="src\UIactor\GunUI\GunUI.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />

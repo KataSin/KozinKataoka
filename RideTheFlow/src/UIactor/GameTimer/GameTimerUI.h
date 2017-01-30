@@ -9,7 +9,16 @@ public:
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
 public:
+	//タイマーをストップするかどうか　true;ストップ false:start
+	void StopTimer(bool flag) {
+		mStopFlag = flag;
+	}
+	void ResetTimer(int timer) {
+		mGameTimer = timer;
+	}
+public:
 	float mGameTimer;
+	bool mStopFlag;
 private:
 	Vector2 mPosition;
 };

@@ -13,8 +13,22 @@ ResultUI::ResultUI(IWorld & world, GamePlayManager & gamePlayManager, PLAYER_NUM
 	mWinPlayer = winPlayer;
 	mWinCount = gamePlayManager.GetWinCount();
 	mTexSize = Sprite::GetInstance().GetSize(SPRITE_ID::KEKKA_SPRITE);
-	mTrophyAllPos = (Vector2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2 - mTexSize / 2)+Vector2(128,96);
-	mTrophyPos = Vector2(mWinCount[mWinPlayer] * 32, (int)mWinPlayer * 32)-Vector2(16,16);
+	mTrophyAllPos = (Vector2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2 - mTexSize / 2) + Vector2(128, 90);
+	mTrophyPos = Vector2(mWinCount[mWinPlayer] * 32, (int)mWinPlayer * 35) - Vector2(16, 16);
+
+	//顔の初期化
+	std::map<SPRITE_ID, SPRITE_ID> kao1;
+	kao1[SPRITE_ID::PLAYER1_KAO_E] = SPRITE_ID::PLAYER1_KAO_M;
+	std::map<SPRITE_ID, SPRITE_ID> kao2;
+	kao2[SPRITE_ID::PLAYER2_KAO_E] = SPRITE_ID::PLAYER2_KAO_M;
+	std::map<SPRITE_ID, SPRITE_ID> kao3;
+	kao3[SPRITE_ID::PLAYER3_KAO_E] = SPRITE_ID::PLAYER3_KAO_M;
+	std::map<SPRITE_ID, SPRITE_ID> kao4;
+	kao4[SPRITE_ID::PLAYER4_KAO_E] = SPRITE_ID::PLAYER4_KAO_M;
+	mKaos[PLAYER_NUMBER::PLAYER_1] = kao1;
+	mKaos[PLAYER_NUMBER::PLAYER_2] = kao2;
+	mKaos[PLAYER_NUMBER::PLAYER_3] = kao3;
+	mKaos[PLAYER_NUMBER::PLAYER_4] = kao4;
 }
 
 ResultUI::~ResultUI()
@@ -43,10 +57,15 @@ void ResultUI::Draw() const
 		int loop = i.second;
 		if (i.first == mWinPlayer) loop--;
 		for (int j = 0; j < loop; j++) {
-			Sprite::GetInstance().Draw(SPRITE_ID::TROPHY_SPRITE, mTrophyAllPos + Vector2(j * 32, ((int)i.first - 1) * 32));
+			Sprite::GetInstance().Draw(SPRITE_ID::TROPHY_SPRITE, mTrophyAllPos + Vector2(j * 32, ((int)i.first - 1) * 36));
 		}
 	}
 	//あげるトロフィー表示
-	Sprite::GetInstance().Draw(SPRITE_ID::TROPHY_SPRITE, mTrophyAllPos + mTrophyPos,Vector2(16,16),mTrophyAlpha,Vector2(mSize),0,true,false);
+	Sprite::GetInstance().Draw(SPRITE_ID::TROPHY_SPRITE, mTrophyAllPos + mTrophyPos, Vector2(16, 16), mTrophyAlpha, Vector2(mSize), 0, true, false);
 
+	for (const auto& i : mKaos) {
+		SPRITE_ID id = i.second.begin()->second;
+		if (mWinPlayer == i.first) id = i.second.begin()->first;
+		Sprite::GetInstance().Draw(id, mTrophyAllPos + Vector2(-32, ((int)i.first - 1) * 35));
+	}
 }

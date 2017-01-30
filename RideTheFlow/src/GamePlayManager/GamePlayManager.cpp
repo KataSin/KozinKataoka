@@ -84,3 +84,8 @@ std::map<PLAYER_NUMBER, int> GamePlayManager::GetWinCount()
 {
 	return mWinCount;
 }
+
+void GamePlayManager::ResetWin()
+{
+	mWinCount.clear();
+}

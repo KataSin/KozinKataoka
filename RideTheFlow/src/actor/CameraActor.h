@@ -28,7 +28,7 @@ enum CameraState
 class CameraActor :public Actor, public std::enable_shared_from_this<CameraActor>
 {
 public:
-	CameraActor(IWorld& world, Actor &parent_);
+	CameraActor(IWorld& world, Actor &parent_, float angleY);
 	~CameraActor();
 	virtual void Update() override;
 	virtual void Draw() const override;

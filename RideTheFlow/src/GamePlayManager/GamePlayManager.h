@@ -17,7 +17,8 @@ public:
 	bool TimeUp();
 	//Ÿ‚¿”‚ğ•Ô‚·
 	std::map<PLAYER_NUMBER, int> GetWinCount();
-
+	//Ÿ‚¿”‚ğƒŠƒZƒbƒg‚·‚é
+	void ResetWin();
 private:
 	IWorld& mWorld;
 	int mRaundCount;

@@ -64,12 +64,12 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 		Matrix4::Translate(mPosition);
 	playerState = PlayerState::PLAYERSTOP;
 	//カメラを追加
-	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this));
+	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this,angleY));
 	//武器を追加
 	world.Add(ACTOR_ID::MANAGER_ACTOR, std::make_shared<PlayerAttackManager>(world, *this));
 	//カメラの向いている方向にプレイヤーも向く
 	float angleY = world.GetCamera(parameter.playNumber)->GetParameter().mat.GetRotateDegree().y;
-	mRotate = Vector3(0.0f, angleY - 90.0f, 0.0f);
+	mRotate = Vector3(0.0f, angleY, 0.0f);
 	//プレイヤー個別設定
 	PlayerNumSet(parameter.playNumber);
 	//ダメージUIを追加
@@ -139,7 +139,8 @@ void Player::Update() {
 
 
 	//リスポーン中以外は行動可能
-	if (playerState != PlayerState::PLAYERRESPAWN)
+	if (playerState != PlayerState::PLAYERRESPAWN&&
+		world.GetInputPlayer())
 	{
 		//重力処理
 		if (gravityFlag)
@@ -169,7 +170,7 @@ void Player::Update() {
 	parameter.mat =
 		Matrix4::Scale(0.15f)*
 		Matrix4::RotateX(0)*
-		Matrix4::RotateY(angleY - 90)*
+		Matrix4::RotateY(angleY)*
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(mPosition);
 
@@ -208,7 +209,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
 		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_ACTOR)
 	{
-		//isDamageMachine = true;
+		isDamageMachine = true;
 		parameter.HP += 2;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
@@ -269,7 +270,7 @@ void Player::RotateMovePlayer()
 
 	//移動量がゼロだったら直前の角度を保持
 	if (vecPos.x != 0)
-		angleY = -Math::Atan2(vecPos.z, vecPos.x)*180.0f / 3.1415f;
+		angleY = -(Math::Atan2(vecPos.z, vecPos.x)*180.0f / 3.1415f)-90.0f;
 	//アッタック中のプレイヤー向き
 	if (PlayerState::PLAYERATTACK == playerState)
 	{
@@ -281,7 +282,7 @@ void Player::RotateMovePlayer()
 		mat.SetFront(front);
 		mat.SetLeft(left);
 		mat.SetUp(up);
-		angleY = mat.GetRotateDegree().y + 90;
+		angleY = mat.GetRotateDegree().y;
 	}
 }
 

@@ -8,7 +8,7 @@
 #include "../../graphic/Model.h"
 #include "../ParticleManager/ParticleManager.h"
 
-const float RespawnTime = 20.0f;
+const float RespawnTime = 30.0f;
 const int HP = 3;
 DefaultPlate::DefaultPlate(IWorld & world, Vector3 position) :
 	Actor(world),

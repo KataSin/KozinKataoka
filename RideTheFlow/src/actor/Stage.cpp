@@ -56,19 +56,19 @@ Stage::Stage(IWorld& world) :
 		PLAYER_NUMBER::PLAYER_3));
 
 	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
-		Vector3(20.0f*2, 1.5f, 20.0f*2),
+		Vector3(20.0f*1, 1.5f, 20.0f*11),
 		315.0f,
 		PLAYER_NUMBER::PLAYER_4));
 
 	//É|Å[ÉãÇÃí«â¡
-	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20) + Vector3(-10, 0, -10), Vector3(20 * 11, 0, 20) + Vector3(10, 0, -10)));
-	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20) - Vector3(-10, 0, 10), Vector3(20 * 11, 0, 20 * 11) + Vector3(10, 0, 10)));
-	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20 * 11) + Vector3(10, 0, 10), Vector3(20, 0, 20 * 11) + Vector3(-10, 0, 10)));
-	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20 * 11) + Vector3(-10, 0, 10), Vector3(20, 0, 20) + Vector3(-10, 0, -10)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20) + Vector3(-15, 0, -15), Vector3(20 * 11, 0, 20) + Vector3(15, 0, -15)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20) - Vector3(-15, 0, 15), Vector3(20 * 11, 0, 20 * 11) + Vector3(15, 0, 15)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20 * 11) + Vector3(15, 0, 15), Vector3(20, 0, 20 * 11) + Vector3(-15, 0, 15)));
+	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20 * 11) + Vector3(-15, 0, 15), Vector3(20, 0, 20) + Vector3(-15, 0, -15)));
 
-	//ñÿÇÃí«â¡
-	world.Add(ACTOR_ID::TREE_ACTOR, std::make_shared<Tree>(world,
-		Vector3(100, 0, 100)));
+	////ñÿÇÃí«â¡
+	//world.Add(ACTOR_ID::TREE_ACTOR, std::make_shared<Tree>(world,
+	//	Vector3(100, 0, 100)));
 }
 Stage::~Stage() {
 	parent = nullptr;

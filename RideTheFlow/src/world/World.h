@@ -31,10 +31,16 @@ public:
 
 	virtual std::vector<ActorPtr> GetActors(ACTOR_ID id) override;
 	virtual std::vector<UIActorPtr> GetUIActors(UI_ID id)override;
+
+	virtual void SetInputPlayer(bool flag) override;
+	virtual bool GetInputPlayer() override;
+
 private:
 	WorldActor actors;
 	ActorPtr   playerActor;
 	std::vector<ActorPtr> cameraActor;
 	std::vector<ActorPtr> masterCastles;
+
+	bool inputFlag;
 
 };

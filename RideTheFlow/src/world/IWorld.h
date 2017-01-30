@@ -27,6 +27,11 @@ public:
 
 	virtual void SetCamera(PLAYER_NUMBER playerNumber)= 0;
 
+	//“ü—Í‚ğó‚¯•t‚¯‚é‚©‚Ç‚¤‚©true:ó‚¯•t‚¯‚é
+	virtual void SetInputPlayer(bool flag)=0;
+	//‘€ì‚Å‚«‚é‚©‚Ç‚¤‚©
+	virtual bool GetInputPlayer() = 0;
+
 	virtual std::vector<ActorPtr> GetActors(ACTOR_ID id)= 0;
 
 	virtual std::vector<UIActorPtr> GetUIActors(UI_ID id) = 0;

@@ -1,7 +1,8 @@
 #include "World.h"
 #include "../actor/ID.h"
 #include "../actor/CameraActor.h"
-World::World(){
+World::World():
+inputFlag(true){
 
 }
 
@@ -81,6 +82,14 @@ std::vector<ActorPtr> World::GetActors(ACTOR_ID id)
 std::vector<UIActorPtr> World::GetUIActors(UI_ID id)
 {
 	return actors.GetUIActors(id);
+}
+void World::SetInputPlayer(bool flag)
+{
+	inputFlag = flag;
+}
+bool World::GetInputPlayer()
+{
+	return inputFlag;
 }
 int World::GetActorCount(ACTOR_ID id,ACTOR_ID id2)
 {

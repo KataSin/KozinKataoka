@@ -33,7 +33,7 @@ void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 	}
 	//攻撃してないときは透明に
 	if (mManager->GetIsAttack()) mAlphaFlag = true;
-	else if (!mManager->GetIsAttack() && mAlpha >= 0.5f) mAlphaFlag = false;
+	else if (!mManager->GetIsAttack() && mAlpha >= 0.7f) mAlphaFlag = false;
 	//α値処理
 	if (mAlphaFlag) {
 		mAlpha += Time::DeltaTime;
@@ -49,7 +49,7 @@ void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 	float leap = Math::Lerp(0.0f, 255.0f, mOverHertCount / 100.0f);
 	mColor = Vector4(255.0f - leap, leap, 0.0f, 0.0f);
 	//α値クランプ
-	mAlpha = Math::Clamp(mAlpha, 0.0f, 0.5f);
+	mAlpha = Math::Clamp(mAlpha, 0.0f, 0.7f);
 }
 
 void AttackGauge::Draw() const

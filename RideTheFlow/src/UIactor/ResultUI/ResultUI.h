@@ -18,6 +18,10 @@ private:
 	Vector2 mTrophyAllPos;
 	//勝ち数
 	std::map<PLAYER_NUMBER, int> mWinCount;
+	//顔データ
+	std::map<PLAYER_NUMBER, std::map<SPRITE_ID, SPRITE_ID>> mKaos;
+	//表情データ
+	std::map<SPRITE_ID, SPRITE_ID> mHyouzyo;
 	//勝ったプレイヤー
 	PLAYER_NUMBER mWinPlayer;
 	//結果α

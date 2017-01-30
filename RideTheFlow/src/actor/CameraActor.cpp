@@ -12,19 +12,19 @@
 #include "../input/GamePad.h"
 #include "../Def.h"
 
-CameraActor::CameraActor(IWorld& world, Actor &parent_) :
+CameraActor::CameraActor(IWorld& world, Actor &parent_,float angleY) :
 	Actor(world),
 	mPlayer(dynamic_cast<Player*>(&parent_)),
 	cameraState(CameraState::DEFAULT),
 	mPosition(Vector3::Zero),
 	velocity(Vector3::Zero),
 	mDis(30.0f),
-	rotateLeft(0.0f),
 	rotateUp(0.0f),
 	killRotateY(0.0f)
 {
 	//カメラとプレイヤーの紐づけ
 	parent = &parent_;
+	rotateUp = angleY;
 	playerMat = parent->GetParameter().mat;
 	//注視点を設定
 	target = playerMat.GetPosition() + Vector3(0, 10, 0);
@@ -32,8 +32,8 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_) :
 	parameter.playNumber = parent_.GetParameter().playNumber;
 	parameter.isDead = false;
 	parameter.mat = Matrix4::Scale(0)*
-		Matrix4::RotateX(0)*
-		Matrix4::RotateY(0)*
+		Matrix4::RotateX(rotateLeft)*
+		Matrix4::RotateY(rotateUp)*
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(mPosition);
 
@@ -56,12 +56,11 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_) :
 		break;
 	}
 
-
+	//StateUpdate(cameraState);
 	Camera::GetInstance().SetRange(0.1f, 9999.0f);
 	Camera::GetInstance().Position.Set(mPosition);
 	Camera::GetInstance().Target.Set(target);
 	Camera::GetInstance().Up.Set(Vector3::Up);
-
 
 }
 CameraActor::~CameraActor()
@@ -70,6 +69,9 @@ CameraActor::~CameraActor()
 }
 void CameraActor::Update()
 {
+	//プレイヤー動かない場合絶対デフォルト
+	if (world.GetInputPlayer())
+		cameraState = DEFAULT;
 	//プレイヤーマトリックス
 	playerMat = parent->GetParameter().mat;
 	//変換
@@ -77,6 +79,7 @@ void CameraActor::Update()
 	//あたり判定
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::CAMERA_PLATE_COL);
 	//カメラ状態を更新
+	if(mPlayer->GetPlayerState()!=PlayerState::PLAYERRESPAWN)
 	StateUpdate(cameraState);
 
 

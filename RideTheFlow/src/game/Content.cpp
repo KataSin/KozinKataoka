@@ -47,7 +47,14 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("DamageBack.png", SPRITE_ID::DAMAGE_BACK_SPRITE);
 	sprite.Load("SceneChangeBlock.png", SPRITE_ID::CHANGE_SCENE_PARTICLE_SPRITE);
 
+	sprite.Load("Font/sokomade.png", SPRITE_ID::SOKOMADE_FONT_SPRITE);
+	sprite.Load("Font/hikiwake.png", SPRITE_ID::HIKIWAKE_FONT_SPRITE);
+	sprite.Load("Font/don.png", SPRITE_ID::DON_SPRITE);
+	sprite.Load("Font/yo-i.png", SPRITE_ID::YO_I_FONT_SPRITE);
+
 	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
+
+
 
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);

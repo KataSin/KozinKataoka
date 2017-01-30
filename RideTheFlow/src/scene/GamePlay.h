@@ -9,7 +9,7 @@
 #include "../GameManager/GameManager.h"
 
 class GameTimerUI;
-
+class GamePlayFontUI;
 class  GamePlay : public IScene
 {
 
@@ -33,19 +33,30 @@ public:
 	virtual void End()override;
 
 private:
+	//ゲームプレイマネージャーポインター
 	typedef std::shared_ptr<GamePlayManager>GamePlayManagerPtr;
 	GamePlayManagerPtr mGamePlayManager;
+	//ゲームマネージャー
 	GameManager* mGameManager;
+	//次のシーン
 	Scene mNextScene;
+	//エンドフラグ
 	bool  mIsEnd;
+	//ワールド
 	World wo;
+	//ライト（たぶん消す）
 	Light light;
+	//ゲームタイマー
 	GameTimerUI* mGameTimer;
-
-	int test;
-
+	//フォント
+	GamePlayFontUI* fontUi;
+	//今何ラウンド目か
 	int mRandCount;
+	//何ラウンド目に終わるか
 	int mEndRaundCount;
-
+	//スタート時のフォントフラグ
+	bool mStartFontFlag;
+	//フォントフラグ
+	bool mFontFlag;
 	bool mIsEndRanund;
 };
