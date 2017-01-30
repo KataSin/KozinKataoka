@@ -36,6 +36,11 @@ public:
 	{
 		return overHertCount;
 	}
+	//オーバーヒートしているか
+	bool GetOverHertFlag()
+	{
+		return overHertFlag;
+	}
 	//攻撃しているか？
 	bool GetIsAttack()
 	{
@@ -78,6 +83,8 @@ private:
 	float coolHertCount;
 	//uiの場所
 	Vector2 uiPos;
+	//オーバーヒートの座標
+	Vector2 mOverHertUiPos;
 	//色情報
 	Vector4 mColor;
 };

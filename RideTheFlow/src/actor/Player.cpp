@@ -22,7 +22,7 @@
 #include "../Def.h"
 #include "ParticleManager\ParticleManager.h"
 #include "../UIactor/DamageBackUI/DamageBackUI.h"
-const float PlayerSpeed = 20.0f;
+const float PlayerSpeed = 30.0f;
 const float LowPlayerSpeed = 5.0f;
 const float AttackPlayerSpeed = 5.0f;
 
@@ -64,7 +64,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 		Matrix4::Translate(mPosition);
 	playerState = PlayerState::PLAYERSTOP;
 	//カメラを追加
-	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this,angleY));
+	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this, angleY));
 	//武器を追加
 	world.Add(ACTOR_ID::MANAGER_ACTOR, std::make_shared<PlayerAttackManager>(world, *this));
 	//カメラの向いている方向にプレイヤーも向く
@@ -270,7 +270,7 @@ void Player::RotateMovePlayer()
 
 	//移動量がゼロだったら直前の角度を保持
 	if (vecPos.x != 0)
-		angleY = -(Math::Atan2(vecPos.z, vecPos.x)*180.0f / 3.1415f)-90.0f;
+		angleY = -(Math::Atan2(vecPos.z, vecPos.x)*180.0f / 3.1415f) - 90.0f;
 	//アッタック中のプレイヤー向き
 	if (PlayerState::PLAYERATTACK == playerState)
 	{
@@ -307,31 +307,30 @@ void Player::Move()
 	else
 		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
 
-	if (parameter.playNumber != PLAYER_NUMBER::PLAYER_2) {
-		mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
-		mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
-	}
 
-	//キーボード処理　テスト用
-	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_2)
-	{
-		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
-		{
-			mPosition += playerSpeed*cameraFront*Vector3(1, 0, 1)*Time::DeltaTime;
-		}
-		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::S))
-		{
-			mPosition += playerSpeed*-cameraFront*Vector3(1, 0, 1)*Time::DeltaTime;
-		}
-		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::A))
-		{
-			mPosition += playerSpeed*cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
-		}
-		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::D))
-		{
-			mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
-		}
-	}
+	mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
+	mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
+
+	////キーボード処理　テスト用
+	//if (parameter.playNumber == PLAYER_NUMBER::PLAYER_2)
+	//{
+	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
+	//	{
+	//		mPosition += playerSpeed*cameraFront*Vector3(1, 0, 1)*Time::DeltaTime;
+	//	}
+	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::S))
+	//	{
+	//		mPosition += playerSpeed*-cameraFront*Vector3(1, 0, 1)*Time::DeltaTime;
+	//	}
+	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::A))
+	//	{
+	//		mPosition += playerSpeed*cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
+	//	}
+	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::D))
+	//	{
+	//		mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
+	//	}
+	//}
 	//移動先に回転※移動した最後に実行すること
 	RotateMovePlayer();
 	cameraActor->SetCameraState(CameraState::DEFAULT);
@@ -387,7 +386,7 @@ void Player::Jump()
 {
 	//ジャンプした瞬間何秒間は地面のあたり判定無効
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::V) ||
-		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM3, pad) &&
+		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1, pad) &&
 		!gravityFlag)
 	{
 		mVelocity.y = 15.0f;
@@ -407,7 +406,7 @@ void Player::Jump()
 
 void Player::Respawn()
 {
-	if (playerState!= PlayerState::PLAYERRESPAWN)
+	if (playerState != PlayerState::PLAYERRESPAWN)
 		world.Add(ACTOR_ID::PARTICLE_ACTOR, std::make_shared<ParticleManager>
 			(world, parameter.mat.GetPosition(),
 				Vector3::Zero,

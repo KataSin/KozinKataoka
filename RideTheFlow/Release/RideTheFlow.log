@@ -1,5 +1,25 @@
-﻿  GamePlay.cpp
+﻿  Game1.cpp
+  GameFrame.cpp
+  GamePlay.cpp
 c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\scene\../UIactor/GameTimer/GameTimerUI.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
   コード生成しています。
   コード生成が終了しました。
+CameraManager.obj : warning LNK4099: PDB 'vc120.pdb' が 'CameraManager.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Random.obj : warning LNK4099: PDB 'vc120.pdb' が 'Random.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+WorkFolder.obj : warning LNK4099: PDB 'vc120.pdb' が 'WorkFolder.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Light.obj : warning LNK4099: PDB 'vc120.pdb' が 'Light.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Movie.obj : warning LNK4099: PDB 'vc120.pdb' が 'Movie.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+ShadowMap.obj : warning LNK4099: PDB 'vc120.pdb' が 'ShadowMap.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+TextDraw.obj : warning LNK4099: PDB 'vc120.pdb' が 'TextDraw.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+GamePad.obj : warning LNK4099: PDB 'vc120.pdb' が 'GamePad.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Keyboard.obj : warning LNK4099: PDB 'vc120.pdb' が 'Keyboard.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Math.obj : warning LNK4099: PDB 'vc120.pdb' が 'Math.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Matrix4.obj : warning LNK4099: PDB 'vc120.pdb' が 'Matrix4.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Point.obj : warning LNK4099: PDB 'vc120.pdb' が 'Point.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Quaternion.obj : warning LNK4099: PDB 'vc120.pdb' が 'Quaternion.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Vector2.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector2.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Vector3.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector3.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Vector4.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector4.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+SceneManager.obj : warning LNK4099: PDB 'vc120.pdb' が 'SceneManager.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+Time.obj : warning LNK4099: PDB 'vc120.pdb' が 'Time.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   RideTheFlow.vcxproj -> C:\Users\ktok\Desktop\個人製作夏休みから\Release\RideTheFlow.exe

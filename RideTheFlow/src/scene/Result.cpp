@@ -2,6 +2,7 @@
 #include "../input/Keyboard.h"
 #include "../camera/Camera.h"
 #include "../graphic/Model.h"
+#include "../input/GamePad.h"
 Result::Result(GameManager & gameManager):
 	mGameManager(&gameManager),
 	mIsEnd(false)
@@ -23,7 +24,7 @@ void Result::Initialize()
 
 void Result::Update()
 {
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
+	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1)) {
 		mIsEnd = true;
 	}
 }

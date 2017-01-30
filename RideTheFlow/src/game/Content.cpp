@@ -51,6 +51,9 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("Font/hikiwake.png", SPRITE_ID::HIKIWAKE_FONT_SPRITE);
 	sprite.Load("Font/don.png", SPRITE_ID::DON_SPRITE);
 	sprite.Load("Font/yo-i.png", SPRITE_ID::YO_I_FONT_SPRITE);
+	sprite.Load("OverHert.png", SPRITE_ID::OVER_HERT_SPRITE);
+	sprite.Load("OverHertFont.png", SPRITE_ID::OVER_HERT_FONT_SPRITE);
+
 
 	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 

@@ -10,6 +10,7 @@
 #include "../../PlayerBullet/TargetRay.h"
 #include "../../../UIactor/AttackGauge/AttackGauge.h"
 #include "../../../UIactor/GunUI/GunUI.h"
+#include "../../../UIactor/OverHertUI/OverHertUI.h"
 
 //武器のオーバーヒート値
 const float OverHertMachine = 2.0f;
@@ -24,7 +25,8 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	coolHertCount(0.0f),
 	attackFlag(0.0f),
 	shotAttackCount(3.0f),
-	initSniperFalg(true)
+	initSniperFalg(true),
+	overHertFlag(false)
 {
 	mSniperState.isColSniperLine = false;
 	mSniperState.chargeSniperCount = 100.0f;
@@ -45,6 +47,8 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, uiPos, *this));
 	//武器UI追加
 	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, uiPos, *this));
+	//オーバーヒートUI追加
+    world.UIAdd(UI_ID::OVER_HERT_UI, std::make_shared<OverHertUI>(world, mOverHertUiPos, *this));
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	////誰の弾かの情報を設定
@@ -73,15 +77,15 @@ void PlayerAttackManager::Update()
 
 	//攻撃していない
 	attackFlag = false;
-
-		PlayerAttack(attackState);
+	overHertFlag = false;
+	PlayerAttack(attackState);
 
 	//攻撃していない時にオバーヒート回復
 	if (!attackFlag)
 	{
 		coolHertCount += Time::DeltaTime;
 		if (coolHertCount >= 2.0f)
-			overHertCount += 50.0f*Time::DeltaTime;
+			overHertCount += 80.0f*Time::DeltaTime;
 		overHertCount = Math::Clamp(overHertCount, 0.0f, 100.0f);
 	}
 	else
@@ -135,21 +139,25 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 	case PLAYER_1: {
 		pad = PADNUM::PAD1;
 		uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
+		mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 + 112);
 		break;
 	}
 	case PLAYER_2: {
 		pad = PADNUM::PAD2;
-		uiPos = Vector2(WINDOW_WIDTH -55, WINDOW_HEIGHT / 2 - 125);
+		uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
+		mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 + 112);
 		break;
 	}
 	case PLAYER_3: {
 		pad = PADNUM::PAD3;
 		uiPos = Vector2(10, WINDOW_HEIGHT - 125);
+		mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 + 112);
 		break;
 	}
 	case PLAYER_4: {
 		pad = PADNUM::PAD4;
 		uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
+		mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 + 112);
 		break;
 	}
 	}
@@ -181,7 +189,7 @@ void PlayerAttackManager::MachineGun()
 			//腰の位置ぐらいから発射
 			machine.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 			machine.playerNumber = parameter.playNumber;
-			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, machine,mColor));
+			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, machine, mColor));
 			machineAttackCount = 0.0f;
 		}
 	}
@@ -263,6 +271,7 @@ void PlayerAttackManager::ShotGun()
 			overHertFlag = true;
 			return;
 		}
+		overHertFlag = false;
 		if (shotAttackCount >= 2.0f)
 		{
 			for (int i = 0; i < 15; i++)
@@ -274,7 +283,7 @@ void PlayerAttackManager::ShotGun()
 				shot.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 				shot.playerNumber = parameter.playNumber;
 				world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
-					std::make_shared<PlayerBullet>(world, shot,mColor, 2.5f));
+					std::make_shared<PlayerBullet>(world, shot, mColor, 2.5f));
 				shotAttackCount = 0.0f;
 				if (i == 1)
 					overHertCount -= 30.0f;

@@ -12,7 +12,7 @@ struct CollisionParameter;
 struct ActorParameter
 {
 	ACTOR_ID id;
-	bool isDead;
+	bool isDead=false;
 	bool isRespawn=false;
 	float radius;
 	Matrix4 mat;

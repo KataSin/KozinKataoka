@@ -24,7 +24,7 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_,float angleY) :
 {
 	//カメラとプレイヤーの紐づけ
 	parent = &parent_;
-	rotateUp = angleY;
+	//rotateUp = angleY;
 	playerMat = parent->GetParameter().mat;
 	//注視点を設定
 	target = playerMat.GetPosition() + Vector3(0, 10, 0);

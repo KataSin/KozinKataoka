@@ -96,6 +96,7 @@
     <ClInclude Include="src\graphic\Shader.h" />
     <ClInclude Include="src\UIactor\ResultUI\ResultUI.h" />
     <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
+    <ClInclude Include="src\UIactor\OverHertUI\OverHertUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -169,5 +170,6 @@
     <ClCompile Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.cpp" />
     <ClCompile Include="src\UIactor\ResultUI\ResultUI.cpp" />
     <ClCompile Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.cpp" />
+    <ClCompile Include="src\UIactor\OverHertUI\OverHertUI.cpp" />
   </ItemGroup>
 </Project>

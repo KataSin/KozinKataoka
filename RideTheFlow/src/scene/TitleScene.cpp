@@ -38,7 +38,8 @@ void TitleScene::Update()
 {	
 	wo.Update();
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
+	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
+		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
 	{
 		mIsEnd = true;
 	}

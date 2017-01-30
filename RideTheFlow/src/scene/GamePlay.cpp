@@ -65,6 +65,9 @@ void GamePlay::Initialize()
 	SetLightEnable(true);
 	SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
 
+	//勝ったプレイヤー初期化
+	mWinPlayer = PLAYER_NUMBER::PLAYER_NULL;
+
 	mFontFlag = true;
 	//プレイヤー操作不能
 	wo.SetInputPlayer(false);
@@ -84,7 +87,8 @@ void GamePlay::Update()
 		mStartFontFlag = false;
 	}
 	if (mIsEndRanund) {
-		if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
+		if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1)||
+			Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
 			mIsEnd = true;
 			mRandCount++;
 			//全ラウンド終わってたらリザルトへ
@@ -100,14 +104,15 @@ void GamePlay::Update()
 		if (mGamePlayManager->EndRaund()) {
 			if (mFontFlag) {
 				mGameTimer->StopTimer(true);
+				//勝ったプレイヤーを入れる
+				mWinPlayer = mGamePlayManager->IsWinPlayer();
 				//そこまで表示
 				fontUi->StartFont(SPRITE_ID::SOKOMADE_FONT_SPRITE);
 				mFontFlag = false;
 			}
 			else if (fontUi->GetEndFont(SPRITE_ID::SOKOMADE_FONT_SPRITE)) {
 				//そこまで表示終わったらリザルト画像を表示
-				PLAYER_NUMBER winPlayer = mGamePlayManager->IsWinPlayer();
-				wo.UIAdd(UI_ID::RESULT_UI, std::make_shared<ResultUI>(wo, *mGamePlayManager.get(), winPlayer));
+				wo.UIAdd(UI_ID::RESULT_UI, std::make_shared<ResultUI>(wo, *mGamePlayManager.get(), mWinPlayer));
 				mIsEndRanund = true;
 				mFontFlag = true;
 			}

@@ -59,4 +59,6 @@ private:
 	//フォントフラグ
 	bool mFontFlag;
 	bool mIsEndRanund;
+	//勝ったプレイヤー
+	PLAYER_NUMBER mWinPlayer;
 };
