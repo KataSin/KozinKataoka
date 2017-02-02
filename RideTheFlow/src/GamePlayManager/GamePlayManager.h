@@ -17,6 +17,10 @@ public:
 	bool TimeUp();
 	//勝ち数を返す
 	std::map<PLAYER_NUMBER, int> GetWinCount();
+	//プレイ人数を取得
+	int GetPlayNum();
+	//プレイ人数を設定
+	void SetPlayNum(int num);
 	//勝ち数をリセットする
 	void ResetWin();
 private:
@@ -24,5 +28,6 @@ private:
 	int mRaundCount;
 	int mEndRaundCount;
 	std::map<PLAYER_NUMBER, int> mWinCount;
+	int mPlayerNum;
 
 };

@@ -12,7 +12,7 @@
 #include "../input/GamePad.h"
 #include "../Def.h"
 
-CameraActor::CameraActor(IWorld& world, Actor &parent_,float angleY) :
+CameraActor::CameraActor(IWorld& world, Actor &parent_, float angleY) :
 	Actor(world),
 	mPlayer(dynamic_cast<Player*>(&parent_)),
 	cameraState(CameraState::DEFAULT),
@@ -79,8 +79,8 @@ void CameraActor::Update()
 	//あたり判定
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::CAMERA_PLATE_COL);
 	//カメラ状態を更新
-	if(mPlayer->GetPlayerState()!=PlayerState::PLAYERRESPAWN)
-	StateUpdate(cameraState);
+	if (mPlayer->GetPlayerState() != PlayerState::PLAYERRESPAWN)
+		StateUpdate(cameraState);
 
 
 	//一番近い当たったポジションにする
@@ -225,42 +225,97 @@ Vector3 CameraActor::GetTarget()
 	return targetPos + Vector3(0.0f, 0.5f, 0.0f);
 }
 
-void CameraActor::SetCamera()
+void CameraActor::SetCamera(int num)
 {
-	//プレイヤーに応じて画面の位置を変更
-	switch (parameter.playNumber)
-	{
-	case PLAYER_NUMBER::PLAYER_1:
-	{
-		SetCameraScreenCenter(320, 180);
-		SetDrawArea(0,0,WINDOW_WIDTH/2+1,WINDOW_HEIGHT/2 + 1);
-		break;
+	//2人ようカメラ設定
+	if (num == 2) {
+		switch (parameter.playNumber)
+		{
+		case PLAYER_NUMBER::PLAYER_1:
+		{
+			SetCameraPoint(
+				Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT/2-WINDOW_HEIGHT/4),
+				Vector2::Zero, 
+				Vector2(WINDOW_WIDTH + 1, WINDOW_HEIGHT / 2 + 1)
+				);
+			break;
+		}
+		case PLAYER_NUMBER::PLAYER_2:
+		{
+			SetCameraPoint(
+				Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT  - WINDOW_HEIGHT / 4),
+				Vector2(0, WINDOW_HEIGHT / 2 + 1),
+				Vector2(WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1));
+			break;
+		}
+		}
 	}
-	case PLAYER_NUMBER::PLAYER_2:
-	{
-		SetCameraScreenCenter(960, 180);
-		SetDrawArea(WINDOW_WIDTH/2, 0, WINDOW_WIDTH + 1, WINDOW_HEIGHT/2 + 1);
-		break;
+	else if (num == 3) {
+		switch (parameter.playNumber)
+		{
+		case PLAYER_NUMBER::PLAYER_1:
+		{
+			SetCameraScreenCenter(320, 180);
+			SetDrawArea(0, 0, WINDOW_WIDTH / 2 + 1, WINDOW_HEIGHT / 2 + 1);
+			break;
+		}
+		case PLAYER_NUMBER::PLAYER_2:
+		{
+			SetCameraScreenCenter(960, 180);
+			SetDrawArea(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH + 1, WINDOW_HEIGHT / 2 + 1);
+			break;
+		}
+		case PLAYER_NUMBER::PLAYER_3:
+		{
+			SetCameraScreenCenter(320, 720 - 180);
+			SetDrawArea(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 2 + 1, WINDOW_HEIGHT + 1);
+			break;
+		}
+		}
 	}
-	case PLAYER_NUMBER::PLAYER_3:
-	{
-		SetCameraScreenCenter(320, 720-180);
-		SetDrawArea(0, WINDOW_HEIGHT/2, WINDOW_WIDTH/2 + 1, WINDOW_HEIGHT + 1);
-		break;
+	else if (num == 4) {
+		switch (parameter.playNumber)
+		{
+		case PLAYER_NUMBER::PLAYER_1:
+		{
+			SetCameraScreenCenter(320, 180);
+			SetDrawArea(0, 0, WINDOW_WIDTH / 2 + 1, WINDOW_HEIGHT / 2 + 1);
+			break;
+		}
+		case PLAYER_NUMBER::PLAYER_2:
+		{
+			SetCameraScreenCenter(960, 180);
+			SetDrawArea(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH + 1, WINDOW_HEIGHT / 2 + 1);
+			break;
+		}
+		case PLAYER_NUMBER::PLAYER_3:
+		{
+			SetCameraScreenCenter(320, 720 - 180);
+			SetDrawArea(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 2 + 1, WINDOW_HEIGHT + 1);
+			break;
+		}
+		case PLAYER_NUMBER::PLAYER_4:
+		{
+			SetCameraScreenCenter(960, 720 - 180);
+			SetDrawArea(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1);
+			break;
+		}
+		}
 	}
-	case PLAYER_NUMBER::PLAYER_4:
-	{
-		SetCameraScreenCenter(960, 720-180);
-		SetDrawArea(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, WINDOW_WIDTH + 1,WINDOW_HEIGHT + 1);
-		break;
-	}
-	}
+	
 	//カメラ設定
 	Camera::GetInstance().SetRange(0.1f, 9999.0f);
 	Camera::GetInstance().Position.Set(mPosition);
 	Camera::GetInstance().Target.Set(target);
 	Camera::GetInstance().Up.Set(Vector3::Up);
 	Camera::GetInstance().Update();
+}
+
+void CameraActor::SetCameraPoint(const Vector2 & center, const Vector2 & areaMin, const Vector2 & areaMax)
+{
+	//カメラエリア設定
+	SetCameraScreenCenter(center.x, center.y);
+	SetDrawArea(areaMin.x,areaMin.y, areaMax.x,areaMax.y);
 }
 
 void CameraActor::SetCameraState(CameraState state)

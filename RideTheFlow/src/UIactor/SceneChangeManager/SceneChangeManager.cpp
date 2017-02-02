@@ -12,7 +12,7 @@ SceneChangeManager::SceneChangeManager(IWorld & world, const Vector2&position) :
 {
 	parameter.isDead = false;
 
-	Vector2 size = Sprite::GetInstance().GetSize(SPRITE_ID::TEST_SPRITE);
+	Vector2 qsize = Sprite::GetInstance().GetSize(SPRITE_ID::TEST_SPRITE);
 	for (int x = 0; x <= 1280 / 16; x++) {
 		for (int y = 0; y <= 720 / 16; y++) {
 			TexState state;

@@ -32,6 +32,10 @@ public:
 	//終了時処理
 	virtual void End()override;
 
+public:
+	//カメラをセット（プレイ人数によって変える）
+	void SetCamera(int num);
+
 private:
 	//ゲームプレイマネージャーポインター
 	typedef std::shared_ptr<GamePlayManager>GamePlayManagerPtr;
@@ -61,4 +65,6 @@ private:
 	bool mIsEndRanund;
 	//勝ったプレイヤー
 	PLAYER_NUMBER mWinPlayer;
+	//何人プレイヤーがいるか
+	int mPlayerNum;
 };

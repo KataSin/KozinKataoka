@@ -29,8 +29,15 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("Player/Player2.png", SPRITE_ID::PLAYER2_MODEL_SPRITE);
 	sprite.Load("Player/Player3.png", SPRITE_ID::PLAYER3_MODEL_SPRITE);
 	sprite.Load("Player/Player4.png", SPRITE_ID::PLAYER4_MODEL_SPRITE);
-	sprite.Load("GameFrame04.png", SPRITE_ID::GAME_FRAME_SPRITE);
-	sprite.Load("Kekka.png", SPRITE_ID::KEKKA_SPRITE);
+	sprite.Load("GameFrame04.png", SPRITE_ID::GAME_FRAME4_SPRITE);
+	sprite.Load("GameFrame03.png", SPRITE_ID::GAME_FRAME3_SPRITE);
+	sprite.Load("GameFrame02.png", SPRITE_ID::GAME_FRAME2_SPRITE);
+
+	sprite.Load("Kekka/Kekka1.png", SPRITE_ID::KEKKA1_SPRITE);
+	sprite.Load("Kekka/Kekka2.png", SPRITE_ID::KEKKA2_SPRITE);
+	sprite.Load("Kekka/Kekka3.png", SPRITE_ID::KEKKA3_SPRITE);
+	sprite.Load("Kekka/Kekka4.png", SPRITE_ID::KEKKA4_SPRITE);
+	
 	sprite.Load("trophy.png", SPRITE_ID::TROPHY_SPRITE);
 
 	sprite.Load("PlayerGanmen/Player1Egao.png", SPRITE_ID::PLAYER1_KAO_E);
@@ -42,7 +49,7 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("PlayerGanmen/Player3Magao.png", SPRITE_ID::PLAYER3_KAO_M);
 	sprite.Load("PlayerGanmen/Player4Magao.png", SPRITE_ID::PLAYER4_KAO_M);
 
-	sprite.Load("sinda.png", SPRITE_ID::SINDA_SPRITE);
+	sprite.Load("Font/sinda.png", SPRITE_ID::SINDA_SPRITE);
 	sprite.Load("sinuyo.png", SPRITE_ID::SINUYO_SPRITE);
 	sprite.Load("DamageBack.png", SPRITE_ID::DAMAGE_BACK_SPRITE);
 	sprite.Load("SceneChangeBlock.png", SPRITE_ID::CHANGE_SCENE_PARTICLE_SPRITE);
@@ -54,6 +61,9 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("OverHert.png", SPRITE_ID::OVER_HERT_SPRITE);
 	sprite.Load("OverHertFont.png", SPRITE_ID::OVER_HERT_FONT_SPRITE);
 
+	sprite.Load("SelectSceneTexBack.png", SPRITE_ID::TEX_BACK_SPRITE);
+
+	sprite.Load("SelectSceneTexBackUp.png", SPRITE_ID::TEX_BACK_UP_SPRITE);
 
 	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 

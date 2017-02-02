@@ -39,26 +39,7 @@ Stage::Stage(IWorld& world) :
 				mStagePos = Vector3(20.0f*x, 0.0f, 20.0f*y + 40.0f) - Vector3(0, 330, 0);
 		}
 	}
-	//プレイヤーがスポーンするポイントを生成
-	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
-		Vector3(20.0f*1, 1.5f, 20.0f*1),
-		225.0f,
-		PLAYER_NUMBER::PLAYER_1));
 
-	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
-		Vector3(20.0f*11, 1.5f, 20.0f*1),
-		135.0f,
-		PLAYER_NUMBER::PLAYER_2));
-
-	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
-		Vector3(20.0f*11, 1.5f, 20.0f*11),
-		45.0f,
-		PLAYER_NUMBER::PLAYER_3));
-
-	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
-		Vector3(20.0f*1, 1.5f, 20.0f*11),
-		315.0f,
-		PLAYER_NUMBER::PLAYER_4));
 
 	//ポールの追加
 	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20) + Vector3(-15, 0, -15), Vector3(20 * 11, 0, 20) + Vector3(15, 0, -15)));
@@ -66,6 +47,26 @@ Stage::Stage(IWorld& world) :
 	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20 * 11, 0, 20 * 11) + Vector3(15, 0, 15), Vector3(20, 0, 20 * 11) + Vector3(-15, 0, 15)));
 	world.Add(ACTOR_ID::POOL_ACTOR, std::make_shared<Pool>(world, Vector3(20, 0, 20 * 11) + Vector3(-15, 0, 15), Vector3(20, 0, 20) + Vector3(-15, 0, -15)));
 
+	//プレイヤーがスポーンするポイントを生成
+	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
+		Vector3(20.0f * 1, 1.5f, 20.0f * 1),
+		225.0f,
+		PLAYER_NUMBER::PLAYER_1));
+
+	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
+		Vector3(20.0f * 11, 1.5f, 20.0f * 1),
+		135.0f,
+		PLAYER_NUMBER::PLAYER_2));
+	if (world.GetPlayerNum() == 2) return;
+	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
+		Vector3(20.0f * 11, 1.5f, 20.0f * 11),
+		45.0f,
+		PLAYER_NUMBER::PLAYER_3));
+	if (world.GetPlayerNum() == 3) return;
+	world.Add(ACTOR_ID::RESPAWNPOINT_ACTOR, std::make_shared<RespawnPoint>(world,
+		Vector3(20.0f * 1, 1.5f, 20.0f * 11),
+		315.0f,
+		PLAYER_NUMBER::PLAYER_4));
 	////木の追加
 	//world.Add(ACTOR_ID::TREE_ACTOR, std::make_shared<Tree>(world,
 	//	Vector3(100, 0, 100)));

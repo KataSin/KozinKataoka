@@ -29,7 +29,8 @@
 //コンストラクタ
 GamePlay::GamePlay(GameManager& gameManager) :
 	mGameManager(&gameManager),
-	mRandCount(0)
+	mRandCount(0),
+	mPlayerNum(0)
 {
 	mGamePlayManager = std::make_shared<GamePlayManager>(wo);
 }
@@ -43,51 +44,58 @@ GamePlay::~GamePlay()
 //開始
 void GamePlay::Initialize()
 {
+	//フラグ初期化
 	mIsEnd = false;
 	mIsEndRanund = false;
 	mStartFontFlag = true;
+	mFontFlag = true;
+	//プレイ人数設定
+	mPlayerNum = mGameManager->GetPlayerNum();
+	wo.SetPlayerNum(mPlayerNum);
+
+	//次もゲームプレイに移行
 	mNextScene = Scene::GamePlay;
 	//ラウンドを設定
 	mEndRaundCount = 3;
+	//ステージを追加
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
 	//タイマー設定
 	auto gameTimer = std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 180.0f);
+	//タイマーを追加
 	wo.UIAdd(UI_ID::GAMETIMER_UI, gameTimer);
 	mGameTimer = gameTimer.get();
-
-	wo.UIAdd(UI_ID::GAMEFRAME_UI, std::make_shared<GameFrameUI>(wo, Vector2::Zero));
+	//ゲームフレームを追加
+	wo.UIAdd(UI_ID::GAMEFRAME_UI, std::make_shared<GameFrameUI>(wo, Vector2::Zero,mPlayerNum));
 	auto font = std::make_shared<GamePlayFontUI>(wo);
+	//フォントマネージャーを追加
 	wo.UIAdd(UI_ID::FONT_UI, font);
 	fontUi = static_cast<GamePlayFontUI*>(font.get());
-
+	//最初に出すフォントを設定
 	fontUi->StartFont(SPRITE_ID::YO_I_FONT_SPRITE);
 
-	SetLightEnable(true);
-	SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
+	//SetLightEnable(true);
+	//SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
 
 	//勝ったプレイヤー初期化
 	mWinPlayer = PLAYER_NUMBER::PLAYER_NULL;
-
-	mFontFlag = true;
 	//プレイヤー操作不能
 	wo.SetInputPlayer(false);
-
+	//支所はタイマーが動いていない
 	gameTimer->StopTimer(true);
-	//ライトの設定(不具合あり)
-	//light.SetDirectionalLight("GamePlayLight", Vector3(-1, -1, -1));
 }
 
 void GamePlay::Update()
 {
 	//よーいフォントが終わったらプレイヤーの操作開始
-	if (fontUi->GetEndFont(SPRITE_ID::YO_I_FONT_SPRITE)&&mStartFontFlag) {
-		fontUi->StartFont(SPRITE_ID::DON_SPRITE,8.0f);
+	if (fontUi->GetEndFont(SPRITE_ID::YO_I_FONT_SPRITE) && mStartFontFlag) {
+		fontUi->StartFont(SPRITE_ID::DON_SPRITE, 8.0f);
 		wo.SetInputPlayer(true);
 		mGameTimer->StopTimer(false);
 		mStartFontFlag = false;
 	}
+
 	if (mIsEndRanund) {
-		if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1)||
+		if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
 			Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
 			mIsEnd = true;
 			mRandCount++;
@@ -138,20 +146,8 @@ void GamePlay::Update()
 //描画
 void GamePlay::Draw()
 {
-	//カメラの描写の位置を設定
-	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_1).get())->SetCamera();
-	//カメラの描写位置を設定し終わった後にプレイヤーごとのUIをUpdateしてDrawをしなくてはいけない
-	wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
-	wo.Draw();
-	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_2).get())->SetCamera();
-	wo.UpdateUI(PLAYER_NUMBER::PLAYER_2);
-	wo.Draw();
-	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_3).get())->SetCamera();
-	wo.UpdateUI(PLAYER_NUMBER::PLAYER_3);
-	wo.Draw();
-	dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_4).get())->SetCamera();
-	wo.UpdateUI(PLAYER_NUMBER::PLAYER_4);
-	wo.Draw();
+	//カメラ分割の設定
+	SetCamera(mPlayerNum);
 	//UI表示のため設定を初期化
 	SetCameraScreenCenter(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	SetDrawArea(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -182,4 +178,60 @@ void GamePlay::End()
 		mGamePlayManager->ResetWin();
 	}
 	wo.Clear();
+}
+
+void GamePlay::SetCamera(int num)
+{
+	switch (num)
+	{
+	case 2:
+	{
+		//カメラの描写の位置を設定
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_1).get())->SetCamera(num);
+		//カメラの描写位置を設定し終わった後にプレイヤーごとのUIをUpdateしてDrawをしなくてはいけない
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
+		wo.Draw();
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_2).get())->SetCamera(num);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_2);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_NULL);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_NULL);
+		wo.Draw();
+		break;
+	}
+	case 3:
+	{
+		//カメラの描写の位置を設定
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_1).get())->SetCamera(num);
+		//カメラの描写位置を設定し終わった後にプレイヤーごとのUIをUpdateしてDrawをしなくてはいけない
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
+		wo.Draw();
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_2).get())->SetCamera(num);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_2);
+		wo.Draw();
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_3).get())->SetCamera(num);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_3);
+		wo.Draw();
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_NULL);
+		break;
+	}
+	case 4:
+	{
+		//カメラの描写の位置を設定
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_1).get())->SetCamera(num);
+		//カメラの描写位置を設定し終わった後にプレイヤーごとのUIをUpdateしてDrawをしなくてはいけない
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_1);
+		wo.Draw();
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_2).get())->SetCamera(num);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_2);
+		wo.Draw();
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_3).get())->SetCamera(num);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_3);
+		wo.Draw();
+		dynamic_cast<CameraActor*>(wo.GetCamera(PLAYER_NUMBER::PLAYER_4).get())->SetCamera(num);
+		wo.UpdateUI(PLAYER_NUMBER::PLAYER_4);
+		wo.Draw();
+		break;
+	}
+
+	}
 }

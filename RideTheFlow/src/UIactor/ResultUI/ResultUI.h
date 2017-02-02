@@ -10,6 +10,8 @@ public:
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
 private:
+	//結果のスクリプトID
+	SPRITE_ID mWinTexId;
 	//結果テクスチャサイズ
 	Vector2 mTexSize;
 	//トロフィーをあげるポジション

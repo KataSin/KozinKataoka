@@ -46,6 +46,7 @@ private:
 	void Default();
 	void KillCmaera();
 	void DropDownCamera();
+	void SetCameraPoint(const Vector2& center, const Vector2& areaMin, const Vector2& areaMax);
 
 public:
 	//カメラの状態をセットする
@@ -58,7 +59,7 @@ public:
 		mDis = dis;
 	}
 	//表示位置設定
-	void SetCamera();
+	void SetCamera(int num);
 	//注視点とカメラのLineを取得
 	Line GetCameraLine()
 	{

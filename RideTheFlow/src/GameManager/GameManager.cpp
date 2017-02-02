@@ -21,6 +21,16 @@ void GameManager::SetRaundCount(int raundCount)
 	mRaund = raundCount;
 }
 
+void GameManager::SetPlayerNum(int num)
+{
+	mPlayerNum = num;
+}
+
+int GameManager::GetPlayerNum()
+{
+	return mPlayerNum;
+}
+
 void GameManager::SetPlayerRank(std::list<PLAYER_NUMBER> playerRank)
 {
 	mPlayerRank = playerRank;

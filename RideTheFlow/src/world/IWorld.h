@@ -27,6 +27,11 @@ public:
 
 	virtual void SetCamera(PLAYER_NUMBER playerNumber)= 0;
 
+	//プレイする人の数を取得
+	virtual int GetPlayerNum()=0;
+	//プレイする人の数を設定
+	virtual void SetPlayerNum(int num) = 0;
+
 	//入力を受け付けるかどうかtrue:受け付ける
 	virtual void SetInputPlayer(bool flag)=0;
 	//操作できるかどうか

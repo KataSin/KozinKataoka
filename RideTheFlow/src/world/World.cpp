@@ -91,6 +91,14 @@ bool World::GetInputPlayer()
 {
 	return inputFlag;
 }
+void World::SetPlayerNum(int num)
+{
+	mPlayerNum = num;
+}
+int World::GetPlayerNum()
+{
+	return mPlayerNum;
+}
 int World::GetActorCount(ACTOR_ID id,ACTOR_ID id2)
 {
 	int count = actors.GetActorCount(id,id2);

@@ -97,6 +97,10 @@
     <ClInclude Include="src\UIactor\ResultUI\ResultUI.h" />
     <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
     <ClInclude Include="src\UIactor\OverHertUI\OverHertUI.h" />
+    <ClInclude Include="src\scene\SelectScene.h" />
+    <ClInclude Include="src\actor\SelectSceneActor\SelectScenePlayer.h" />
+    <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
+    <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -171,5 +175,9 @@
     <ClCompile Include="src\UIactor\ResultUI\ResultUI.cpp" />
     <ClCompile Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.cpp" />
     <ClCompile Include="src\UIactor\OverHertUI\OverHertUI.cpp" />
+    <ClCompile Include="src\scene\SelectScene.cpp" />
+    <ClCompile Include="src\actor\SelectSceneActor\SelectScenePlayer.cpp" />
+    <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
+    <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
   </ItemGroup>
 </Project>

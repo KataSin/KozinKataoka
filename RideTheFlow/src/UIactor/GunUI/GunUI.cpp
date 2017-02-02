@@ -4,20 +4,24 @@
 #include "../../actor/PlayerAttack/PlayerAttackManager/PlayerAttackManager.h"
 GunUI::GunUI(IWorld & world, Vector2 position, Actor & manager) :
 	UIActor(world),
-	mPosition(position)
+	mPosition(position),
+	mTurn(false)
 {
 	parameter.isDead = false;
 	//•ÏŠ·
 	mManager = dynamic_cast<PlayerAttackManager*>(&manager);
 
+	//•ŠíŽí—ÞŽæ“¾
+	mAttackState = mManager->GetState();
+
+	//ƒvƒŒƒCƒ„[‚ª“ñl‚¾‚Á‚½‚çŠÖŒW‚È‚µ
+	if (world.GetPlayerNum() == 2) return;
+	//e‚Ì‰æ‘œ‚ð”½“]‚·‚é‚©‚Ç‚¤‚©
 	if (mManager->GetParameter().playNumber == PLAYER_NUMBER::PLAYER_1 ||
 		mManager->GetParameter().playNumber == PLAYER_NUMBER::PLAYER_3)
 		mTurn = false;
 	else
 		mTurn = true;
-
-	//•ŠíŽí—ÞŽæ“¾
-	mAttackState = mManager->GetState();
 }
 
 GunUI::~GunUI()

@@ -3,7 +3,6 @@
 #include <list>
 class GameManager
 {
-	//ランクはlistに格納されている順番
 public:
 	GameManager();
 	~GameManager();
@@ -17,8 +16,13 @@ public:
 	int GetRaundCount();
 	//ラウンド数を設定
 	void SetRaundCount(int raundCount);
+	//プレイする人数を設定
+	void SetPlayerNum(int num);
+	//プレイする人数を取得
+	int GetPlayerNum();
 
 private:
 	std::list<PLAYER_NUMBER> mPlayerRank;
 	int mRaund;
+	int mPlayerNum;
 };

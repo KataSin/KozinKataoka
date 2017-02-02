@@ -50,12 +50,14 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	isDamageShot(false),
 	sniperFlag(false)
 {
+	//パラメーター初期化
 	parameter.HP = 0;
 	parameter.playNumber = player;
 	parameter.isDead = false;
 	parameter.height = 5.0f;
 	parameter.radius = 2.0f;
 	parameter.isRespawn = false;
+	parameter.id = ACTOR_ID::PLAYER_ACTOR;
 	parameter.mat =
 		Matrix4::Scale(0)*
 		Matrix4::RotateX(0)*
@@ -74,9 +76,9 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	PlayerNumSet(parameter.playNumber);
 	//ダメージUIを追加
 	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world, uiDamagePos, this));
+	//没
 	world.UIAdd(UI_ID::DAMAGE_BACK_UI, std::make_shared<DamageBackUI>(world, uiDamageBackPos, *this));
-
-
+	//アニメーションクラスの生成
 	animeClass = new AnimationClass(this, ANIMATION::PLAYER_IDLE_ANIM, mModelId);
 
 	//カメラ
@@ -302,11 +304,12 @@ void Player::Move()
 	Vector2 vec;
 	vec = GamePad::GetInstance().Stick(pad)*playerSpeed;
 
-	if (vec.x == 0 && vec.y == 0)
-		animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
-	else
-		animeClass->changeAnim(ANIMATION::PLAYER_RUN_ANIM);
-
+	if (!gravityFlag) {
+		if (vec.x == 0 && vec.y == 0)
+			animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+		else
+			animeClass->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
+	}
 
 	mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
 	mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
@@ -391,6 +394,7 @@ void Player::Jump()
 	{
 		mVelocity.y = 15.0f;
 		jumpFlag = true;
+		animeClass->changeAnim(ANIMATION::PLAYER_JUMP_ANIM);
 		playerState = PlayerState::PLAYERJUMP;
 	}
 	if (jumpFlag)
@@ -452,39 +456,61 @@ PLAYER_NUMBER Player::GetDamagePlayer()
 
 void Player::PlayerNumSet(PLAYER_NUMBER num)
 {
-	//パッドのプレイヤー設定
-	switch (num)
-	{
-	case PLAYER_NULL:
-		break;
-	case PLAYER_1: {
-		pad = PADNUM::PAD1;
-		uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
-		uiDamageBackPos = Vector2::Zero;
-		mModelId = MODEL_ID::PLAYER1_MODEL;
-		break;
+	if (world.GetPlayerNum() == 2) {
+		switch (num)
+		{
+		case PLAYER_NULL:
+			break;
+		case PLAYER_1: {
+			pad = PADNUM::PAD1;
+			uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
+			uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
+			mModelId = MODEL_ID::PLAYER1_MODEL;
+			break;
+		}
+		case PLAYER_2: {
+			pad = PADNUM::PAD2;
+			uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
+			uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
+			mModelId = MODEL_ID::PLAYER2_MODEL;
+			break;
+		}
+		}
 	}
-	case PLAYER_2: {
-		pad = PADNUM::PAD2;
-		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
-		uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, 0);
-		mModelId = MODEL_ID::PLAYER2_MODEL;
-		break;
+	else {
+		//パッドのプレイヤー設定
+		switch (num)
+		{
+		case PLAYER_NULL:
+			break;
+		case PLAYER_1: {
+			pad = PADNUM::PAD1;
+			uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
+			uiDamageBackPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
+			mModelId = MODEL_ID::PLAYER1_MODEL;
+			break;
+		}
+		case PLAYER_2: {
+			pad = PADNUM::PAD2;
+			uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
+			uiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
+			mModelId = MODEL_ID::PLAYER2_MODEL;
+			break;
+		}
+		case PLAYER_3: {
+			pad = PADNUM::PAD3;
+			uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
+			uiDamageBackPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
+			mModelId = MODEL_ID::PLAYER3_MODEL;
+			break;
+		}
+		case PLAYER_4: {
+			pad = PADNUM::PAD4;
+			uiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT-WINDOW_HEIGHT / 4);
+			uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
+			mModelId = MODEL_ID::PLAYER4_MODEL;
+			break;
+		}
+		}
 	}
-	case PLAYER_3: {
-		pad = PADNUM::PAD3;
-		uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
-		uiDamageBackPos = Vector2(0, WINDOW_HEIGHT / 2);
-		mModelId = MODEL_ID::PLAYER3_MODEL;
-		break;
-	}
-	case PLAYER_4: {
-		pad = PADNUM::PAD4;
-		uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-		uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
-		mModelId = MODEL_ID::PLAYER4_MODEL;
-		break;
-	}
-	}
-
 }

@@ -12,7 +12,29 @@ ResultUI::ResultUI(IWorld & world, GamePlayManager & gamePlayManager, PLAYER_NUM
 	//ここでリザルト処理＆勝った人を取る
 	mWinPlayer = winPlayer;
 	mWinCount = gamePlayManager.GetWinCount();
-	mTexSize = Sprite::GetInstance().GetSize(SPRITE_ID::KEKKA_SPRITE);
+	//表示する結果を設定
+	switch (winPlayer)
+	{
+	case PLAYER_NUMBER::PLAYER_1: {
+		mWinTexId = SPRITE_ID::KEKKA1_SPRITE;
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_2: {
+		mWinTexId = SPRITE_ID::KEKKA2_SPRITE;
+
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_3: {
+		mWinTexId = SPRITE_ID::KEKKA3_SPRITE;
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_4: {
+		mWinTexId = SPRITE_ID::KEKKA4_SPRITE;
+		break;
+	}
+	}
+
+	mTexSize = Sprite::GetInstance().GetSize(mWinTexId);
 	mTrophyAllPos = (Vector2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2 - mTexSize / 2) + Vector2(128, 90);
 	mTrophyPos = Vector2(mWinCount[mWinPlayer] * 32, (int)mWinPlayer * 35) - Vector2(16, 16);
 
@@ -27,7 +49,10 @@ ResultUI::ResultUI(IWorld & world, GamePlayManager & gamePlayManager, PLAYER_NUM
 	kao4[SPRITE_ID::PLAYER4_KAO_E] = SPRITE_ID::PLAYER4_KAO_M;
 	mKaos[PLAYER_NUMBER::PLAYER_1] = kao1;
 	mKaos[PLAYER_NUMBER::PLAYER_2] = kao2;
+	//プレイ人数によって変える
+	if (world.GetPlayerNum() == 2)return;
 	mKaos[PLAYER_NUMBER::PLAYER_3] = kao3;
+	if (world.GetPlayerNum() == 3) return;
 	mKaos[PLAYER_NUMBER::PLAYER_4] = kao4;
 }
 
@@ -51,7 +76,7 @@ void ResultUI::Update(PLAYER_NUMBER playerNumber)
 
 void ResultUI::Draw() const
 {
-	Sprite::GetInstance().Draw(SPRITE_ID::KEKKA_SPRITE, Vector2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2, mTexSize / 2, mAlpha, Vector2(mAlpha), true, false);
+	Sprite::GetInstance().Draw(mWinTexId, Vector2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2, mTexSize / 2, mAlpha, Vector2(mAlpha), true, false);
 	//勝った人は後でトロフィーをあげるので勝ち数-1にしてある
 	for (const auto& i : mWinCount) {
 		int loop = i.second;

@@ -131,35 +131,59 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 
 void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 {
-	//パッドのプレイヤー設定
-	switch (num)
+	//プレイヤーの人数によって変更
+	if (world.GetPlayerNum()==2) {
+		switch (num)
+		{
+		case PLAYER_NULL:
+			break;
+		case PLAYER_1: {
+			pad = PADNUM::PAD1;
+			uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 112);
+			break;
+		}
+		case PLAYER_2: {
+			pad = PADNUM::PAD2;
+			uiPos = Vector2(10, WINDOW_HEIGHT - 125);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 3 / 4 + 112);
+			break;
+		}
+		}
+	}
+	//二人以外は全部同じ
+	else
 	{
-	case PLAYER_NULL:
-		break;
-	case PLAYER_1: {
-		pad = PADNUM::PAD1;
-		uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
-		mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 + 112);
-		break;
-	}
-	case PLAYER_2: {
-		pad = PADNUM::PAD2;
-		uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
-		mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 + 112);
-		break;
-	}
-	case PLAYER_3: {
-		pad = PADNUM::PAD3;
-		uiPos = Vector2(10, WINDOW_HEIGHT - 125);
-		mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 + 112);
-		break;
-	}
-	case PLAYER_4: {
-		pad = PADNUM::PAD4;
-		uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
-		mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 + 112);
-		break;
-	}
+		//パッドのプレイヤー設定
+		switch (num)
+		{
+		case PLAYER_NULL:
+			break;
+		case PLAYER_1: {
+			pad = PADNUM::PAD1;
+			uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 + 112);
+			break;
+		}
+		case PLAYER_2: {
+			pad = PADNUM::PAD2;
+			uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 + 112);
+			break;
+		}
+		case PLAYER_3: {
+			pad = PADNUM::PAD3;
+			uiPos = Vector2(10, WINDOW_HEIGHT - 125);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 + 112);
+			break;
+		}
+		case PLAYER_4: {
+			pad = PADNUM::PAD4;
+			uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 + 112);
+			break;
+		}
+		}
 	}
 }
 

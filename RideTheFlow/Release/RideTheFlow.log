@@ -1,7 +1,83 @@
-﻿  Game1.cpp
+﻿  GameManager.cpp
+  GamePlayManager.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\gameplaymanager\../UIactor/GameTimer/GameTimerUI.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+src\GamePlayManager\GamePlayManager.cpp(40): warning C4101: 'win' : ローカル変数は 1 度も使われていません。
+  AttackGauge.cpp
+  DamageBackUI.cpp
+src\UIactor\DamageBackUI\DamageBackUI.cpp(28): warning C4244: '初期化中' : 'float' から 'int' への変換です。データが失われる可能性があります。
+  DamageUI.cpp
+src\UIactor\DamageUI\DamageUI.cpp(19): warning C4244: '=' : 'float' から 'int' への変換です。データが失われる可能性があります。
+  GameFrameUI.cpp
+  GamePlayFontUI.cpp
+  GameTimerUI.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\gametimer\GameTimerUI.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+src\UIactor\GameTimer\GameTimerUI.cpp(26): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  GunUI.cpp
+  NumberTexture.cpp
+src\UIactor\NumberTexture\NumberTexture.cpp(32): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+src\UIactor\NumberTexture\NumberTexture.cpp(32): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  OverHertUI.cpp
+  ResultUI.cpp
+  ChangeBlock.cpp
+  ChangeParticle.cpp
+  SceneChangeManager.cpp
+src\UIactor\SceneChangeManager\SceneChangeManager.cpp(20): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+  GameMasterUI.cpp
+  Target.cpp
+  UIActor.cpp
+  UIActorManager.cpp
+  FadePanel.cpp
+  コンパイル中...
+  Actor.cpp
+  ActorManager.cpp
+  CameraActor.cpp
+src\actor\CameraActor.cpp(318): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  Collision.cpp
+  DeadBullet.cpp
+  DeadBulletManager.cpp
+  FogActor.cpp
+  ParticleManager.cpp
+  Particle.cpp
+  Player.cpp
+  PlayerAttackManager.cpp
+  PlayerBullet.cpp
+  TargetRay.cpp
+  Pool.cpp
+  RespawnPoint.cpp
+  SelectSceneCamera.cpp
+  SelectScenePlayer.cpp
+  Stage.cpp
+  StageLine.cpp
+  DefaultPlate.cpp
+  コンパイル中...
+  NoBreakPlate.cpp
+  Tree.cpp
+  Camera.cpp
+  Content.cpp
+  Game1.cpp
   GameFrame.cpp
+  Anime.cpp
+  AnimetionClass.cpp
+src\graphic\AnimetionClass.cpp(16): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+  Model.cpp
+  Sprite.cpp
+src\graphic\Sprite.cpp(61): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(62): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(101): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(185): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(186): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(191): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(199): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+src\graphic\Sprite.cpp(202): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  main.cpp
   GamePlay.cpp
 c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\scene\../UIactor/GameTimer/GameTimerUI.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+  Result.cpp
+  SelectScene.cpp
+  TitleScene.cpp
+  Sound.cpp
+  World.cpp
+  WorldActor.cpp
   コード生成しています。
   コード生成が終了しました。
 CameraManager.obj : warning LNK4099: PDB 'vc120.pdb' が 'CameraManager.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -20,6 +96,5 @@ Quaternion.obj : warning LNK4099: PDB 'vc120.pdb' が 'Quaternion.obj' で、ま
 Vector2.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector2.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Vector3.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector3.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Vector4.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector4.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-SceneManager.obj : warning LNK4099: PDB 'vc120.pdb' が 'SceneManager.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Time.obj : warning LNK4099: PDB 'vc120.pdb' が 'Time.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   RideTheFlow.vcxproj -> C:\Users\ktok\Desktop\個人製作夏休みから\Release\RideTheFlow.exe

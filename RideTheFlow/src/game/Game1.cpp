@@ -4,6 +4,7 @@
 #include "../scene/TitleScene.h"
 #include "../scene/GamePlay.h"
 #include "../scene/Result.h"
+#include "../scene/SelectScene.h"
 #include "../Def.h"
 #include "../graphic/Model.h"
 #include "../graphic/Anime.h"
@@ -37,8 +38,8 @@ void Game1::Initialize()
 	mSceneManager.Add(Scene::Title, std::make_shared<TitleScene>());
 	mSceneManager.Add(Scene::GamePlay, std::make_shared<GamePlay>(*mGameManager.get()));
 	mSceneManager.Add(Scene::Result, std::make_shared<Result>(*mGameManager.get()));
-
-	mSceneManager.SetScene(Scene::Title);
+	mSceneManager.Add(Scene::Select, std::make_shared<SelectScene>(*mGameManager.get()));
+	mSceneManager.SetScene(Scene::Select);
 }
 
 void Game1::Update()

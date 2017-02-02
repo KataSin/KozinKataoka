@@ -12,6 +12,14 @@ public:
 private:
 	Actor* mPlayer;
 	Vector2 mPosition;
+	//フォントのテクスチャサイズ
+	Vector2 mFontSize;
+	//バックのテクスチャサイズ
+	Vector2 mDamageBackSize;
+	//フォントの座標
+	Vector2 mFontPos;
+	//バックのサイズ
+	Vector2 mScale;
 	SPRITE_ID mId;
 	float mAlpha;
 

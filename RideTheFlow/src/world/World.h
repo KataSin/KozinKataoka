@@ -35,6 +35,9 @@ public:
 	virtual void SetInputPlayer(bool flag) override;
 	virtual bool GetInputPlayer() override;
 
+	virtual void SetPlayerNum(int num) override;
+	virtual int GetPlayerNum()override;
+
 private:
 	WorldActor actors;
 	ActorPtr   playerActor;
@@ -42,5 +45,6 @@ private:
 	std::vector<ActorPtr> masterCastles;
 
 	bool inputFlag;
+	int mPlayerNum;
 
 };
