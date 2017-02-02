@@ -101,6 +101,7 @@
     <ClInclude Include="src\actor\SelectSceneActor\SelectScenePlayer.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
     <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
+    <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -179,5 +180,6 @@
     <ClCompile Include="src\actor\SelectSceneActor\SelectScenePlayer.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
     <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
+    <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
   </ItemGroup>
 </Project>

@@ -101,6 +101,7 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("Stage/Stage01.mqo", MODEL_ID::STAGE01_MODEL, async);
 	model.Load("Pool/Pool.mv1", MODEL_ID::POOL_MODEL, async);
 	model.Load("NoBreakPlate/NoBreakPlate.mv1", MODEL_ID::NOBREAKPLATE_MODEL, async);
+	model.Load("Stage/RunStage.mv1", MODEL_ID::RUN_STAGE_MODEL, async);
 
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }
