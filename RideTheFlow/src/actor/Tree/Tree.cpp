@@ -73,13 +73,13 @@ void Tree::Update()
 			//マトリックスを保存
 			downSeveMat = parameter.mat;
 		}
-		downVelo += 0.01f*Time::DeltaTime;
+		downVelo += 0.01f*Time::GetInstance().deltaTime();
 		count += downVelo;
 	    count = Math::Clamp(count, 0.0f, 1.0f);
 		parameter.mat = Matrix4::Slerp(downSeveMat, downMat, count);
 
 		if (count >= 1.0f)
-			alpha -= 0.5f*Time::DeltaTime;
+			alpha -= 0.5f*Time::GetInstance().deltaTime();
 	}
 }
 

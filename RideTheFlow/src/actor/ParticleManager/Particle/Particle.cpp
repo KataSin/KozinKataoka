@@ -28,14 +28,14 @@ Particle::~Particle()
 
 void Particle::Update()
 {
-	mDeadTime += Time::DeltaTime;
-	mPosition += mVec*Time::DeltaTime;
+	mDeadTime += Time::GetInstance().deltaTime();
+	mPosition += mVec*Time::GetInstance().deltaTime();
 
 	Deceleration(mVec.x);
 	Deceleration(mVec.y);
 	Deceleration(mVec.z);
 	
-	mRotate += mRotateVelo*Time::DeltaTime;
+	mRotate += mRotateVelo*Time::GetInstance().deltaTime();
 
 	parameter.mat =
 		Matrix4::Scale(0.3f)*
@@ -45,7 +45,7 @@ void Particle::Update()
 		Matrix4::Translate(mPosition);
 
 	if (mDeadTime >= 1.0f) {
-		mAlpha -= Time::DeltaTime;
+		mAlpha -= Time::GetInstance().deltaTime();
 	}
 
 	if (mAlpha<=0.0f) {
@@ -69,11 +69,11 @@ void Particle::Deceleration(float & pos)
 	{
 		if (pos < 0.0f)
 		{
-			pos += Time::DeltaTime;
+			pos += Time::GetInstance().deltaTime();
 		}
 		if (pos > 0.0f)
 		{
-			pos -= Time::DeltaTime;
+			pos -= Time::GetInstance().deltaTime();
 		}
 	}
 	else

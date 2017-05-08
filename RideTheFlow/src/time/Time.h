@@ -1,20 +1,23 @@
 #pragma once
 
-class Time
-{
+class Time {
 public:
 	Time();
-
-	///<summary>
-	/// 更新処理
-	///</summary>
-	void Update();
-
-	///<summary>
-	/// 前フレームと今フレームの時間差
-	///</summary>
-	static float DeltaTime;
-
+	static Time &GetInstance();
+	void update();
+	float deltaTime();
+	float refreshRate();
+	float correctionTime();
+	void draw_fps();
 private:
-	int savetime;// 前フレームの時間を保存
+	float m_LastFrame;
+	float m_LastTime;
+	float m_RealtimeSinceStartup;
+	float m_FrameCount;
+	float m_DeltaTime;
+private:
+	int counter;
+	int FpsTime[2];
+	int FpsTime_i;
+	double Fps;
 };

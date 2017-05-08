@@ -29,6 +29,9 @@ void Game1::Initialize()
 	Sprite::GetInstance().Initialize();
 	Sound::GetInstance().Initialize();
 
+
+
+
 	// ファイルの読み込み
 	mContent.LoadSprite(Sprite::GetInstance(), Model::GetInstance());
 	mContent.LoadSound(Sound::GetInstance());
@@ -45,7 +48,7 @@ void Game1::Initialize()
 void Game1::Update()
 {
 	// 時間を更新
-	mTime.Update();
+	Time::GetInstance().update();
 
 	// 入力の更新
 	Keyboard::GetInstance().Update();

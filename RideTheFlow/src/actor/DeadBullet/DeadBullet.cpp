@@ -48,8 +48,8 @@ void DeadBullet::Update()
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYERBULLET_PLAYER_COL);
 
 	Vector3 speed = 15.0f;
-	vec += Vector3(0.0f, -0.2f, 0.0f)*speed*Time::DeltaTime;
-	mPosition += vec.Normalized()*mInitialVelocity*speed*Time::DeltaTime;
+	vec += Vector3(0.0f, -0.2f, 0.0f)*speed*Time::GetInstance().deltaTime();
+	mPosition += vec.Normalized()*mInitialVelocity*speed*Time::GetInstance().deltaTime();
 
 	//â∫Ç…çsÇ¡ÇΩÇÁéÄñS
 	if (parameter.mat.GetPosition().y <= -5.0f)

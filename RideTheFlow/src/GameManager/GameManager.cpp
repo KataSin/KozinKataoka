@@ -2,6 +2,7 @@
 
 GameManager::GameManager()
 {
+	mPads.clear();
 }
 GameManager::~GameManager()
 {
@@ -29,6 +30,16 @@ void GameManager::SetPlayerNum(int num)
 int GameManager::GetPlayerNum()
 {
 	return mPlayerNum;
+}
+
+void GameManager::SetPlayerPad(std::vector<int> pads)
+{
+	mPads = pads;
+}
+
+std::vector<int> GameManager::GetPlayerPad()
+{
+	return mPads;
 }
 
 void GameManager::SetPlayerRank(std::list<PLAYER_NUMBER> playerRank)

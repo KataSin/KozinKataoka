@@ -28,7 +28,6 @@ public:
 private:
 	typedef std::shared_ptr<GameManager> GameManagerPtr;
 	GameManagerPtr mGameManager;
-	Time mTime;
 	Content mContent;
 
 	SceneManager mSceneManager;

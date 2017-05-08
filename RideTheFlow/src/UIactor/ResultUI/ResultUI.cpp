@@ -63,12 +63,12 @@ ResultUI::~ResultUI()
 void ResultUI::Update(PLAYER_NUMBER playerNumber)
 {
 	//結果のαを足してく
-	mAlpha += Time::DeltaTime;
+	mAlpha += Time::GetInstance().deltaTime();
 	//クランプ
 	mAlpha = Math::Clamp(mAlpha, 0.0f, 1.0f);
 	//結果が表示し終わったらトロフィーをあげる
 	if (mAlpha >= 1.0f) {
-		mTrophyAlpha += 0.3f*Time::DeltaTime;
+		mTrophyAlpha += 0.3f*Time::GetInstance().deltaTime();
 		mSize = Math::Lerp(1.5f, 1.0f, mTrophyAlpha);
 	}
 

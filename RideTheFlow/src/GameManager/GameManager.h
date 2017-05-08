@@ -1,6 +1,7 @@
 #pragma once
 #include "../actor/ID.h"
 #include <list>
+#include <vector>
 class GameManager
 {
 public:
@@ -20,9 +21,14 @@ public:
 	void SetPlayerNum(int num);
 	//プレイする人数を取得
 	int GetPlayerNum();
+	//何プレイヤーかセット（パッドセット）
+	void SetPlayerPad(std::vector<int> pads);
+	//何プレイヤーか取得（パッドゲット）
+	std::vector<int> GetPlayerPad();
 
 private:
 	std::list<PLAYER_NUMBER> mPlayerRank;
+	std::vector<int>mPads;
 	int mRaund;
 	int mPlayerNum;
 };

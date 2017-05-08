@@ -21,11 +21,11 @@ ChangeParticle::~ChangeParticle()
 
 void ChangeParticle::Update(PLAYER_NUMBER playerNumber)
 {
-	mPosition += mVec*Time::DeltaTime;
-	mAngle += mPlusAngle*Time::DeltaTime;
-	mTime += Time::DeltaTime;
+	mPosition += mVec*Time::GetInstance().deltaTime();
+	mAngle += mPlusAngle*Time::GetInstance().deltaTime();
+	mTime += Time::GetInstance().deltaTime();
 	if (mDeadTime <= mTime) {
-		mAlpha -= Time::DeltaTime;
+		mAlpha -= Time::GetInstance().deltaTime();
 		if (mAlpha <= 0.0f) parameter.isDead = true;
 	}
 }

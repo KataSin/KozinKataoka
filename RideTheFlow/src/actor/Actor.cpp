@@ -16,6 +16,7 @@ const Vector3 MaxPlate = Vector3(12.0f, 1.5f, 12.0f);
 
 Actor::Actor(IWorld& world_) :world(world_)
 {
+	parameter.isDead = false;
 	//colFunc[COL_ID::SPHERE_SPHERE_COL] = std::bind(&Actor::SphereSphere, this, std::placeholders::_1);
 	//colFunc[COL_ID::CAPSULE_CAPSULE_COL] = std::bind(&Actor::CapsuleCapsule, this, std::placeholders::_1);
 	//colFunc[COL_ID::CAPSULE_AABB_COL] = std::bind(&Actor::CapsuleAABBSegment, this, std::placeholders::_1);

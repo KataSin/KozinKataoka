@@ -3,7 +3,7 @@
 #include "../actor/CameraActor.h"
 World::World():
 inputFlag(true){
-
+	playerPadNum.clear();
 }
 
 World::~World(){
@@ -98,6 +98,14 @@ void World::SetPlayerNum(int num)
 int World::GetPlayerNum()
 {
 	return mPlayerNum;
+}
+std::vector<int> World::GetPadNum()
+{
+	return playerPadNum;
+}
+void World::SetPadNum(std::vector<int> pad)
+{
+	playerPadNum = pad;
 }
 int World::GetActorCount(ACTOR_ID id,ACTOR_ID id2)
 {

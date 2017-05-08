@@ -63,8 +63,8 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 
 	sprite.Load("SelectSceneTexBack.png", SPRITE_ID::TEX_BACK_SPRITE);
 
-	sprite.Load("SelectSceneTexBackUp.png", SPRITE_ID::TEX_BACK_UP_SPRITE);
-
+	sprite.Load("SelectBackNinzu.png", SPRITE_ID::UP_NINZU_SPRITE);
+	sprite.Load("SelectBackRaund.png", SPRITE_ID::UP_RAUND_SPRITE);
 	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 
 
@@ -102,6 +102,7 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("Pool/Pool.mv1", MODEL_ID::POOL_MODEL, async);
 	model.Load("NoBreakPlate/NoBreakPlate.mv1", MODEL_ID::NOBREAKPLATE_MODEL, async);
 	model.Load("Stage/RunStage.mv1", MODEL_ID::RUN_STAGE_MODEL, async);
+	model.Load("GameMaster/GameMaster.pmx", MODEL_ID::GAME_MASTER_MODEL, async);
 
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }

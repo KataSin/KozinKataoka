@@ -186,6 +186,34 @@ void GamePad::VibrationEnd(int pad)
 	StopJoypadVibration(pad);
 }
 
+bool GamePad::AllTriggerDown()
+{
+	for (auto& button : m_inputbuttons)
+	{
+		Exception(PADNUM::PAD1, button);
+		if (m_onbuttons[PADNUM::PAD1][button] == 1)
+		{
+			return true;
+		}
+		Exception(PADNUM::PAD2, button);
+		if (m_onbuttons[PADNUM::PAD2][button] == 1)
+		{
+			return true;
+		}
+		Exception(PADNUM::PAD3, button);
+		if (m_onbuttons[PADNUM::PAD3][button] == 1)
+		{
+			return true;
+		}
+		Exception(PADNUM::PAD4, button);
+		if (m_onbuttons[PADNUM::PAD4][button] == 1)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void GamePad::Update()
 {
 	for (auto& pad : m_pads)

@@ -88,7 +88,7 @@ void DefaultPlate::Update()
 		mIsDead = true;
 	}
 	if(mIsDead)
-		respawnCount += Time::DeltaTime;
+		respawnCount += Time::GetInstance().deltaTime();
 	//•œŠˆ‚µ‚½‚ç‰Šúó‘Ô‚É–ß‚é
 	if (respawnCount >= RespawnTime)
 	{
@@ -120,7 +120,7 @@ void DefaultPlate::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLATE_BULLET_COL)
 	{
 		playerNum = other.GetParameter().playNumber;
-		parameter.HP--;
+		parameter.HP-=2;
 		clor += 1.0f / 2.0f;
 	}
 }

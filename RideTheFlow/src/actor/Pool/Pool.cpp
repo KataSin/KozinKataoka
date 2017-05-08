@@ -37,7 +37,7 @@ void Pool::Update()
 		Matrix4::RotateZ(0.0f)*
 		Matrix4::Translate(mLinePosition);
 
-	mTimer += Time::DeltaTime;
+	mTimer += Time::GetInstance().deltaTime();
 	if (mTimer >= 1.0f) {
 		Line line;
 		//Line‚ğİ’è

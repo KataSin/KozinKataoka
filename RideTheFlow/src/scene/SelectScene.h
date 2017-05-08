@@ -26,10 +26,14 @@ public:
 	virtual Scene Next() const override;
 	//I—¹ˆ—
 	virtual void End()override;
-
 private:
 	GameManager* mGameManager;
+	ActorPtr mMaster;
 	bool  mIsEnd;
 	World wo;
 	Light light;
+	bool player2Flag;
+	bool player3Flag;
+	bool player4Flag;
+	std::vector<int> pads;
 };

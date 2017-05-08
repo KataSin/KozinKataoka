@@ -51,6 +51,8 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
     world.UIAdd(UI_ID::OVER_HERT_UI, std::make_shared<OverHertUI>(world, mOverHertUiPos, *this));
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
+	//パッド設定
+	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
 	////誰の弾かの情報を設定
 	//bulletState.playerNumber = mPlayer->GetParameter().playNumber;
 }
@@ -83,9 +85,9 @@ void PlayerAttackManager::Update()
 	//攻撃していない時にオバーヒート回復
 	if (!attackFlag)
 	{
-		coolHertCount += Time::DeltaTime;
+		coolHertCount += Time::GetInstance().deltaTime();
 		if (coolHertCount >= 2.0f)
-			overHertCount += 80.0f*Time::DeltaTime;
+			overHertCount += 80.0f*Time::GetInstance().deltaTime();
 		overHertCount = Math::Clamp(overHertCount, 0.0f, 100.0f);
 	}
 	else
@@ -108,7 +110,7 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	case PlayerAttackState::MACHINE_GUN:
 	{
 		//ターゲットの位置を30に変更
-		mCamera->SetTargetDistance(30.0f);
+		mCamera->SetTargetDistance(45.0f);
 		MachineGun();
 		break;
 	}
@@ -122,7 +124,7 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	case PlayerAttackState::SHOT_GUN:
 	{
 		//ターゲットの位置を10に変更
-		mCamera->SetTargetDistance(22.0f);
+		mCamera->SetTargetDistance(30.0f);
 		ShotGun();
 		break;
 	}
@@ -138,13 +140,11 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			pad = PADNUM::PAD1;
 			uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 112);
 			break;
 		}
 		case PLAYER_2: {
-			pad = PADNUM::PAD2;
 			uiPos = Vector2(10, WINDOW_HEIGHT - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 3 / 4 + 112);
 			break;
@@ -160,25 +160,21 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			pad = PADNUM::PAD1;
 			uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 + 112);
 			break;
 		}
 		case PLAYER_2: {
-			pad = PADNUM::PAD2;
 			uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 + 112);
 			break;
 		}
 		case PLAYER_3: {
-			pad = PADNUM::PAD3;
 			uiPos = Vector2(10, WINDOW_HEIGHT - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 + 112);
 			break;
 		}
 		case PLAYER_4: {
-			pad = PADNUM::PAD4;
 			uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 + 112);
 			break;
@@ -202,7 +198,7 @@ void PlayerAttackManager::MachineGun()
 		}
 		//オーバーヒートしていないよ
 		overHertFlag = false;
-		machineAttackCount += Time::DeltaTime;
+		machineAttackCount += Time::GetInstance().deltaTime();
 		//0.1秒に1個発射する
 		if (machineAttackCount >= 0.1f)
 		{
@@ -248,7 +244,7 @@ void PlayerAttackManager::SniperGun()
 		if (mSniperState.chargeSniperCount >= 12.0f)
 			mSniperState.doCharge = true;
 		//チャージ量を増やす
-		mSniperState.chargeSniperCount += 50.0f*Time::DeltaTime;
+		mSniperState.chargeSniperCount += 50.0f*Time::GetInstance().deltaTime();
 		//チャージ量を一定数に収める
 		mSniperState.chargeSniperCount
 			= Math::Clamp(mSniperState.chargeSniperCount, 10.0f, 100.0f);
@@ -267,7 +263,7 @@ void PlayerAttackManager::SniperGun()
 	//離した時から0.1秒後にあたり判定無効化
 	if (mSniperState.isColSniperLine)
 	{
-		isColSniperCount += Time::DeltaTime;
+		isColSniperCount += Time::GetInstance().deltaTime();
 		if (isColSniperCount >= 0.2f)
 		{
 			//最初の状態に戻す
@@ -275,6 +271,7 @@ void PlayerAttackManager::SniperGun()
 			mSniperState.isColSniperLine = false;
 			mSniperState.chargeSniperCount = 100.0f;
 			initSniperFalg = true;
+			
 		}
 	}
 
@@ -282,7 +279,7 @@ void PlayerAttackManager::SniperGun()
 
 void PlayerAttackManager::ShotGun()
 {
-	shotAttackCount += Time::DeltaTime;
+	shotAttackCount += Time::GetInstance().deltaTime();
 	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
 		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))
 	{

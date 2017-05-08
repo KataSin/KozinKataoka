@@ -17,7 +17,7 @@ GameTimerUI::~GameTimerUI()
 void GameTimerUI::Update(PLAYER_NUMBER playerNumber)
 {
 	if(!mStopFlag)
-	mGameTimer -= 1.0f/4.0f*Time::DeltaTime;
+	mGameTimer -= 1.0f/4.0f*Time::GetInstance().deltaTime();
 }
 
 void GameTimerUI::Draw() const

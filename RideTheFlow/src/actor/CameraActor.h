@@ -11,7 +11,7 @@
 //カメラ感度
 const float CameraSpeed = 100.0f;
 //カメラとプレイヤーの距離
-const float CameraDis = 20.0f;
+const float CameraDis = 30.0f;
 
 class Player;
 

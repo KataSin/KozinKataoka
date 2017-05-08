@@ -2,29 +2,28 @@
 #include "../../UIActor.h"
 #include <vector>
 
+class AnimetionClass;
+class MessageText;
 class GameMasterUI : public UIActor
 {
-	struct SpriteState
-	{
-		SPRITE_ID spriteID;
-		Vector2 spriteSize;
-		Vector2 position;
-	};
 public:
 	GameMasterUI(IWorld& world);
 	~GameMasterUI();
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
+public:
+	//何番目を喋らせるか
+	void SetMasterText(int num);
+	//何番目を喋っているか
+	int GetMasterText();
 private:
-	//ポジション
-	Vector2 mPosition;
-	//テキストの情報
-	std::vector<SpriteState> mTexs;
-	//どのぐらいテキストが決まったか
-	int texNum;
-	//テキストマックスサイズ
-	int texMaxSize;
-
-	SpriteState mTexBackUp;
-	SpriteState mTexBack;
+	//テキストの後ろのある画像座標
+	Vector2 mTextBackPos;
+	//テキスト後ろの画像サイズ
+	Vector2 mTextBackSize;
+	//メッセージ
+	MessageText* mMessageText;
+	//ゲームマスターがどこを喋っているか
+	int mMessageCount;
+	AnimetionClass* mGameMasterAnim;
 };

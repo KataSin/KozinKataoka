@@ -97,6 +97,7 @@
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
+    <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectScenePlayer.h" />
@@ -153,7 +154,9 @@
     <ClInclude Include="src\scene\SelectScene.h" />
     <ClInclude Include="src\scene\TitleScene.h" />
     <ClInclude Include="src\sound\Sound.h" />
+    <ClInclude Include="src\Text\MessageBox\MessageText.h" />
     <ClInclude Include="src\time\Time.h" />
+    <ClInclude Include="src\Text\TxetRead\TextRead.h" />
     <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
     <ClInclude Include="src\UIactor\Beziers.h" />
     <ClInclude Include="src\UIactor\DamageBackUI\DamageBackUI.h" />
@@ -169,6 +172,7 @@
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
+    <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
     <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\UIactor\UIActor.h" />
@@ -188,6 +192,7 @@
     <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\actor\FogActor.cpp" />
+    <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectScenePlayer.cpp" />
@@ -235,7 +240,9 @@
     <ClCompile Include="src\scene\SelectScene.cpp" />
     <ClCompile Include="src\scene\TitleScene.cpp" />
     <ClCompile Include="src\sound\Sound.cpp" />
+    <ClCompile Include="src\Text\MessageBox\MessageText.cpp" />
     <ClCompile Include="src\time\Time.cpp" />
+    <ClCompile Include="src\Text\TxetRead\TextRead.cpp" />
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
     <ClCompile Include="src\UIactor\DamageBackUI\DamageBackUI.cpp" />
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
@@ -250,6 +257,7 @@
     <ClCompile Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.cpp" />
     <ClCompile Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.cpp" />
     <ClCompile Include="src\UIactor\SceneChangeManager\SceneChangeManager.cpp" />
+    <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
     <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\UIactor\UIActor.cpp" />

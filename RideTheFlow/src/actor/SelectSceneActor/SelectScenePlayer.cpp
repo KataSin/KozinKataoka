@@ -4,9 +4,13 @@
 #include "../Collision.h"
 #include "../../graphic/Model.h"
 #include "../../graphic/AnimetionClass.h"
+#include "../../time/Time.h"
 SelectScenePlayer::SelectScenePlayer(IWorld& word, const Vector3& position, const MODEL_ID& player):
 	Actor(world),
-	mPosition(position)
+	mPosition(position-Vector3(500,0)),
+	mStartPos(mPosition),
+	mEndPos(position),
+	mLerpCount(0.0f)
 {
 	//Ž€‚ñ‚Å‚È‚¢‚æ
 	parameter.isDead = false;
@@ -27,8 +31,8 @@ SelectScenePlayer::~SelectScenePlayer()
 
 void SelectScenePlayer::Update()
 {
-
-
+	mLerpCount += Time::GetInstance().deltaTime();
+	mPosition = Vector3::Lerp(mStartPos, mEndPos, mLerpCount);
 
 	parameter.mat =
 		Matrix4::Scale(1)*

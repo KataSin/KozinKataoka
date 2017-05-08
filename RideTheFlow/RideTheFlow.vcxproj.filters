@@ -102,6 +102,10 @@
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
     <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
+    <ClInclude Include="src\Text\TxetRead\TextRead.h" />
+    <ClInclude Include="src\Text\MessageBox\MessageText.h" />
+    <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
+    <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -181,5 +185,9 @@
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
     <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
+    <ClCompile Include="src\Text\TxetRead\TextRead.cpp" />
+    <ClCompile Include="src\Text\MessageBox\MessageText.cpp" />
+    <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
+    <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
   </ItemGroup>
 </Project>

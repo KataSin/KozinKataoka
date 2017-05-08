@@ -38,6 +38,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	coppyPos(Vector3::Zero),
 	vecPos(Vector3::Zero),
 	mVelocity(Vector3::Zero),
+	padVec(Vector2::Zero),
 	respawnCount(0.0f),
 	angleY(rotateY),
 	jumpCount(0.0f),
@@ -76,11 +77,12 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	PlayerNumSet(parameter.playNumber);
 	//ダメージUIを追加
 	world.UIAdd(UI_ID::DAMAGE_NUM_UI, std::make_shared<DamageUI>(world, uiDamagePos, this));
-	//没
+	//死んだ時のUI
 	world.UIAdd(UI_ID::DAMAGE_BACK_UI, std::make_shared<DamageBackUI>(world, uiDamageBackPos, *this));
 	//アニメーションクラスの生成
 	animeClass = new AnimationClass(this, ANIMATION::PLAYER_IDLE_ANIM, mModelId);
-
+	//パッド設定
+	pad = world.GetPadNum()[(int)(parameter.playNumber-1)];
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
 
@@ -146,10 +148,12 @@ void Player::Update() {
 	{
 		//重力処理
 		if (gravityFlag)
-			mVelocity.y -= 30.0f*Time::DeltaTime;
+			mVelocity.y -= 30.0f*Time::GetInstance().deltaTime();
 		else if (playerState != PlayerState::PLAYERJUMP)
 			mVelocity.y = 0.0f;
-		mPosition += mVelocity*Time::DeltaTime;
+		mPosition += mVelocity*Time::GetInstance().deltaTime();
+		//どのアニメーションを再生するか
+		PlayerAnimetion(playerState);
 		//歩き
 		Move();
 		//ジャンプ
@@ -161,13 +165,16 @@ void Player::Update() {
 	//無敵時間
 	if (sniperFlag)
 	{
-		sniperCount += Time::DeltaTime;
+		sniperCount += Time::GetInstance().deltaTime();
 		if (sniperCount >= 0.5f)
 		{
 			sniperCount = 0.0f;
 			sniperFlag = false;
 		}
 	}
+
+
+
 	//マトリクス計算
 	parameter.mat =
 		Matrix4::Scale(0.15f)*
@@ -206,6 +213,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 			other.GetParameter().playNumber != PLAYER_NUMBER::PLAYER_NULL)
 			lowStateFlag = true;
 		gravityFlag = false;
+		playerState = PlayerState::PLAYERSTOP;
 	}
 
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
@@ -301,43 +309,35 @@ void Player::Move()
 	Vector3 cameraLeft = Vector3::Cross(cameraFront, Vector3::Up).Normalized();
 	Vector3 cameraUp = Vector3::Cross(cameraFront, cameraLeft).Normalized();
 
-	Vector2 vec;
-	vec = GamePad::GetInstance().Stick(pad)*playerSpeed;
+	padVec = GamePad::GetInstance().Stick(pad)*playerSpeed;
 
-	if (!gravityFlag) {
-		if (vec.x == 0 && vec.y == 0)
-			animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
-		else
-			animeClass->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
-	}
 
-	mPosition -= vec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::DeltaTime;
-	mPosition -= vec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::DeltaTime;
+	mPosition -= padVec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::GetInstance().deltaTime();
+	mPosition -= padVec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::GetInstance().deltaTime();
 
 	////キーボード処理　テスト用
 	//if (parameter.playNumber == PLAYER_NUMBER::PLAYER_2)
 	//{
 	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
 	//	{
-	//		mPosition += playerSpeed*cameraFront*Vector3(1, 0, 1)*Time::DeltaTime;
+	//		mPosition += playerSpeed*cameraFront*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
 	//	}
 	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::S))
 	//	{
-	//		mPosition += playerSpeed*-cameraFront*Vector3(1, 0, 1)*Time::DeltaTime;
+	//		mPosition += playerSpeed*-cameraFront*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
 	//	}
 	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::A))
 	//	{
-	//		mPosition += playerSpeed*cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
+	//		mPosition += playerSpeed*cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
 	//	}
 	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::D))
 	//	{
-	//		mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::DeltaTime;
+	//		mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
 	//	}
 	//}
 	//移動先に回転※移動した最後に実行すること
 	RotateMovePlayer();
 	cameraActor->SetCameraState(CameraState::DEFAULT);
-	playerState = PlayerState::PLAYERWALK;
 
 	//敵のプレートに当たってたらスピードダウン
 	//if (lowStateFlag)
@@ -373,12 +373,12 @@ void Player::AttackMove()
 	Deceleration(knockBackVelo);
 	//Y軸は無視
 	knockBackVelo.y = 0;
-	mPosition += knockBackVelo*Time::DeltaTime;
+	mPosition += knockBackVelo*Time::GetInstance().deltaTime();
 }
 //減速関数
 void Player::Deceleration(Vector3& pos)
 {
-	pos += -pos.Normalized()*KnockBackTikara*Time::DeltaTime;
+	pos += -pos.Normalized()*KnockBackTikara*Time::GetInstance().deltaTime();
 
 	if (pos.x <= 0.5f&&pos.x >= -0.5f) {
 		pos = Vector3::Zero;
@@ -394,13 +394,12 @@ void Player::Jump()
 	{
 		mVelocity.y = 15.0f;
 		jumpFlag = true;
-		animeClass->changeAnim(ANIMATION::PLAYER_JUMP_ANIM);
 		playerState = PlayerState::PLAYERJUMP;
 	}
 	if (jumpFlag)
 	{
-		jumpCount += Time::DeltaTime;
-		if (jumpCount >= 0.2f)
+		jumpCount += Time::GetInstance().deltaTime();
+		if (jumpCount >= 0.02f)
 		{
 			jumpFlag = false;
 			jumpCount = 0.0f;
@@ -462,14 +461,12 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			pad = PADNUM::PAD1;
 			uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
 			uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER1_MODEL;
 			break;
 		}
 		case PLAYER_2: {
-			pad = PADNUM::PAD2;
 			uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
 			uiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER2_MODEL;
@@ -484,33 +481,55 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			pad = PADNUM::PAD1;
 			uiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
 			uiDamageBackPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER1_MODEL;
 			break;
 		}
 		case PLAYER_2: {
-			pad = PADNUM::PAD2;
 			uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
 			uiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER2_MODEL;
 			break;
 		}
 		case PLAYER_3: {
-			pad = PADNUM::PAD3;
 			uiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
 			uiDamageBackPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER3_MODEL;
 			break;
 		}
 		case PLAYER_4: {
-			pad = PADNUM::PAD4;
 			uiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT-WINDOW_HEIGHT / 4);
 			uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
 			mModelId = MODEL_ID::PLAYER4_MODEL;
 			break;
 		}
 		}
+	}}
+
+void Player::PlayerAnimetion(PlayerState state)
+{
+	if (playerState == PlayerState::PLAYERJUMP) {
+		animeClass->changeAnim(ANIMATION::PLAYER_JUMP_ANIM);
+		return;
 	}
+
+	//今回は押したら絶対に武器を構えるため
+	if (GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)) {
+		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_BUKI_IDLE_ANIM);
+		else {
+			animeClass->changeAnim(ANIMATION::PLAYER_BUKI_RUN_ANIM);
+			playerState = PlayerState::PLAYERATTACK;
+		}
+		return;
+	}
+	else {
+		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+		else {
+			animeClass->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
+			playerState = PlayerState::PLAYERWALK;
+		}
+		return;
+	}
+
 }

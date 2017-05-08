@@ -29,10 +29,10 @@ void StageLine::Update()
 {
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLAYER_STAGELINE_COL);
 
-	mPosition.y += 4.0f * Time::DeltaTime;
-	mAlphaTimer += Time::DeltaTime;
+	mPosition.y += 4.0f * Time::GetInstance().deltaTime();
+	mAlphaTimer += Time::GetInstance().deltaTime();
 	if (mAlphaTimer >= 1.8f) {
-		mAlpha -= 1.0f*Time::DeltaTime;
+		mAlpha -= 1.0f*Time::GetInstance().deltaTime();
 		//“§–¾‚É‚È‚Á‚½‚çŽ€‚Ê
 		if (mAlpha <= 0.0f)
 			parameter.isDead = true;

@@ -67,7 +67,7 @@ void PlayerBullet::Update()
 	//world.SetCollideSelect(shared_from_this(), ACTOR_ID::RESPAWNPOINT_ACTOR, COL_ID::BULLET_RESPAENPOINT_COL);
 	float speed = 3.0f;
 	//タイム加算
-	time += Time::DeltaTime;
+	time += Time::GetInstance().deltaTime();
 	//頂点が出現位置よりも高かったら(頂点と出現位置の引き算がマイナスになり平方根で求められなくなるため)
 	if (coppyPosY <= mVertexPoint.y)
 	{
@@ -77,9 +77,9 @@ void PlayerBullet::Update()
 		float vertexTime = InitializeVec / 9.8f;
 		//距離と頂点に達する時間が分かったので1フレームに動くx軸z軸の移動量を求める
 		vec = Vector3(
-			distance.x / vertexTime  *speed* Time::DeltaTime,
+			distance.x / vertexTime  *speed* Time::GetInstance().deltaTime(),
 			0.0f,
-			distance.z / vertexTime *speed* Time::DeltaTime);
+			distance.z / vertexTime *speed* Time::GetInstance().deltaTime());
 		//y軸の位置を求める
 		mPosition.y = InitializeVec*time*speed - 9.8f / 2.0f * pow(time*speed, 2) + coppyPosY;
 		//移動量を足す
@@ -89,11 +89,11 @@ void PlayerBullet::Update()
 	else
 	{
 		//騙す(バレない)
-		vecY -= 10.0f*Time::DeltaTime;
+		vecY -= 10.0f*Time::GetInstance().deltaTime();
 		Vector3 vec = distance + Vector3(0.0f, vecY, 0.0f);
-		mPosition += vec*speed*1.5f*Time::DeltaTime;
+		mPosition += vec*speed*1.5f*Time::GetInstance().deltaTime();
 	}
-	mRotate += mRandRotate*Time::DeltaTime;
+	mRotate += mRandRotate*Time::GetInstance().deltaTime();
 
 	//下に行ったら死亡
 	if (parameter.mat.GetPosition().y <= -5.0f)

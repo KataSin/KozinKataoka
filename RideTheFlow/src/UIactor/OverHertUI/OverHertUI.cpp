@@ -21,14 +21,14 @@ void OverHertUI::Update(PLAYER_NUMBER playerNumber)
 {
 	//オーバーヒートしていたら
 	if (mAttackManager->GetOverHertFlag()) {
-		mAlphaCount += 75.0f*Time::DeltaTime;
-		mFontAlpha += 1.0f / 2.0f*Time::DeltaTime;
+		mAlphaCount += 75.0f*Time::GetInstance().deltaTime();
+		mFontAlpha += 1.0f / 2.0f*Time::GetInstance().deltaTime();
 		mAlpha = Math::Sin(mAlphaCount);
 	}
 	else {
 		mAlphaCount = 0.0f;
-		mFontAlpha-= 1.0f / 2.0f*Time::DeltaTime;
-		mAlpha -= 1.0f / 2.0f*Time::DeltaTime;
+		mFontAlpha-= 1.0f / 2.0f*Time::GetInstance().deltaTime();
+		mAlpha -= 1.0f / 2.0f*Time::GetInstance().deltaTime();
 	}
 	mAlpha = Math::Clamp(mAlpha, 0.0f, 1.0f);
 	mFontAlpha = Math::Clamp(mFontAlpha, 0.0f, 1.0f);

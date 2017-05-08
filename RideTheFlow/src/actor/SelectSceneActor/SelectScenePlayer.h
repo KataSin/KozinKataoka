@@ -18,5 +18,10 @@ private:
 	PLAYER_NUMBER mPlayerNum;
 	MODEL_ID mModelId;
 	AnimationClass* mAnime;
+	//•âŠÔŠÖŒW
+	Vector3 mStartPos;
+	Vector3 mEndPos;
+	float mLerpCount;
+
 
 };

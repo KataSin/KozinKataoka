@@ -59,6 +59,8 @@ private:
 	void Deceleration(Vector3& pos);
 	//プレイヤー個別の設定
 	void PlayerNumSet(PLAYER_NUMBER num);
+	//プレイヤーアニメーション
+	void PlayerAnimetion(PlayerState state);
 //プレイヤーの行動系
 private:
 	void Move();
@@ -122,6 +124,8 @@ private:
 	Vector2 uiDamageBackPos;
 	//アニメーションクラス
 	AnimationClass* animeClass;
+	//パッドのベクトル
+	Vector2 padVec;
 
 
 };

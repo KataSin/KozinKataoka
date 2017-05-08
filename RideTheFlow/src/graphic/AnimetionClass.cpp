@@ -30,7 +30,7 @@ void AnimationClass::update()
 	for (auto& itr = attachAnimes.begin(); itr != attachAnimes.end(); ++itr) {
 		if (itr->second.animetionFlag)
 		{
-			itr->second.animTimer += 20 * Time::DeltaTime;
+			itr->second.animTimer += 20 * Time::GetInstance().deltaTime();
 			MV1SetAttachAnimTime(mModel, itr->second.index, itr->second.animTimer);
 			if (itr->second.animEndTime <= itr->second.animTimer)
 			{
@@ -76,7 +76,7 @@ void AnimationClass::AnimeBlend()
 	if (!blendFlag) return;
 	MV1SetAttachAnimBlendRate(mModel, attachAnimes[mPreAnimation].index, 1.0f - blendTime);
 	MV1SetAttachAnimBlendRate(mModel, attachAnimes[mCurAnimation].index, blendTime);
-	blendTime += 10.0f*Time::DeltaTime;
+	blendTime += 10.0f*Time::GetInstance().deltaTime();
 	blendTime = Math::Clamp(blendTime, 0.0f, 1.0f);
 	if (blendTime >= 1.0f) {
 		blendFlag = false;

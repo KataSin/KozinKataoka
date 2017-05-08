@@ -52,7 +52,8 @@ void GamePlay::Initialize()
 	//プレイ人数設定
 	mPlayerNum = mGameManager->GetPlayerNum();
 	wo.SetPlayerNum(mPlayerNum);
-
+	//パッド情報をワールドに設定
+	wo.SetPadNum(mGameManager->GetPlayerPad());
 	//次もゲームプレイに移行
 	mNextScene = Scene::GamePlay;
 	//ラウンドを設定

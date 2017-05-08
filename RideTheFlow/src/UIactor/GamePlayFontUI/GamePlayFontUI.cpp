@@ -20,11 +20,11 @@ void GamePlayFontUI::Update(PLAYER_NUMBER playerNumber)
 		if (!i.second.mFlag) {
 			if (i.second.mCount >= i.second.mFontTime) num = -1;
 		}
-		i.second.mAlpha += num*Time::DeltaTime;
+		i.second.mAlpha += num*Time::GetInstance().deltaTime();
 		i.second.mAlpha = Math::Clamp(i.second.mAlpha, 0.0f, 1.0f);
 
 		i.second.mScale = i.second.mAlpha;
-		i.second.mCount += Time::DeltaTime;
+		i.second.mCount += Time::GetInstance().deltaTime();
 		if (!i.second.mFlag) {
 			if (i.second.mCount >= i.second.mFontTime+1.0f) {
 				mFonts.erase(i.first);

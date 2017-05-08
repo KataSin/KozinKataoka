@@ -105,6 +105,9 @@ public:
 	/// 指定のパッドの振動を終了する
 	///</summary>
 	void VibrationEnd(int pad = PADNUM::PAD1);
+	//全てのパッドがされているか調べる
+	bool AllTriggerDown();
+
 	void Update();
 private:
 	void Exception(int pad, int button);

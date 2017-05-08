@@ -38,11 +38,16 @@ public:
 	virtual void SetPlayerNum(int num) override;
 	virtual int GetPlayerNum()override;
 
+	virtual std::vector<int> GetPadNum() override;
+	virtual void SetPadNum(std::vector<int> pad) override;
+
 private:
 	WorldActor actors;
 	ActorPtr   playerActor;
 	std::vector<ActorPtr> cameraActor;
 	std::vector<ActorPtr> masterCastles;
+
+	std::vector<int> playerPadNum;
 
 	bool inputFlag;
 	int mPlayerNum;

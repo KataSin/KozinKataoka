@@ -40,4 +40,6 @@ public:
 	virtual std::vector<ActorPtr> GetActors(ACTOR_ID id)= 0;
 
 	virtual std::vector<UIActorPtr> GetUIActors(UI_ID id) = 0;
+	virtual std::vector<int> GetPadNum() = 0;
+	virtual void SetPadNum(std::vector<int> pad) = 0;
 };

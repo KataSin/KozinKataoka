@@ -36,13 +36,13 @@ void AttackGauge::Update(PLAYER_NUMBER playerNumber)
 	else if (!mManager->GetIsAttack() && mAlpha >= 0.7f) mAlphaFlag = false;
 	//ƒ¿’lˆ—
 	if (mAlphaFlag) {
-		mAlpha += Time::DeltaTime;
+		mAlpha += Time::GetInstance().deltaTime();
 		mAlphaTimer = 0.0f;
 	}
 	else {
-		mAlphaTimer += Time::DeltaTime;
+		mAlphaTimer += Time::GetInstance().deltaTime();
 		if (mAlphaTimer >= 15.0f)
-			mAlpha -= Time::DeltaTime;
+			mAlpha -= Time::GetInstance().deltaTime();
 	}
 	//‚Ê‚é‚Ê‚éƒQ[ƒW‚ª“®‚­
 	Spring(mOverHertCount, mManager->GetOverHertCount(), 0.1f, 0.5f, 2.0f);

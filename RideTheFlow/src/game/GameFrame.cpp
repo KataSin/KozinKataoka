@@ -21,10 +21,20 @@ void GameFrame::Run()
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 	SetWaitVSyncFlag(TRUE);
-
+	//SetWindowSizeExtendRate(0.5f);
 	//ウィンドゥモード
 	ChangeWindowMode(TRUE);
-	
+
+	//フォントの読み込み
+	LPCSTR font_path = "res/TextFile/FontDate.ttf"; // 読み込むフォントファイルのパス
+	if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {
+	}
+	else {
+		// フォント読込エラー処理
+		MessageBox(NULL, "フォント読込失敗", "", MB_OK);
+	}
+	ChangeFont("PixelMplus10");
+
 	if (DxLib_Init() == -1)
 	{
 		DxLib_End();
@@ -50,7 +60,12 @@ void GameFrame::Run()
 		
 		ScreenFlip();
 	}
-
+	//フォントクローズ
+	if (RemoveFontResourceEx(font_path, FR_PRIVATE, NULL)) {
+	}
+	else {
+		MessageBox(NULL, "remove failure", "", MB_OK);
+	}
 	Finalize();
 	DxLib_End();
 }
