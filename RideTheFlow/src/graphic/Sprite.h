@@ -192,6 +192,14 @@ public:
 		GetGraphSize(handle, &size.x, &size.y);
 		return size;
 	}
+	Vector2 GetSizeVector(const SPRITE_ID& id)const
+	{
+		Point size;
+		GetGraphSize(m_sprites.at(id), &size.x, &size.y);
+		Vector2 vectorSize;
+		vectorSize = Vector2(size.x, size.y);
+		return vectorSize;
+	}
 	int GetIndex(const SPRITE_ID& id)
 	{
 		return m_sprites[id];

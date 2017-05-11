@@ -27,13 +27,16 @@ public:
 	//終了時処理
 	virtual void End()override;
 private:
+	//ゲームマネージャー
 	GameManager* mGameManager;
-	ActorPtr mMaster;
+	//セレクトUI(こいつがぜんぶ管理している)
+	UIActorPtr mSelectUi;
+	//終わったか
 	bool  mIsEnd;
+	//ワールド
 	World wo;
 	Light light;
-	bool player2Flag;
-	bool player3Flag;
-	bool player4Flag;
-	std::vector<int> pads;
+	std::vector<int> mPads;
+	//シーン
+	Scene mScene;
 };

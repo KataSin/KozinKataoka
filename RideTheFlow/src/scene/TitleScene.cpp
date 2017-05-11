@@ -62,7 +62,7 @@ bool TitleScene::IsEnd() const
 //Ÿ‚ÌƒV[ƒ“‚ğ•Ô‚·
 Scene TitleScene::Next() const
 {
-	return Scene::GamePlay;
+	return Scene::Select;
 }
 
 void TitleScene::End()

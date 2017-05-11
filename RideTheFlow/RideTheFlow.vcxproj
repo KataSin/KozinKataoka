@@ -97,6 +97,7 @@
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
+    <ClInclude Include="src\actor\ResultPlayer\ResultPlayer.h" />
     <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
     <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
     <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
+    <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\UIactor\UIActor.h" />
     <ClInclude Include="src\UIactor\UIActorManager.h" />
@@ -192,6 +194,7 @@
     <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\actor\FogActor.cpp" />
+    <ClCompile Include="src\actor\ResultPlayer\ResultPlayer.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
@@ -259,6 +262,7 @@
     <ClCompile Include="src\UIactor\SceneChangeManager\SceneChangeManager.cpp" />
     <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
     <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
+    <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\UIactor\UIActor.cpp" />
     <ClCompile Include="src\UIactor\UIActorManager.cpp" />

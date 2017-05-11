@@ -315,26 +315,26 @@ void Player::Move()
 	mPosition -= padVec.y*Vector3(cameraFront*Vector3(1, 0, 1))*Time::GetInstance().deltaTime();
 	mPosition -= padVec.x*Vector3(cameraLeft*Vector3(1, 0, 1))*Time::GetInstance().deltaTime();
 
-	////キーボード処理　テスト用
-	//if (parameter.playNumber == PLAYER_NUMBER::PLAYER_2)
-	//{
-	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
-	//	{
-	//		mPosition += playerSpeed*cameraFront*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
-	//	}
-	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::S))
-	//	{
-	//		mPosition += playerSpeed*-cameraFront*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
-	//	}
-	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::A))
-	//	{
-	//		mPosition += playerSpeed*cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
-	//	}
-	//	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::D))
-	//	{
-	//		mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
-	//	}
-	//}
+	//キーボード処理　テスト用
+	if (parameter.playNumber == PLAYER_NUMBER::PLAYER_2)
+	{
+		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::W))
+		{
+			mPosition += playerSpeed*cameraFront*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
+		}
+		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::S))
+		{
+			mPosition += playerSpeed*-cameraFront*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
+		}
+		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::A))
+		{
+			mPosition += playerSpeed*cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
+		}
+		if (Keyboard::GetInstance().KeyStateDown(KEYCODE::D))
+		{
+			mPosition += playerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
+		}
+	}
 	//移動先に回転※移動した最後に実行すること
 	RotateMovePlayer();
 	cameraActor->SetCameraState(CameraState::DEFAULT);
@@ -523,6 +523,7 @@ void Player::PlayerAnimetion(PlayerState state)
 		}
 		return;
 	}
+	//歩きアニメーション
 	else {
 		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
 		else {

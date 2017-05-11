@@ -34,6 +34,11 @@ private:
 	bool  mIsEnd;
 	World wo;
 	Light light;
-
+	//ステージのマトリックス
+	Matrix4 mStageMat;
+	//台のマトリックス
+	Matrix4 mDaiMat;
+	//スカイボックス
+	Matrix4 mSkyMat;
 	int test;
 };

@@ -5,12 +5,14 @@
 #include "../../graphic/Model.h"
 #include "../../graphic/AnimetionClass.h"
 #include "../../time/Time.h"
-SelectScenePlayer::SelectScenePlayer(IWorld& word, const Vector3& position, const MODEL_ID& player):
+#include "../../math/Math.h"
+SelectScenePlayer::SelectScenePlayer(IWorld& word, const Vector3& position, const MODEL_ID& player) :
 	Actor(world),
-	mPosition(position-Vector3(500,0)),
+	mPosition(position - Vector3(500, 0)),
 	mStartPos(mPosition),
 	mEndPos(position),
-	mLerpCount(0.0f)
+	mLerpCount(0.0f),
+	mIsBack(true)
 {
 	//死んでないよ
 	parameter.isDead = false;
@@ -23,15 +25,22 @@ SelectScenePlayer::SelectScenePlayer(IWorld& word, const Vector3& position, cons
 		Matrix4::Translate(position);
 	//アニメーションクラスの生成
 	mAnime = new AnimationClass(this, ANIMATION::PLAYER_RUN1_ANIM, player);
+
 }
 
 SelectScenePlayer::~SelectScenePlayer()
 {
+	delete mAnime;
 }
 
 void SelectScenePlayer::Update()
 {
-	mLerpCount += Time::GetInstance().deltaTime();
+	float num = 1.0f;
+	//バックの場合マイナスにする
+	if (mIsBack) num = -1.0f;
+	mLerpCount += num* Time::GetInstance().deltaTime();
+	mLerpCount = Math::Clamp(mLerpCount, 0.0f, 1.0f);
+	//座標を補間
 	mPosition = Vector3::Lerp(mStartPos, mEndPos, mLerpCount);
 
 	parameter.mat =
@@ -52,4 +61,9 @@ void SelectScenePlayer::Draw() const
 
 void SelectScenePlayer::OnCollide(Actor & other, CollisionParameter colpara)
 {
+}
+
+void SelectScenePlayer::SetBackFlag(bool flag)
+{
+	mIsBack = flag;
 }

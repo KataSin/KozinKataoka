@@ -57,7 +57,7 @@ void GamePlay::Initialize()
 	//次もゲームプレイに移行
 	mNextScene = Scene::GamePlay;
 	//ラウンドを設定
-	mEndRaundCount = 3;
+	mEndRaundCount = mGameManager->GetRaundCount();
 	//ステージを追加
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
 	//タイマー設定
@@ -101,7 +101,7 @@ void GamePlay::Update()
 			mIsEnd = true;
 			mRandCount++;
 			//全ラウンド終わってたらリザルトへ
-			if (mRandCount > mEndRaundCount) {
+			if (mRandCount >= mEndRaundCount) {
 				mNextScene = Scene::Result;
 				//勝った人たちをセット
 				mGameManager->SetPlayerRank(mGamePlayManager->IsFinalWinPlayer());

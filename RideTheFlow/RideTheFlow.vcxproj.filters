@@ -106,6 +106,8 @@
     <ClInclude Include="src\Text\MessageBox\MessageText.h" />
     <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
     <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
+    <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
+    <ClInclude Include="src\actor\ResultPlayer\ResultPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -189,5 +191,7 @@
     <ClCompile Include="src\Text\MessageBox\MessageText.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
     <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
+    <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
+    <ClCompile Include="src\actor\ResultPlayer\ResultPlayer.cpp" />
   </ItemGroup>
 </Project>
