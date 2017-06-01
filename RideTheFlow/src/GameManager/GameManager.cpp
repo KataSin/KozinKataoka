@@ -42,12 +42,12 @@ std::vector<int> GameManager::GetPlayerPad()
 	return mPads;
 }
 
-void GameManager::SetPlayerRank(std::list<PLAYER_NUMBER> playerRank)
+void GameManager::SetPlayerRank(std::vector<PLAYER_NUMBER> playerRank)
 {
 	mPlayerRank = playerRank;
 }
 
-std::list<PLAYER_NUMBER> GameManager::GetPlayerRank()
+std::vector<PLAYER_NUMBER> GameManager::GetPlayerRank()
 {
 	return mPlayerRank;
 }

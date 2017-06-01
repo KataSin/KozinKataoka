@@ -69,7 +69,11 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("SelectBack.png", SPRITE_ID::SELECT_BACK_SPRITE);
 	sprite.Load("SelectCursor.png", SPRITE_ID::SELECT_CURSOR_SPRITE);
 
+	sprite.Load("WinPlayer.png", SPRITE_ID::WIN_PLAYER_SPRITE);
 
+	sprite.Load("Effect/kemuri1.png", SPRITE_ID::KEMURI_1_SPRITE);
+	sprite.Load("Effect/kemuri2.png", SPRITE_ID::KEMURI_2_SPRITE);
+	sprite.Load("Effect/kemuri3.png", SPRITE_ID::KEMURI_3_SPRITE);
 
 
 	/* フェード */

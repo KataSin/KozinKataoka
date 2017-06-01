@@ -35,12 +35,12 @@ PLAYER_NUMBER GamePlayManager::IsWinPlayer()
 	return PLAYER_NUMBER::PLAYER_NULL;
 }
 
-std::list<PLAYER_NUMBER> GamePlayManager::IsFinalWinPlayer()
+std::vector<PLAYER_NUMBER> GamePlayManager::IsFinalWinPlayer()
 {
 	PLAYER_NUMBER win;
 	int winCount=0;
 	//ˆø‚«•ª‚¯‚Ìê‡‚ª‚ ‚é‚½‚ß
-	std::list<PLAYER_NUMBER>winPlayers;
+	std::vector<PLAYER_NUMBER>winPlayers;
 	for (const auto& i : mWinCount) {
 		//Ÿ‚Á‚Ä‚½‚ç‘S•”Á‚µ‚Ä‚Ü‚½“ü‚ê‚é
 		if (winCount < i.second) {

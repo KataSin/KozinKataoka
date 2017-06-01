@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../math/Vector2.h"
+#include "../math/Vector3.h"
 #include "../math/Point.h"
 #include "../actor/ID.h"
 #include <string>
@@ -112,7 +113,10 @@ public:
 	/// ブレンド画像の描画(アセット名、座標、原点、拡大率、回転率、ブレンドモード)
 	///</summary>
 	void DrawBlend(const SPRITE_ID& id, const Vector2& position, const Vector2& origin, const Vector2& scale, float angle, const int& blendmode);
-
+	///<summary>
+	/// ビルボード
+	///</summary>
+	void DrawBillBoard(const SPRITE_ID& id, const Vector3& position, const Vector2& origin, float scale, float angle, float alpha, const Vector4& color);
 	/// 分割画像の描画(アセット名、座標、表示コマ番号)
 	///</summary>
 	void SplitDraw(const SPRITE_ID& id, const Vector2& position, int frame);

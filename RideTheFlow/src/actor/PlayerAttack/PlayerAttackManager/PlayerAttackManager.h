@@ -52,6 +52,12 @@ private:
 	void MachineGun();
 	void SniperGun();
 	void ShotGun();
+	//パーティクルセット
+	void ParticleSet();
+	////パーティクルアップデート
+	//void ParticleUpdate();
+	//パーティクル追加
+	void AddParticle();
 private:
 	//カメラアクター
 	CameraActor* mCamera;
@@ -87,4 +93,9 @@ private:
 	Vector2 mOverHertUiPos;
 	//色情報
 	Vector4 mColor;
+
+	//パーティクル
+	ActorPtr mAttackParticle;
+	ParticleEffectSystem::ParticleSetting mAttackParticleSet;
+
 };

@@ -145,6 +145,8 @@
     <ClInclude Include="src\math\Vector2.h" />
     <ClInclude Include="src\math\Vector3.h" />
     <ClInclude Include="src\math\Vector4.h" />
+    <ClInclude Include="src\ParticleEffectSystem\ParticleEffectSystem.h" />
+    <ClInclude Include="src\ParticleEffectSystem\ParticleEffect\ParticleEffect.h" />
     <ClInclude Include="src\scene\GamePlay.h" />
     <ClInclude Include="src\scene\IScene.h" />
     <ClInclude Include="src\scene\ISceneMediator.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="src\UIactor\Beziers.h" />
     <ClInclude Include="src\UIactor\DamageBackUI\DamageBackUI.h" />
     <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
+    <ClInclude Include="src\UIactor\EndResultUI\EndResult.h" />
     <ClInclude Include="src\UIactor\fadePanel\FadePanel.h" />
     <ClInclude Include="src\UIactor\GameFrameUI\GameFrameUI.h" />
     <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
@@ -237,6 +240,8 @@
     <ClCompile Include="src\math\Vector2.cpp" />
     <ClCompile Include="src\math\Vector3.cpp" />
     <ClCompile Include="src\math\Vector4.cpp" />
+    <ClCompile Include="src\ParticleEffectSystem\ParticleEffectSystem.cpp" />
+    <ClCompile Include="src\ParticleEffectSystem\ParticleEffect\ParticleEffect.cpp" />
     <ClCompile Include="src\scene\GamePlay.cpp" />
     <ClCompile Include="src\scene\Result.cpp" />
     <ClCompile Include="src\scene\SceneManager.cpp" />
@@ -249,6 +254,7 @@
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
     <ClCompile Include="src\UIactor\DamageBackUI\DamageBackUI.cpp" />
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
+    <ClCompile Include="src\UIactor\EndResultUI\EndResult.cpp" />
     <ClCompile Include="src\UIactor\fadePanel\FadePanel.cpp" />
     <ClCompile Include="src\UIactor\GameFrameUI\GameFrameUI.cpp" />
     <ClCompile Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.cpp" />

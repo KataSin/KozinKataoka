@@ -1,6 +1,5 @@
 #pragma once
 #include "../actor/ID.h"
-#include <list>
 #include <vector>
 class GameManager
 {
@@ -8,9 +7,9 @@ public:
 	GameManager();
 	~GameManager();
 	//プレイヤーのランクをセット
-	void SetPlayerRank(std::list<PLAYER_NUMBER> playerRank);
+	void SetPlayerRank(std::vector<PLAYER_NUMBER> playerRank);
 	//プレイヤーのランクを取得
-	std::list<PLAYER_NUMBER> GetPlayerRank();
+	std::vector<PLAYER_NUMBER> GetPlayerRank();
 	//プレイヤーの勝ちを初期化
 	void Initialize();
 	//ラウンド数を取得
@@ -27,7 +26,7 @@ public:
 	std::vector<int> GetPlayerPad();
 
 private:
-	std::list<PLAYER_NUMBER> mPlayerRank;
+	std::vector<PLAYER_NUMBER> mPlayerRank;
 	std::vector<int>mPads;
 	int mRaund;
 	int mPlayerNum;

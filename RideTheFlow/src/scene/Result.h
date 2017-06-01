@@ -3,9 +3,8 @@
 #include "IScene.h"
 #include "ISceneMediator.h"
 #include "../world/World.h"
-#include "../graphic/Light.h"
-#include <array>
 #include "../GameManager/GameManager.h"
+#include <vector>
 
 class  Result : public IScene
 {
@@ -33,12 +32,26 @@ private:
 	GameManager* mGameManager;
 	bool  mIsEnd;
 	World wo;
-	Light light;
 	//ステージのマトリックス
 	Matrix4 mStageMat;
 	//台のマトリックス
 	Matrix4 mDaiMat;
-	//スカイボックス
+	//スカイボックスマトリックス
 	Matrix4 mSkyMat;
+	//順位に応じての座標
+	std::vector<Vector3> mRankPos;
+
+	//カメラの位置
+	Vector3 mCameraPos;
+	//カメラの行くべき位置
+	Vector3 mResCameraPos;
+	//カメラ速度
+	Vector3 mCameraVelo;
+
+
+	//アクションタイム(イベント系)
+	float mActionTime;
+
+	//UIの
 	int test;
 };

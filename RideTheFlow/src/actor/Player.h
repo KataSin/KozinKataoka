@@ -1,11 +1,12 @@
 #pragma once
 #include "Actor.h"
+#include "ActorPtr.h"
 #include <memory>
 #include "PlayerBullet\PlayerBullet.h"
 #include "CameraActor.h"
 #include "ID.h"
 #include "../graphic/AnimetionClass.h"
-
+#include "../ParticleEffectSystem/ParticleEffectSystem.h"
 enum PlayerState
 {
 	PLAYERSTOP,
@@ -61,6 +62,10 @@ private:
 	void PlayerNumSet(PLAYER_NUMBER num);
 	//プレイヤーアニメーション
 	void PlayerAnimetion(PlayerState state);
+	//パーティクル情報設定
+	void ParticleSetting();
+	//パーティクルupdate
+	void ParticleUpdate();
 //プレイヤーの行動系
 private:
 	void Move();
@@ -77,7 +82,7 @@ private:
 	//カメラ
 	CameraActor* cameraActor;
 	Matrix4 cameraMat;
-
+	Vector3 cameraPos;
 	Vector3 mPosition;
 	Vector3 mRotate;
 
@@ -113,7 +118,7 @@ private:
 	float sniperCount;
 	bool sniperFlag;
 
-	Vector3 cameraPos;
+
 	//モデルID
 	MODEL_ID mModelId;
 	//pad情報
@@ -127,5 +132,8 @@ private:
 	//パッドのベクトル
 	Vector2 padVec;
 
+	//プレイヤーパーティクルシステム情報
+	ActorPtr mDashParticle;
+	ParticleEffectSystem::ParticleSetting mDashParticleSet;
 
 };

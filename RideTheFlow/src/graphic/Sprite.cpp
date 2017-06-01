@@ -211,6 +211,17 @@ void Sprite::DrawBlend(const SPRITE_ID& id, const Vector2& position, const Vecto
 	SetDrawBlendMode(BLEND_MODE::NoBlend, 255);
 }
 
+//ビルボード
+
+void Sprite::DrawBillBoard(const SPRITE_ID & id, const Vector3 & position, const Vector2 & origin,float scale, float angle,float alpha,const Vector4& color)
+{
+	AlphaBlend(alpha);
+	SetDrawBright(color.x, color.y, color.z);
+	DrawBillboard3D(Vector3::ToVECTOR(position), origin.x, origin.y, scale, angle, m_sprites[id], TRUE);
+	SetDrawBright(255, 255, 255);
+	DefaultBlend();
+}
+
 // 分割画像の描画(アセット名、座標)
 void Sprite::SplitDraw(const SPRITE_ID& id, const Vector2& position, int frame)
 {

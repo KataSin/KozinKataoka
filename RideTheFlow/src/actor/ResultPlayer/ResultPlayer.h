@@ -6,7 +6,7 @@ class AnimationClass;
 class ResultPlayer :public Actor
 {
 public:
-	ResultPlayer(IWorld& word, const Vector3& position, const MODEL_ID& player,ANIMATION anim);
+	ResultPlayer(IWorld& word, const Vector3& position, const PLAYER_NUMBER& player,ANIMATION anim);
 	~ResultPlayer();
 	virtual void Update() override;
 	virtual void Draw() const override;

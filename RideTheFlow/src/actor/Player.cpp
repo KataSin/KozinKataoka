@@ -82,9 +82,14 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//アニメーションクラスの生成
 	animeClass = new AnimationClass(this, ANIMATION::PLAYER_IDLE_ANIM, mModelId);
 	//パッド設定
-	pad = world.GetPadNum()[(int)(parameter.playNumber-1)];
+	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
 	//カメラ
 	cameraActor = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
+	//パーティクル設定
+	ParticleSetting();
+	//パーティクル追加
+	mDashParticle = std::make_shared<ParticleEffectSystem>(world, mDashParticleSet);
+	world.Add(ACTOR_ID::PARTICLE_ACTOR, mDashParticle);
 
 	//プレイヤーのスピード設定
 	playerSpeed = PlayerSpeed;
@@ -115,6 +120,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	}
 	}
 
+	//パーティクル設定
 
 }
 Player::~Player() {
@@ -161,7 +167,8 @@ void Player::Update() {
 		//ノックバック
 		AttackMove();
 	}
-
+	//パーティクル
+	ParticleUpdate();
 	//無敵時間
 	if (sniperFlag)
 	{
@@ -499,13 +506,14 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 			break;
 		}
 		case PLAYER_4: {
-			uiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT-WINDOW_HEIGHT / 4);
+			uiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
 			uiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
 			mModelId = MODEL_ID::PLAYER4_MODEL;
 			break;
 		}
 		}
-	}}
+	}
+}
 
 void Player::PlayerAnimetion(PlayerState state)
 {
@@ -532,5 +540,37 @@ void Player::PlayerAnimetion(PlayerState state)
 		}
 		return;
 	}
+}
 
+void Player::ParticleSetting()
+{
+	//ダッシュパーティクル設定
+	mDashParticleSet.position = parameter.mat.GetPosition();
+	mDashParticleSet.SpawnSpeed = 0.1f;
+	mDashParticleSet.IsDeadTime = 1.0f;
+	mDashParticleSet.Vec = -parameter.mat.GetFront();
+	mDashParticleSet.VecRandom = parameter.mat.GetLeft();
+	mDashParticleSet.InitializeVelocity = Vector3(5, 5, 5);
+	mDashParticleSet.MinusAlphaNum = 2.0f;
+	mDashParticleSet.MinusAlphaTime = 0.5f;
+	mDashParticleSet.DecelerationTime = 0.3f;
+	mDashParticleSet.Deceleration = 10.0f;
+	std::vector<SPRITE_ID> ids;
+	ids.push_back(SPRITE_ID::KEMURI_1_SPRITE);
+	ids.push_back(SPRITE_ID::KEMURI_2_SPRITE);
+	ids.push_back(SPRITE_ID::KEMURI_3_SPRITE);
+	mDashParticleSet.texture = ids;
+}
+
+void Player::ParticleUpdate()
+{
+	//パーティクルセット
+	mDashParticleSet.position = parameter.mat.GetPosition();
+	mDashParticleSet.Vec = parameter.mat.GetFront();
+	mDashParticleSet.VecRandom = parameter.mat.GetLeft();
+	if (playerState == PlayerState::PLAYERWALK)
+		mDashParticleSet.isParticle = true;
+	else
+		mDashParticleSet.isParticle = false;
+	static_cast<ParticleEffectSystem*>(mDashParticle.get())->SetParticle(mDashParticleSet);
 }

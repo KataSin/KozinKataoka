@@ -108,6 +108,9 @@
     <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
     <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\actor\ResultPlayer\ResultPlayer.h" />
+    <ClInclude Include="src\UIactor\EndResultUI\EndResult.h" />
+    <ClInclude Include="src\ParticleEffectSystem\ParticleEffectSystem.h" />
+    <ClInclude Include="src\ParticleEffectSystem\ParticleEffect\ParticleEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -193,5 +196,8 @@
     <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
     <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\actor\ResultPlayer\ResultPlayer.cpp" />
+    <ClCompile Include="src\UIactor\EndResultUI\EndResult.cpp" />
+    <ClCompile Include="src\ParticleEffectSystem\ParticleEffectSystem.cpp" />
+    <ClCompile Include="src\ParticleEffectSystem\ParticleEffect\ParticleEffect.cpp" />
   </ItemGroup>
 </Project>

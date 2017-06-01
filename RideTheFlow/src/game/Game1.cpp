@@ -42,7 +42,7 @@ void Game1::Initialize()
 	mSceneManager.Add(Scene::GamePlay, std::make_shared<GamePlay>(*mGameManager.get()));
 	mSceneManager.Add(Scene::Result, std::make_shared<Result>(*mGameManager.get()));
 	mSceneManager.Add(Scene::Select, std::make_shared<SelectScene>(*mGameManager.get()));
-	mSceneManager.SetScene(Scene::Select);
+	mSceneManager.SetScene(Scene::Title);
 }
 
 void Game1::Update()

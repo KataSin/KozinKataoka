@@ -28,9 +28,7 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	initSniperFalg(true),
 	overHertFlag(false)
 {
-	mSniperState.isColSniperLine = false;
-	mSniperState.chargeSniperCount = 100.0f;
-	mSniperState.doCharge = false;
+
 
 	mPlayer = dynamic_cast<Player*>(&player);
 
@@ -53,6 +51,11 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	//パッド設定
 	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
+
+	//パーティクル設定
+	ParticleSet();
+	mAttackParticle = std::make_shared<ParticleEffectSystem>(world, mAttackParticleSet);
+	world.Add(ACTOR_ID::PARTICLE_ACTOR, mAttackParticle);
 	////誰の弾かの情報を設定
 	//bulletState.playerNumber = mPlayer->GetParameter().playNumber;
 }
@@ -185,6 +188,7 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 
 void PlayerAttackManager::MachineGun()
 {
+
 	if ((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
 		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)))
 	{
@@ -202,6 +206,7 @@ void PlayerAttackManager::MachineGun()
 		//0.1秒に1個発射する
 		if (machineAttackCount >= 0.1f)
 		{
+			AddParticle();
 			overHertCount -= OverHertMachine;
 			BulletState machine;
 			//頂点の位置を設定
@@ -253,6 +258,8 @@ void PlayerAttackManager::SniperGun()
 	//ボタンを離したらLineにあたり判定を付ける
 	else if (mSniperState.doCharge)
 	{
+		//パーティクルを出現させる
+		AddParticle();
 		//オーバーヒート数を引く
 		overHertCount -= OverHertSniper;
 		//あたり判定フラグ
@@ -297,6 +304,8 @@ void PlayerAttackManager::ShotGun()
 		{
 			for (int i = 0; i < 15; i++)
 			{
+				//パーティクル出現
+				AddParticle();
 				BulletState shot;
 				//頂点の位置を設定
 				shot.vertexPoint = mCamera->GetTarget();
@@ -311,4 +320,37 @@ void PlayerAttackManager::ShotGun()
 			}
 		}
 	}
+}
+
+void PlayerAttackManager::ParticleSet()
+{
+	//アタック中パーティクル設定
+	mAttackParticleSet.isOneParticle = true;
+	mAttackParticleSet.isParticle = false;
+	mAttackParticleSet.isParticleNum = 5;
+	mAttackParticleSet.IsDeadTime = 0.3f;
+
+	mAttackParticleSet.position = mPlayer->GetPlayerGunPos()-(mPlayer->GetParameter().mat.GetFront()*5.0f);
+	mAttackParticleSet.scale = 0.2f;
+	mAttackParticleSet.scaleRandom = 0.1f;
+	mAttackParticleSet.Vec = Vector3::Up;
+	mAttackParticleSet.VecRandom = Vector3(2, 0, 2);
+	mAttackParticleSet.InitializeVelocity = Vector3(3, 5, 3);
+	mAttackParticleSet.Deceleration = 5.0f;
+	mAttackParticleSet.DecelerationTime = 0.2f;
+	mAttackParticleSet.MinusAlphaNum = 3.0f;
+	mAttackParticleSet.MinusAlphaTime = 0.1f;
+	std::vector<SPRITE_ID> ids;
+	ids.push_back(SPRITE_ID::KEMURI_1_SPRITE);
+	ids.push_back(SPRITE_ID::KEMURI_2_SPRITE);
+	ids.push_back(SPRITE_ID::KEMURI_3_SPRITE);
+	mAttackParticleSet.texture = ids;
+	mAttackParticleSet.color = mColor;
+}
+void PlayerAttackManager::AddParticle()
+{
+	mAttackParticleSet.position = mPlayer->GetPlayerGunPos() - (mPlayer->GetParameter().mat.GetFront()*2.0f);
+	mAttackParticleSet.isParticle = true;
+	static_cast<ParticleEffectSystem*>(mAttackParticle.get())->SetParticle(mAttackParticleSet);
+
 }

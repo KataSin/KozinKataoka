@@ -10,7 +10,7 @@ public:
 	//そのラウンドで勝ったプレイヤーを返す
 	PLAYER_NUMBER IsWinPlayer();
 	//勝った人を返す
-	std::list<PLAYER_NUMBER> IsFinalWinPlayer();
+	std::vector<PLAYER_NUMBER> IsFinalWinPlayer();
 	//最後の一人になったらtrueを返す
 	bool EndRaund();
 	//タイムアップの場合Trueを返す
