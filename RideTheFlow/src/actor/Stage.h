@@ -6,6 +6,13 @@
 class Stage :public Actor
 {
 public:
+	struct KankyakuState
+	{
+		Matrix4 mat;
+		MODEL_ID modelId;
+		ANIMATION animId;
+	};
+public:
 	Stage(IWorld& world);
 	~Stage();
 	virtual void Update() override;
@@ -13,8 +20,12 @@ public:
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
 
 private:
+	void SetKankyaku();
+private:
 	int PixelShaderHandle;
 	int VertexShaderHandle;
 	Vector3 mStagePos;
 	Matrix4 skyMat;
+	//ŠÏ‹qî•ñ
+	std::vector<KankyakuState> mKankyakuMats;
 };

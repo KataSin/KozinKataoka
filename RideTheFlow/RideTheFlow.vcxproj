@@ -97,7 +97,7 @@
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
-    <ClInclude Include="src\actor\ResultPlayer\ResultPlayer.h" />
+    <ClInclude Include="src\actor\AnimActor\AnimActor.h" />
     <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
@@ -165,7 +165,6 @@
     <ClInclude Include="src\UIactor\DamageBackUI\DamageBackUI.h" />
     <ClInclude Include="src\UIactor\DamageUI\DamageUI.h" />
     <ClInclude Include="src\UIactor\EndResultUI\EndResult.h" />
-    <ClInclude Include="src\UIactor\fadePanel\FadePanel.h" />
     <ClInclude Include="src\UIactor\GameFrameUI\GameFrameUI.h" />
     <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
     <ClInclude Include="src\UIactor\GameTimer\GameTimerUI.h" />
@@ -197,7 +196,7 @@
     <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\actor\FogActor.cpp" />
-    <ClCompile Include="src\actor\ResultPlayer\ResultPlayer.cpp" />
+    <ClCompile Include="src\actor\AnimActor\AnimActor.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
@@ -255,7 +254,6 @@
     <ClCompile Include="src\UIactor\DamageBackUI\DamageBackUI.cpp" />
     <ClCompile Include="src\UIactor\DamageUI\DamageUI.cpp" />
     <ClCompile Include="src\UIactor\EndResultUI\EndResult.cpp" />
-    <ClCompile Include="src\UIactor\fadePanel\FadePanel.cpp" />
     <ClCompile Include="src\UIactor\GameFrameUI\GameFrameUI.cpp" />
     <ClCompile Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.cpp" />
     <ClCompile Include="src\UIactor\GameTimer\GameTimerUI.cpp" />

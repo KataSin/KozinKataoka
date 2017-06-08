@@ -14,5 +14,6 @@ public:
 	virtual int GetStageCount() const = 0;
 	virtual void SetStageCount(int n) = 0;
 
+	virtual void SetChangeUi() = 0;
 	//__declspec(property(get = GetStageCount, put = SetStageCount)) int StageCount;
 };

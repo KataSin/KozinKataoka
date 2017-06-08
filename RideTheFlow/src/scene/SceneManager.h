@@ -4,6 +4,8 @@
 
 #include"IScenePtr.h"
 #include <unordered_map>
+#include "../UIactor/UIActorPtr.h"
+#include "../world/World.h"
 enum class Scene;
 
 class SceneManager : public ISceneMediator{
@@ -45,8 +47,13 @@ public:
 	}
 	virtual void SetStageCount(int n) override;
 
+	virtual void SetChangeUi()override;
+
 	__declspec(property(get = GetStageCount, put = SetStageCount)) int StageCount;
 
+private:
+	//次のシーンに移行するための設定
+	void ChangeSceneSet(Scene scene);
 private:
 	//コピー禁止
 	SceneManager(const SceneManager& other) = delete;
@@ -57,6 +64,10 @@ private:
 	//現在のシーン
 	IScenePtr mCurrentScene;
 	int mStageCount;
+
+	//シーンチェンジ用のworld
+	World wo;
+	UIActorPtr mChangeUi;
 
 	const float SCENE_END_TIME = 60.0f * 3;
 };

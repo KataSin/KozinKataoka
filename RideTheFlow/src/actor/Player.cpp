@@ -12,7 +12,6 @@
 #include "../game/Random.h"
 #include "../input/GamePad.h"
 #include "../sound/Sound.h"
-#include "../UIactor/fadePanel/FadePanel.h"
 #include "CameraActor.h"
 #include "../actor/PlayerBullet/PlayerBullet.h"
 #include "DeadBullet\DeadBulletManager.h"
@@ -66,6 +65,31 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(mPosition);
 	playerState = PlayerState::PLAYERSTOP;
+	//カラーの設定
+	switch (parameter.playNumber)
+	{
+	case PLAYER_NUMBER::PLAYER_1:
+	{
+		mColor = Vector4(0.0f, 0.0f, 255.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_2:
+	{
+		mColor = Vector4(255.0f, 0.0f, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_3:
+	{
+		mColor = Vector4(0.0f, 255.0f, 0.0f, 1.0f);
+		break;
+	}
+	case PLAYER_NUMBER::PLAYER_4:
+	{
+		mColor = Vector4(255.0f, 255.0f, 0.0f, 1.0f);
+		break;
+	}
+	}
+
 	//カメラを追加
 	world.Add(ACTOR_ID::CAMERA_ACTOR, std::make_shared<CameraActor>(world, *this, angleY));
 	//武器を追加
@@ -95,30 +119,6 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	playerSpeed = PlayerSpeed;
 	//リスポーン地点設定
 	respawnPoint = position_;
-	//当てたプレイヤーによって色を変える
-	switch (parameter.playNumber)
-	{
-	case PLAYER_NUMBER::PLAYER_1:
-	{
-		mColor = Vector4(0.0f, 0.0f, 255.0f, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_2:
-	{
-		mColor = Vector4(255.0f, 0.0f, 0.0f, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_3:
-	{
-		mColor = Vector4(0.0f, 255.0f, 0.0f, 1.0f);
-		break;
-	}
-	case PLAYER_NUMBER::PLAYER_4:
-	{
-		mColor = Vector4(255.0f, 255.0f, 0.0f, 1.0f);
-		break;
-	}
-	}
 
 	//パーティクル設定
 

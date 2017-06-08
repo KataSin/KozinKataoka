@@ -1,9 +1,9 @@
-#include "ResultPlayer.h"
+#include "AnimActor.h"
 #include "../../world/IWorld.h"
 #include "../Collision.h"
 #include "../../graphic/Model.h"
 #include "../../graphic/AnimetionClass.h"
-ResultPlayer::ResultPlayer(IWorld & word, const Vector3 & position, const PLAYER_NUMBER& player,ANIMATION anim) :
+AnimActor::AnimActor(IWorld & word, const Vector3 & position, const PLAYER_NUMBER& player, ANIMATION anim) :
 	Actor(world),
 	mPosition(position)
 {
@@ -43,26 +43,29 @@ ResultPlayer::ResultPlayer(IWorld & word, const Vector3 & position, const PLAYER
 	mAnim = std::make_shared<AnimationClass>(this, anim, mModelId);
 }
 
-ResultPlayer::~ResultPlayer()
+AnimActor::AnimActor(IWorld & word, const Matrix4 & mat, const MODEL_ID & modelId, ANIMATION anim) :
+	Actor(world)
+{
+	parameter.isDead = false;
+	parameter.mat = mat;
+	mModelId = modelId;
+	mAnim = std::make_shared<AnimationClass>(this, anim, mModelId);
+}
+
+AnimActor::~AnimActor()
 {
 }
 
-void ResultPlayer::Update()
+void AnimActor::Update()
 {
-	parameter.mat =
-		Matrix4::Scale(1)*
-		Matrix4::RotateX(0)*
-		Matrix4::RotateY(0)*
-		Matrix4::RotateZ(0)*
-		Matrix4::Translate(mPosition);
 	mAnim->update();
 }
 
-void ResultPlayer::Draw() const
+void AnimActor::Draw() const
 {
 	mAnim->draw();
 }
 
-void ResultPlayer::OnCollide(Actor & other, CollisionParameter colpara)
+void AnimActor::OnCollide(Actor & other, CollisionParameter colpara)
 {
 }

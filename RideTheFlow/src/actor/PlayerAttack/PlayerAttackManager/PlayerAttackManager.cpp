@@ -46,12 +46,13 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	//武器UI追加
 	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, uiPos, *this));
 	//オーバーヒートUI追加
-    world.UIAdd(UI_ID::OVER_HERT_UI, std::make_shared<OverHertUI>(world, mOverHertUiPos, *this));
+	world.UIAdd(UI_ID::OVER_HERT_UI, std::make_shared<OverHertUI>(world, mOverHertUiPos, *this));
 	//カメラも取得
 	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	//パッド設定
 	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
-
+	//カラーを設定
+	mColor = mPlayer->mColor;
 	//パーティクル設定
 	ParticleSet();
 	mAttackParticle = std::make_shared<ParticleEffectSystem>(world, mAttackParticleSet);
@@ -137,7 +138,7 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 {
 	//プレイヤーの人数によって変更
-	if (world.GetPlayerNum()==2) {
+	if (world.GetPlayerNum() == 2) {
 		switch (num)
 		{
 		case PLAYER_NULL:
@@ -278,7 +279,7 @@ void PlayerAttackManager::SniperGun()
 			mSniperState.isColSniperLine = false;
 			mSniperState.chargeSniperCount = 100.0f;
 			initSniperFalg = true;
-			
+
 		}
 	}
 
@@ -330,8 +331,8 @@ void PlayerAttackManager::ParticleSet()
 	mAttackParticleSet.isParticleNum = 5;
 	mAttackParticleSet.IsDeadTime = 0.3f;
 
-	mAttackParticleSet.position = mPlayer->GetPlayerGunPos()-(mPlayer->GetParameter().mat.GetFront()*5.0f);
-	mAttackParticleSet.scale = 0.2f;
+	mAttackParticleSet.position = mPlayer->GetPlayerGunPos() - (mPlayer->GetParameter().mat.GetFront()*5.0f);
+	mAttackParticleSet.scale = 0.4f;
 	mAttackParticleSet.scaleRandom = 0.1f;
 	mAttackParticleSet.Vec = Vector3::Up;
 	mAttackParticleSet.VecRandom = Vector3(2, 0, 2);
@@ -349,7 +350,7 @@ void PlayerAttackManager::ParticleSet()
 }
 void PlayerAttackManager::AddParticle()
 {
-	mAttackParticleSet.position = mPlayer->GetPlayerGunPos() - (mPlayer->GetParameter().mat.GetFront()*2.0f);
+	mAttackParticleSet.position = (mPlayer->GetPlayerGunPos() - (mPlayer->GetParameter().mat.GetFront()*3.0f)) + Vector3(0, 2, 0);
 	mAttackParticleSet.isParticle = true;
 	static_cast<ParticleEffectSystem*>(mAttackParticle.get())->SetParticle(mAttackParticleSet);
 

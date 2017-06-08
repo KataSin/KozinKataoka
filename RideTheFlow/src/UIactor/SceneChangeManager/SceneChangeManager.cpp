@@ -6,43 +6,16 @@
 #include "../../actor/ID.h"
 #include "ChangeBlock\ChangeBlock.h"
 #include "../../Def.h"
-SceneChangeManager::SceneChangeManager(IWorld & world, const Vector2&position) :
+#include "../../time/Time.h"
+SceneChangeManager::SceneChangeManager(IWorld & world) :
 	UIActor(world),
-	mPosition(position)
+	mFlag(false),
+	mTime(0.0f),
+	mTimeCount(0.0f)
 {
 	parameter.isDead = false;
-
-	Vector2 qsize = Sprite::GetInstance().GetSize(SPRITE_ID::TEST_SPRITE);
-	for (int x = 0; x <= 1280 / 16; x++) {
-		for (int y = 0; y <= 720 / 16; y++) {
-			TexState state;
-			state.toPos = Vector2(x * 16, y * 16)+Vector2(8,8);
-			state.randAngle = Random::GetInstance().Range(-360, 360);
-			state.texHandle = DerivationGraph(16*x, 16*y, 16, 16, Sprite::GetInstance().GetIndex(SPRITE_ID::TEST_SPRITE));
-			int randSide = Random::GetInstance().Range(0, 4);
-			switch (randSide)
-			{
-			case 0: {
-				state.randPos = Vector2(Random::GetInstance().Range(-150, -100), Random::GetInstance().Range(-100, WINDOW_HEIGHT+100));
-				break;
-			}
-			case 1: {
-				state.randPos = Vector2(Random::GetInstance().Range(WINDOW_WIDTH+100, WINDOW_WIDTH + 150), Random::GetInstance().Range(-100, WINDOW_HEIGHT+150));
-				break;
-			}
-			case 2: {
-				state.randPos = Vector2(Random::GetInstance().Range(-100, WINDOW_WIDTH+100), Random::GetInstance().Range(-150, -100));
-				break;
-			}
-			case 3: {
-				state.randPos = Vector2(Random::GetInstance().Range(-100, WINDOW_WIDTH + 100), Random::GetInstance().Range(WINDOW_HEIGHT+100,WINDOW_HEIGHT+150));
-				break;
-			}
-			}
-
-			world.UIAdd(UI_ID::CHANGE_BLOK_UI, std::make_shared<ChangeBlock>(world,state));
-		}
-	}
+	mBlocks.clear();
+	SpriteSet(SPRITE_ID::SCENE_CHANGE_STAGE_SELECT_SPRITE);
 }
 
 SceneChangeManager::~SceneChangeManager()
@@ -51,16 +24,16 @@ SceneChangeManager::~SceneChangeManager()
 
 void SceneChangeManager::Update(PLAYER_NUMBER playerNumber)
 {
-	//if (Keyboard::GetInstance().KeyStateDown(KEYCODE::G)) {
-	//	Vector2 randVec = Vector2(Random::GetInstance().Range(-300, -10), Random::GetInstance().Range(-30, 30));
-	//	float randAngle = Random::GetInstance().Range(-100, 100);
-	//	float randDeadTime = 5.0f;
-	//	float randSize = Random::GetInstance().Range(0.2f, 0.4f);
-	//	world.UIAdd(UI_ID::PARTICLE_UI, std::make_shared<ChangeParticle>(world, mPosition, randVec, randAngle, randDeadTime,randSize));
-	//}
+	if (mFlag)
+		mTime += Time::GetInstance().deltaTime();
+	else
+		mTime -= Time::GetInstance().deltaTime();
 
-
-
+	mTime = Math::Clamp(mTime, 0.0f, 1.0f);
+	if (mTime == 1.0f)
+		mTimeCount += Time::GetInstance().deltaTime();
+	else
+		mTimeCount = 0.0f;
 }
 
 void SceneChangeManager::Draw() const
@@ -69,5 +42,70 @@ void SceneChangeManager::Draw() const
 
 void SceneChangeManager::ChangeJudge(bool flag)
 {
-
+	mFlag = flag;
 }
+
+float SceneChangeManager::GetTime()
+{
+	return mTime;
+}
+
+bool SceneChangeManager::GetNoBlockFlag()
+{
+	return mTime == 0.0f ? true : false;
+}
+
+bool SceneChangeManager::GetYesBlockFlag()
+{
+	return mTime >= 1.0f ? true : false;
+}
+
+void SceneChangeManager::SpriteSet(const SPRITE_ID & id)
+{
+	//äÆëSÇ…ÇÕÇØÇƒÇ¢Ç»Ç¢Ç∆î≠ìÆÇµÇ»Ç¢
+	if (mTime != 0.0f&&mNowId == id)return;
+	//ëOÇÃÇ‡ÇÃÇÕçÌèú
+	if (mBlocks.size() != 0) {
+		for (auto& i : mBlocks) {
+			static_cast<ChangeBlock*>(i.get())->Dead();
+		}
+		mBlocks.clear();
+	}
+
+	//ï™äÑâÊëúÇê∂ê¨Åïí«â¡
+	Vector2 qsize = Sprite::GetInstance().GetSize(id);
+	for (int x = 0; x <= 1280 / 32; x++) {
+		for (int y = 0; y <= 720 / 32; y++) {
+			TexState state;
+			int textureSize = 32;
+			state.toPos = Vector2(x * textureSize, y * textureSize) + Vector2(textureSize / 2, textureSize / 2);
+			state.randAngle = Random::GetInstance().Range(-360, 360);
+			state.texHandle = DerivationGraph(textureSize*x, textureSize*y, textureSize, textureSize, Sprite::GetInstance().GetIndex(id));
+			int randSide = Random::GetInstance().Range(0, 4);
+			switch (randSide)
+			{
+			case 0: {
+				state.randPos = Vector2(Random::GetInstance().Range(-150, -100), Random::GetInstance().Range(-100, WINDOW_HEIGHT + 100));
+				break;
+			}
+			case 1: {
+				state.randPos = Vector2(Random::GetInstance().Range(WINDOW_WIDTH + 100, WINDOW_WIDTH + 150), Random::GetInstance().Range(-100, WINDOW_HEIGHT + 150));
+				break;
+			}
+			case 2: {
+				state.randPos = Vector2(Random::GetInstance().Range(-100, WINDOW_WIDTH + 100), Random::GetInstance().Range(-150, -100));
+				break;
+			}
+			case 3: {
+				state.randPos = Vector2(Random::GetInstance().Range(-100, WINDOW_WIDTH + 100), Random::GetInstance().Range(WINDOW_HEIGHT + 100, WINDOW_HEIGHT + 150));
+				break;
+			}
+			}
+			UIActorPtr ui = std::make_shared<ChangeBlock>(world, state, *this);
+			world.UIAdd(UI_ID::CHANGE_BLOK_UI, ui);
+			mBlocks.push_back(ui);
+			mNowId = id;
+		}
+	}
+}
+

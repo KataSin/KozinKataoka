@@ -12,7 +12,6 @@
 #include "../time/Time.h"
 
 #include "../actor/CameraActor.h"
-#include "../UIactor/fadePanel/FadePanel.h"
 #include "../game/Random.h"
 #include "../UIactor/SceneChangeManager/SceneChangeManager.h"
 //コンストラクタ
@@ -31,7 +30,7 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	mIsEnd = false;
-	wo.UIAdd(UI_ID::PARTICLE_UI, std::make_shared<SceneChangeManager>(wo, Vector2(800, 500)));
+	//wo.UIAdd(UI_ID::PARTICLE_UI, std::make_shared<SceneChangeManager>(wo, Vector2(800, 500)));
 }
 
 void TitleScene::Update()

@@ -5,6 +5,7 @@
 #include "../world/World.h"
 #include "../GameManager/GameManager.h"
 #include <vector>
+#include "../UIactor/UIActorPtr.h"
 
 class  Result : public IScene
 {
@@ -32,26 +33,5 @@ private:
 	GameManager* mGameManager;
 	bool  mIsEnd;
 	World wo;
-	//ステージのマトリックス
-	Matrix4 mStageMat;
-	//台のマトリックス
-	Matrix4 mDaiMat;
-	//スカイボックスマトリックス
-	Matrix4 mSkyMat;
-	//順位に応じての座標
-	std::vector<Vector3> mRankPos;
-
-	//カメラの位置
-	Vector3 mCameraPos;
-	//カメラの行くべき位置
-	Vector3 mResCameraPos;
-	//カメラ速度
-	Vector3 mCameraVelo;
-
-
-	//アクションタイム(イベント系)
-	float mActionTime;
-
-	//UIの
-	int test;
+	UIActorPtr mResultUi;
 };

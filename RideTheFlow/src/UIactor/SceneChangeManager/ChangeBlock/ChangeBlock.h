@@ -1,5 +1,6 @@
 #pragma once
 #include "../../UIActor.h"
+
 struct TexState
 {
 	Vector2 randPos = Vector2::Zero;
@@ -9,14 +10,16 @@ struct TexState
 };
 class ChangeBlock :public UIActor {
 public:
-	ChangeBlock(IWorld& world,const TexState& state);
+	ChangeBlock(IWorld& world,const TexState& state,UIActor& manager);
 	~ChangeBlock();
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
 
 public:
-	void BlockDown();
+	void Dead();
 private:
+	//manager
+	UIActor* mManager;
 	Vector2 mPosition;
 	Vector2 mCenter;
 	//補間用
@@ -31,7 +34,8 @@ private:
 	float mPlusAngle;
 	float mTime;
 	float mAlpha;
-	bool mDownFlag;
+	//画面を閉じるか
+	bool mFlag;
 	//テクスチャハンドル
 	int mHandle;
 };

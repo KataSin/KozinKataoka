@@ -11,10 +11,16 @@ public:
 	~EndResultUI();
 	virtual void Update(PLAYER_NUMBER playerNumber) override;
 	virtual void Draw() const override;
+
+public:
+	//終わってもよいか？
+	bool GetIsEnd();
+private:
+	//観客セット
+	void SuportSet();
 private:
 	//ゲームマネージャー
 	GameManager* mGameManager;
-	bool  mIsEnd;
 	//ステージのマトリックス
 	Matrix4 mStageMat;
 	//台のマトリックス
@@ -31,8 +37,19 @@ private:
 	//カメラ速度
 	Vector3 mCameraVelo;
 
+	//注視点の位置
+	Vector3 mTargetPos;
+	//注視点の行くべき位置
+	Vector3 mResTargetPos;
+	//注視点速度
+	Vector3 mTargetVelo;
 
+	//Winnerα
+	float mWinnerAlpha;
 	//アクションタイム(イベント系)
 	float mActionTime;
-
+	//ボタンおしてαカウント
+	float mPleaseAphaCount;
+	//終わってもよいか？
+	bool mIsEnd;
 };

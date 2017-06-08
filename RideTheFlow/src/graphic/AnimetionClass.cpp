@@ -13,9 +13,9 @@ AnimationClass::AnimationClass(Actor* actor, ANIMATION startAnim, MODEL_ID model
 	AttachAnim(startAnim);
 	mCurAnimation = startAnim;
 	mPreAnimation = ANIMATION::NULL_ANIM;
-	MV1SetTextureAddressMode(mModel, 0, 0.1f, 0.1f);
-	MV1SetTextureGraphHandle(mModel,0,Sprite::GetInstance().
-		GetIndex(SPRITE_ID::PLAYER4_MODEL_SPRITE) , FALSE);
+	//MV1SetTextureAddressMode(mModel, 0, 0.1f, 0.1f);
+	//MV1SetTextureGraphHandle(mModel,0,Sprite::GetInstance().
+	//	GetIndex(SPRITE_ID::PLAYER4_MODEL_SPRITE) , FALSE);
 }
 
 AnimationClass::~AnimationClass()

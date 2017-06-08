@@ -69,11 +69,19 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("SelectBack.png", SPRITE_ID::SELECT_BACK_SPRITE);
 	sprite.Load("SelectCursor.png", SPRITE_ID::SELECT_CURSOR_SPRITE);
 
-	sprite.Load("WinPlayer.png", SPRITE_ID::WIN_PLAYER_SPRITE);
+	sprite.Load("winner.png", SPRITE_ID::WIN_PLAYER_SPRITE);
+	sprite.Load("PleaseButton.png", SPRITE_ID::PLEASE_BUTTON_SPRITE);
 
 	sprite.Load("Effect/kemuri1.png", SPRITE_ID::KEMURI_1_SPRITE);
 	sprite.Load("Effect/kemuri2.png", SPRITE_ID::KEMURI_2_SPRITE);
 	sprite.Load("Effect/kemuri3.png", SPRITE_ID::KEMURI_3_SPRITE);
+
+	sprite.Load("SceneChange/SceneChangeGamePlay.png", SPRITE_ID::SCENE_CHANGE_GAME_PLAY_SPRITE);
+	sprite.Load("SceneChange/SceneChangeTitle.png", SPRITE_ID::SCENE_CHANGE_TITLE_SPRITE);
+	sprite.Load("SceneChange/SceneChangeNextRaund.png", SPRITE_ID::SCENE_CHANGE_NEXT_RAUND_SPRITE);
+	sprite.Load("SceneChange/SceneChangeSelect.png", SPRITE_ID::SCENE_CHANGE_STAGE_SELECT_SPRITE);
+	sprite.Load("SceneChange/SceneChangeResult.png", SPRITE_ID::SCENE_CHANGE_RESULT_SPRITE);
+
 
 
 	/* フェード */
@@ -109,8 +117,14 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("Pool/Pool.mv1", MODEL_ID::POOL_MODEL, async);
 	model.Load("NoBreakPlate/NoBreakPlate.mv1", MODEL_ID::NOBREAKPLATE_MODEL, async);
 	model.Load("Stage/RunStage.mv1", MODEL_ID::RUN_STAGE_MODEL, async);
-	model.Load("GameMaster/GameMaster.pmx", MODEL_ID::GAME_MASTER_MODEL, async);
+	model.Load("GameMaster/GameMaster.mv1", MODEL_ID::GAME_MASTER_MODEL, async);
 	model.Load("Dai/dai.mv1", MODEL_ID::DAI_MODEL, async);
+
+	model.Load("Kankyaku/Kankyaku1.mv1", MODEL_ID::KANKYAKU_1_MODEL, async);
+	model.Load("Kankyaku/Kankyaku2.mv1", MODEL_ID::KANKYAKU_2_MODEL, async);
+	model.Load("Kankyaku/Kankyaku3.mv1", MODEL_ID::KANKYAKU_3_MODEL, async);
+	model.Load("Kankyaku/Kankyaku4.mv1", MODEL_ID::KANKYAKU_4_MODEL, async);
+	model.Load("Kankyaku/Kankyaku5.mv1", MODEL_ID::KANKYAKU_5_MODEL, async);
 
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }

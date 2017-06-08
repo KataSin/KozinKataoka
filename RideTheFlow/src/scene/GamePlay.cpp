@@ -12,7 +12,6 @@
 #include "../time/Time.h"
 
 #include "../actor/CameraActor.h"
-#include "../UIactor/fadePanel/FadePanel.h"
 #include "../game/Random.h"
 
 #include "../actor/Player.h"
@@ -84,30 +83,6 @@ void GamePlay::Initialize()
 	wo.SetInputPlayer(false);
 	//支所はタイマーが動いていない
 	gameTimer->StopTimer(true);
-
-
-	ParticleEffectSystem::ParticleSetting state;
-	state.position = Vector3::Zero;
-	state.IsDeadTime = 2.0f;
-	state.Vec = Vector3::Up;
-	state.VecRandom = Vector3(1,0,1);
-	state.Deceleration = 60.0f;
-	state.DecelerationTime = 0.2f;
-
-	state.SpawnSpeed = 0.05f;
-	state.InitializeVelocity = Vector3(30, 30, 30);
-	state.MinusAlphaTime = 1.0f;
-	state.MinusAlphaNum = 1.0f;
-
-	std::vector<SPRITE_ID> ids;
-	ids.push_back(SPRITE_ID::KEMURI_1_SPRITE);
-	ids.push_back(SPRITE_ID::KEMURI_2_SPRITE);
-	ids.push_back(SPRITE_ID::KEMURI_3_SPRITE);
-	state.texture = ids;
-
-	wo.Add(ACTOR_ID::PARTICLE_ACTOR, std::make_shared<ParticleEffectSystem>(wo, state));
-
-
 }
 
 void GamePlay::Update()

@@ -16,14 +16,16 @@ Result::~Result()
 
 void Result::Initialize()
 {
-	wo.UIAdd(UI_ID::END_RESULT_UI, std::make_shared<EndResultUI>(wo, *mGameManager));
+	mResultUi = std::make_shared<EndResultUI>(wo, *mGameManager);
+	wo.UIAdd(UI_ID::END_RESULT_UI, mResultUi);
 	mIsEnd = false;
 }
 
 void Result::Update()
 {
-	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
-		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
+	if (static_cast<EndResultUI*>(mResultUi.get())->GetIsEnd()&&
+		(GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
+		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))) {
 		mIsEnd = true;
 	}
 	wo.Update();
