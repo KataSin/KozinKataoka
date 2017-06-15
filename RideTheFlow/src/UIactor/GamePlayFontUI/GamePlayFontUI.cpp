@@ -17,7 +17,7 @@ void GamePlayFontUI::Update(PLAYER_NUMBER playerNumber)
 	if (mFonts.empty()) return;
 	for (auto& i : mFonts) {
 		int num = 1;
-		if (!i.second.mFlag) {
+		if (i.second.mFlag) {
 			if (i.second.mCount >= i.second.mFontTime) num = -1;
 		}
 		i.second.mAlpha += num*Time::GetInstance().deltaTime();

@@ -3,6 +3,7 @@
 
 #include "../../../math/Math.h"
 #include "../../../time/Time.h"
+#include "../../../sound/Sound.h"
 
 #include "../../../input/GamePad.h"
 #include "../../../input/Keyboard.h"
@@ -16,9 +17,9 @@
 #include "../../CameraActor.h"
 #include "../PlayerGun/PlayerGun.h"
 //•Ší‚ÌƒI[ƒo[ƒq[ƒg’l
-const float OverHertMachine = 2.0f;
-const float OverHertSniper = 50.0f;
-const float OverHertShot = 20.0f;
+const float OverHertMachine = 1.5f;
+const float OverHertSniper = 30.0f;
+const float OverHertShot = 15.0f;
 
 PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
@@ -92,6 +93,7 @@ void PlayerAttackManager::Update()
 		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
 	{
 		attacStateInt++;
+		Sound::GetInstance().PlaySE(SE_ID::GUN_CHANGE_SE, DX_PLAYTYPE_BACK);
 		attackState = (PlayerAttackState)(attacStateInt % 3);
 	}
 
@@ -224,6 +226,7 @@ void PlayerAttackManager::MachineGun()
 		//0.1•b‚É1ŒÂ”­ŽË‚·‚é
 		if (machineAttackCount >= 0.1f)
 		{
+			Sound::GetInstance().PlaySE(SE_ID::MACHINEATTACK_SE, DX_PLAYTYPE_BACK);
 			AddParticle();
 			overHertCount -= OverHertMachine;
 			BulletState machine;
@@ -261,6 +264,7 @@ void PlayerAttackManager::SniperGun()
 		{
 			//ƒ`ƒƒ[ƒW‚Ì‰Šú—Ê‚Í10
 			mSniperState.chargeSniperCount = 10.0f;
+			Sound::GetInstance().PlaySE(SE_ID::SNIPER_CHARGE_SE, DX_PLAYTYPE_BACK);
 			initSniperFalg = false;
 		}
 		//ƒ`ƒƒ[ƒW‚·‚éuŠÔ‚Éü‚ªÅ‘å‚Ü‚Åˆêu‚¾‚¯L‚Ñ‚é‚Ä‚µ‚Ü‚¤–hŽ~
@@ -284,6 +288,8 @@ void PlayerAttackManager::SniperGun()
 		mSniperState.isColSniperLine = true;
 		//ƒ`ƒƒ[ƒW‚Í‚à‚¤‚µ‚Ä‚¢‚È‚¢
 		mSniperState.doCharge = false;
+		Sound::GetInstance().StopSE(SE_ID::SNIPER_CHARGE_SE);
+		Sound::GetInstance().PlaySE(SE_ID::SNIPER_ATTACK_SE, DX_PLAYTYPE_BACK);
 	}
 	//—£‚µ‚½Žž‚©‚ç0.1•bŒã‚É‚ ‚½‚è”»’è–³Œø‰»
 	if (mSniperState.isColSniperLine)
@@ -318,7 +324,7 @@ void PlayerAttackManager::ShotGun()
 			return;
 		}
 		overHertFlag = false;
-		if (shotAttackCount >= 2.0f)
+		if (shotAttackCount >= 1.0f)
 		{
 			for (int i = 0; i < 15; i++)
 			{
@@ -333,8 +339,11 @@ void PlayerAttackManager::ShotGun()
 				world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
 					std::make_shared<PlayerBullet>(world, shot, mColor, 2.5f));
 				shotAttackCount = 0.0f;
-				if (i == 1)
+				if (i == 1) {
+					Sound::GetInstance().PlaySE(SE_ID::SHOT_ATTACK_SE, DX_PLAYTYPE_BACK);
 					overHertCount -= 30.0f;
+				}
+					
 			}
 		}
 	}

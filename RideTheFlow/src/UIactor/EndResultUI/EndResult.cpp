@@ -8,6 +8,7 @@
 #include "../../game/Random.h"
 #include "../../Def.h"
 #include "../../math/Math.h"
+#include "../../sound/Sound.h"
 EndResultUI::EndResultUI(IWorld & world, GameManager& gameManager) :
 	UIActor(world),
 	mGameManager(&gameManager)
@@ -72,6 +73,8 @@ EndResultUI::EndResultUI(IWorld & world, GameManager& gameManager) :
 	mWinnerAlpha = 0.0f;
 	mPleaseAphaCount = 0.0f;
 	mIsEnd = false;
+
+	Sound::GetInstance().PlaySE(SE_ID::RESULT_PLAYER_START_SE, DX_PLAYTYPE_BACK);
 }
 
 EndResultUI::~EndResultUI()
@@ -82,7 +85,10 @@ void EndResultUI::Update(PLAYER_NUMBER playerNumber)
 {
 	mActionTime += Time::GetInstance().deltaTime();
 	//ƒJƒƒ‰‚ª‹ß‚Ã‚­ŽžŠÔ•’Ž‹“_•âŠÔ
-	if (mActionTime >= 5.0f) {
+	if (mActionTime >= 3.5f) {
+		if (!Sound::GetInstance().IsPlayBGM()) {
+			Sound::GetInstance().PlayBGM(BGM_ID::RESULT_WIN_BGM, DX_PLAYTYPE_LOOP);
+		}
 		mResCameraPos = Vector3(10, 70, -100);
 		mResTargetPos = Vector3(30, 120, 0);
 		mWinnerAlpha += 1.5f*Time::GetInstance().deltaTime();

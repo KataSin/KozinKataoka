@@ -57,7 +57,7 @@ bool SceneChangeManager::GetNoBlockFlag()
 
 bool SceneChangeManager::GetYesBlockFlag()
 {
-	return mTime >= 1.0f ? true : false;
+	return mTimeCount >= 1.0f ? true : false;
 }
 
 void SceneChangeManager::SpriteSet(const SPRITE_ID & id)

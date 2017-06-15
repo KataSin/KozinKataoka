@@ -2,6 +2,7 @@
 #include "../input/Keyboard.h"
 #include "../input/GamePad.h"
 #include "../UIactor/EndResultUI/EndResult.h"
+#include "../sound/Sound.h"
 Result::Result(GameManager & gameManager) :
 	mGameManager(&gameManager),
 	mIsEnd(false)
@@ -30,6 +31,7 @@ void Result::Update()
 		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM4) ||
 		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))) {
 		mIsEnd = true;
+		Sound::GetInstance().PlaySE(SE_ID::CURSOR_YES_SE, DX_PLAYTYPE_BACK);
 	}
 	wo.Update();
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_NULL);
@@ -54,4 +56,6 @@ Scene Result::Next() const
 void Result::End()
 {
 	mGameManager->Initialize();
+	Sound::GetInstance().StopBGM();
+	wo.Clear();
 }

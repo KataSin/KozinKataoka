@@ -6,6 +6,7 @@
 #include "../UIactor/StageSelectUI/StageSelectUI.h"
 #include "../actor/SelectSceneActor/SelectSceneCamera.h"
 #include "../actor/SelectSceneActor/SelectScenePlayer.h"
+#include "../sound/Sound.h"
 SelectScene::SelectScene(GameManager & gameManager) :
 	mGameManager(&gameManager)
 {
@@ -33,6 +34,7 @@ void SelectScene::Initialize()
 	mPads.push_back(DX_INPUT_PAD3);
 	mPads.push_back(DX_INPUT_PAD4);
 
+	Sound::GetInstance().PlayBGM(BGM_ID::STAGE_SELECT_BGM, DX_PLAYTYPE_LOOP);
 }
 
 void SelectScene::Update()
@@ -48,6 +50,7 @@ void SelectScene::Update()
 		mGameManager->SetPlayerNum(state[StageSelectUI::SelectState::PLAYER_NUM].num);
 		mGameManager->SetRaundCount(state[StageSelectUI::SelectState::RAUND].num);
 		mGameManager->SetPlayerPad(mPads);
+
 		mIsEnd = true;
 	}
 	//–ß‚é‚ð‰Ÿ‚³‚ê‚½‚ç
@@ -78,5 +81,6 @@ Scene SelectScene::Next() const
 
 void SelectScene::End()
 {
+	Sound::GetInstance().StopBGM();
 	wo.Clear();
 }

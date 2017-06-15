@@ -63,8 +63,17 @@ private:
 	//フォントフラグ
 	bool mFontFlag;
 	bool mIsEndRanund;
+	//終わるフラグ
+	bool mRaundTimeUpFlag;
+	bool mRaundNoPlayerFlag;
 	//勝ったプレイヤー
 	PLAYER_NUMBER mWinPlayer;
 	//何人プレイヤーがいるか
 	int mPlayerNum;
+
+	//スタートSEを鳴らすタイミング
+	float mSeTimer;
+	bool mSeFlag;
+	//流すBGM
+	BGM_ID mBgm;
 };

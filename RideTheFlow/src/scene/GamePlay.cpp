@@ -59,12 +59,12 @@ void GamePlay::Initialize()
 	//ステージを追加
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
 	//タイマー設定
-	auto gameTimer = std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 2.0f);
+	auto gameTimer = std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 180.0f);
 	//タイマーを追加
 	wo.UIAdd(UI_ID::GAMETIMER_UI, gameTimer);
 	mGameTimer = gameTimer.get();
 	//ゲームフレームを追加
-	wo.UIAdd(UI_ID::GAMEFRAME_UI, std::make_shared<GameFrameUI>(wo, Vector2::Zero,mPlayerNum));
+	wo.UIAdd(UI_ID::GAMEFRAME_UI, std::make_shared<GameFrameUI>(wo, Vector2::Zero, mPlayerNum));
 	auto font = std::make_shared<GamePlayFontUI>(wo);
 	//フォントマネージャーを追加
 	wo.UIAdd(UI_ID::FONT_UI, font);
@@ -81,23 +81,43 @@ void GamePlay::Initialize()
 	wo.SetInputPlayer(false);
 	//支所はタイマーが動いていない
 	gameTimer->StopTimer(true);
+
+	mSeTimer = 0.0f;
+	mSeFlag = true;
+
+	mRaundTimeUpFlag = false;
+	mRaundNoPlayerFlag = false;
 }
 
 void GamePlay::Update()
 {
+	mSeTimer += Time::GetInstance().deltaTime();
+	if (mSeTimer >= 0.8f&&mSeFlag) {
+		Sound::GetInstance().PlaySE(SE_ID::GAME_PLAY_START_SE, DX_PLAYTYPE_BACK);
+		mSeFlag = false;
+	}
 	//よーいフォントが終わったらプレイヤーの操作開始
 	if (fontUi->GetEndFont(SPRITE_ID::YO_I_FONT_SPRITE) && mStartFontFlag) {
 		fontUi->StartFont(SPRITE_ID::DON_SPRITE, 8.0f);
 		wo.SetInputPlayer(true);
 		mGameTimer->StopTimer(false);
 		mStartFontFlag = false;
+		int rand = std::rand() % 2;
+		if (rand == 1)
+			mBgm = BGM_ID::GAME_PLAY_1_BGM;
+		else
+			mBgm = BGM_ID::GAME_PLAY_2_BGM;
+		Sound::GetInstance().PlayBGM(mBgm, DX_PLAYTYPE_LOOP);
+
 	}
 
 	if (mIsEndRanund) {
-		if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
-			Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
+		if ((GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM2) ||
+			Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))&&
+			!mIsEnd) {
 			mIsEnd = true;
 			mRandCount++;
+			Sound::GetInstance().PlaySE(SE_ID::CURSOR_YES_SE, DX_PLAYTYPE_BACK);
 			//全ラウンド終わってたらリザルトへ
 			if (mRandCount >= mEndRaundCount) {
 				mNextScene = Scene::Result;
@@ -108,31 +128,39 @@ void GamePlay::Update()
 	}
 	else
 	{
-		if (mGamePlayManager->EndRaund()) {
+		if (mGamePlayManager->EndRaund() && !mRaundTimeUpFlag) {
 			if (mFontFlag) {
+				Sound::GetInstance().StopBGM();
+				Sound::GetInstance(). PlaySE(SE_ID::GAME_PLAY_END_SE,DX_PLAYTYPE_BACK);
 				mGameTimer->StopTimer(true);
 				//勝ったプレイヤーを入れる
 				mWinPlayer = mGamePlayManager->IsWinPlayer();
 				//そこまで表示
 				fontUi->StartFont(SPRITE_ID::SOKOMADE_FONT_SPRITE);
 				mFontFlag = false;
+				mRaundNoPlayerFlag = true;
 			}
 			else if (fontUi->GetEndFont(SPRITE_ID::SOKOMADE_FONT_SPRITE)) {
 				//そこまで表示終わったらリザルト画像を表示
+				Sound::GetInstance().PlayBGM(BGM_ID::GAME_PLAY_END_BGM);
 				wo.UIAdd(UI_ID::RESULT_UI, std::make_shared<ResultUI>(wo, *mGamePlayManager.get(), mWinPlayer));
 				mIsEndRanund = true;
 				mFontFlag = true;
 			}
 		}
-		else if (mGamePlayManager->TimeUp()) {
+		else if (mGamePlayManager->TimeUp()&&!mRaundNoPlayerFlag) {
 			if (mFontFlag) {
+				Sound::GetInstance().StopBGM();
+				Sound::GetInstance().PlaySE(SE_ID::GAME_PLAY_END_SE, DX_PLAYTYPE_BACK);
 				mGameTimer->StopTimer(true);
 				//そこまで表示
 				fontUi->StartFont(SPRITE_ID::SOKOMADE_FONT_SPRITE);
 				mFontFlag = false;
+				mRaundTimeUpFlag = true;
 			}
 			else if (fontUi->GetEndFont(SPRITE_ID::SOKOMADE_FONT_SPRITE)) {
 				//引き分け表示(ずっと)
+				Sound::GetInstance().PlayBGM(BGM_ID::GAME_PLAY_END_BGM);
 				fontUi->StartFont(SPRITE_ID::HIKIWAKE_FONT_SPRITE, true);
 				mFontFlag = true;
 				mIsEndRanund = true;
@@ -175,6 +203,7 @@ void GamePlay::End()
 		mRandCount = 0;
 		mGamePlayManager->ResetWin();
 	}
+	Sound::GetInstance().StopBGM();
 	wo.Clear();
 }
 

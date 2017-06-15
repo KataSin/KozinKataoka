@@ -51,7 +51,7 @@ public:
 	//当たっているか
 	bool GetPlayerSniperLineCol()
 	{
-		return mIsSniperPlayerCol;
+		return mIsPlayerCol;
 	}
 	//武器ごとのターゲットの動き
 private:
@@ -73,5 +73,5 @@ private:
 	//プレイヤーが今持っている武器を取得
 	PlayerAttackState attackState;
 	//プレイヤーに当たったかどうか
-	bool mIsSniperPlayerCol;
+	bool mIsPlayerCol;
 };

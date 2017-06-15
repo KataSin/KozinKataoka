@@ -16,7 +16,7 @@ TargetRay::TargetRay(IWorld & world, Actor& manager) :
 	isCol(false),
 	mColSniperPos(Vector3::Zero),
 	isSniperCol(false),
-	mIsSniperPlayerCol(false)
+	mIsPlayerCol(false)
 {
 	//変換
 	mManager = dynamic_cast<PlayerAttackManager*>(&manager);
@@ -27,7 +27,7 @@ TargetRay::TargetRay(IWorld & world, Actor& manager) :
 	parameter.id = ACTOR_ID::PLAYER_BULLET_ACTOR;
 	parameter.radius = 0.5f;
 	//UIを追加
-	world.UIAdd(UI_ID::TARGET_UI, std::make_shared<Target>(world,manager, *this));
+	world.UIAdd(UI_ID::TARGET_UI, std::make_shared<Target>(world, manager, *this));
 }
 
 TargetRay::~TargetRay()
@@ -48,9 +48,13 @@ void TargetRay::Update()
 		}
 		if (isSniperCol)
 			mColSniperPos = colPos;
-		else
+		else if (isCol)
 			mColPos = colPos;
-
+		else if (mIsPlayerCol)
+		{
+			mColSniperPos = colPos;
+			mColPos = colPos;
+		}
 		mColVectorPos.clear();
 	}
 
@@ -85,7 +89,7 @@ void TargetRay::Update()
 	//フラグ初期化
 	isCol = false;
 	isSniperCol = false;
-	mIsSniperPlayerCol = false;
+	mIsPlayerCol = false;
 }
 
 void TargetRay::Draw() const
@@ -111,10 +115,8 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL)
 	{
 		mColVectorPos.push_back(colpara.colPos);
-		mColSniperPos = colpara.colPos;
-		isCol = true;
-		isSniperCol = true;
-		mIsSniperPlayerCol = true;
+
+		mIsPlayerCol = true;
 	}
 }
 //マシンガン＆ショットガン用ターゲット移動

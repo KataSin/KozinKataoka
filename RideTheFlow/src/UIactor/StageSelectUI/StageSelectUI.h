@@ -40,7 +40,7 @@ private:
 	//カーソルを重ねられる方の情報
 	std::vector<CursorState> mStates;
 	//現在のカーソルポジション
-	Vector2 mCursorPosition;
+	Vector3 mCursorPosition;
 	//次へ行くか
 	bool mIsNextFlag;
 	//戻るが

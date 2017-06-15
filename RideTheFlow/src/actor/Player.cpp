@@ -231,6 +231,8 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
 		damagePlayerPos = other.GetParameter().mat.GetPosition();
+		Sound::GetInstance().PlaySE(SE_ID::PLAYER_DAMAGE_SE, DX_PLAYTYPE_BACK);
+
 	}
 	//ショットガンの弾
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
@@ -242,6 +244,8 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
 		damagePlayerPos = other.GetParameter().mat.GetPosition();
+		Sound::GetInstance().PlaySE(SE_ID::PLAYER_DAMAGE_SE, DX_PLAYTYPE_BACK);
+
 	}
 
 	//スナイパー用
@@ -258,6 +262,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
 		damagePlayerPos = other.GetParameter().mat.GetPosition();
+		Sound::GetInstance().PlaySE(SE_ID::PLAYER_DAMAGE_SE, DX_PLAYTYPE_BACK);
 	}
 
 	if (colpara.colID == COL_ID::PLAYER_TREE_COL)
@@ -395,9 +400,10 @@ void Player::Jump()
 {
 	//ジャンプした瞬間何秒間は地面のあたり判定無効
 	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::V) ||
-		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1, pad) &&
+		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM3, pad) &&
 		!gravityFlag)
 	{
+		Sound::GetInstance().PlaySE(SE_ID::PLAYER_JUMP_SE,DX_PLAYTYPE_BACK);
 		mVelocity.y = 15.0f;
 		jumpFlag = true;
 		playerState = PlayerState::PLAYERJUMP;
@@ -423,6 +429,9 @@ void Player::Respawn()
 				5,
 				Vector3(20, 20, 20),
 				Vector3(-20, -20, -20)));
+
+	if (!parameter.isRespawn)Sound::GetInstance().PlaySE(SE_ID::PLAYER_DEAD_SE, DX_PLAYTYPE_BACK);
+
 	parameter.isRespawn = true;
 	//プレイヤーの状態変更
 	playerState = PlayerState::PLAYERRESPAWN;
@@ -522,7 +531,7 @@ void Player::PlayerAnimetion(PlayerState state)
 	else {
 		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
 		else {
-			animeClass->changeAnim(ANIMATION::PLAYER_BUKI_RUN_ANIM);
+			animeClass->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
 			playerState = PlayerState::PLAYERWALK;
 		}
 		return;

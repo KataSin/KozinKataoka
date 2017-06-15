@@ -7,7 +7,7 @@
 #include "../../time/Time.h"
 #include "../../graphic/Model.h"
 #include "../ParticleManager/ParticleManager.h"
-
+#include "../../sound/Sound.h"
 const float RespawnTime = 30.0f;
 const int HP = 3;
 DefaultPlate::DefaultPlate(IWorld & world, Vector3 position) :
@@ -85,6 +85,7 @@ void DefaultPlate::Update()
 				Vector3(5,5,5),
 				Vector3(-5,0,-5),
 				Vector3(10,0,10)));
+		Sound::GetInstance().PlaySE(SE_ID::PLATE_BREAK_SE,DX_PLAYTYPE_BACK);
 		mIsDead = true;
 	}
 	if(mIsDead)

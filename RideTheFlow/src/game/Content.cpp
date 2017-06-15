@@ -149,12 +149,35 @@ void Content::LoadModel(Model& model, bool async)
 // âπäyÇì«Ç›çûÇﬁ
 void Content::LoadSound(Sound& sound)
 {
-	WorkFolder::SetWorkFolder("res/Sound/GAME_BGM/");
+	WorkFolder::SetWorkFolder("res/Sound/BGM/");
+	sound.SetAllBGMVolume(BGMVOLUME);
 
+	sound.LoadBGM("GamePlay1.wav", BGM_ID::GAME_PLAY_1_BGM);
+	sound.LoadBGM("GamePlay2.wav", BGM_ID::GAME_PLAY_2_BGM);
+	sound.LoadBGM("GamePlayResult.wav", BGM_ID::GAME_PLAY_END_BGM);
+	sound.LoadBGM("GameTitle.wav", BGM_ID::GAME_TITLE_BGM);
+	sound.LoadBGM("Help.wav", BGM_ID::HELP_BGM);
+	sound.LoadBGM("ResultWin.wav", BGM_ID::RESULT_WIN_BGM);
+	sound.LoadBGM("StageSelect.wav", BGM_ID::STAGE_SELECT_BGM);
 	WorkFolder::SetWorkFolder("res/Sound/SE/");
 
-	sound.SetAllBGMVolume(BGMVOLUME);
 	sound.SetAllSEVolume(SEVOLUME);
+	sound.LoadSE("CursorChangeNum.wav", SE_ID::CURSOR_CHANGE_NUM_SE);
+	sound.LoadSE("CursorMove.wav", SE_ID::CURSOR_MOVE_SE);
+	sound.LoadSE("CursorYes.wav", SE_ID::CURSOR_YES_SE);
+	sound.LoadSE("GamePlayEnd.wav", SE_ID::GAME_PLAY_END_SE);
+	sound.LoadSE("GamePlayStart.wav", SE_ID::GAME_PLAY_START_SE);
+	sound.LoadSE("GunChange.wav", SE_ID::GUN_CHANGE_SE);
+	sound.LoadSE("MachineAttack.wav", SE_ID::MACHINEATTACK_SE);
+	sound.LoadSE("PlayerDamage.wav", SE_ID::PLAYER_DAMAGE_SE);
+	sound.LoadSE("PlayerDead.wav", SE_ID::PLAYER_DEAD_SE);
+	sound.LoadSE("PlayerJump.wav", SE_ID::PLAYER_JUMP_SE);
+	sound.LoadSE("PlayerStageOut.wav", SE_ID::PLAYER_STAGE_OUT_SE);
+	sound.LoadSE("ResultPlayerStart.wav", SE_ID::RESULT_PLAYER_START_SE);
+	sound.LoadSE("ShotAttack.wav", SE_ID::SHOT_ATTACK_SE);
+	sound.LoadSE("SniperAttack.wav", SE_ID::SNIPER_ATTACK_SE);
+	sound.LoadSE("SniperChage.wav", SE_ID::SNIPER_CHARGE_SE);
+	sound.LoadSE("PlateBreak.wav", SE_ID::PLATE_BREAK_SE);
 }
 
 void Content::LoadShader()

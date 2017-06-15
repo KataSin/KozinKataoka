@@ -1,5 +1,4 @@
-﻿  StageSelectUI.cpp
-src\UIactor\StageSelectUI\StageSelectUI.cpp(108): warning C4018: '<=' : signed と unsigned の数値を比較しようとしました。
+﻿  PlayerAttackManager.cpp
   コード生成しています。
   コード生成が終了しました。
 CameraManager.obj : warning LNK4099: PDB 'vc120.pdb' が 'CameraManager.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -15,6 +14,5 @@ Matrix4.obj : warning LNK4099: PDB 'vc120.pdb' が 'Matrix4.obj' で、または
 Point.obj : warning LNK4099: PDB 'vc120.pdb' が 'Point.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Quaternion.obj : warning LNK4099: PDB 'vc120.pdb' が 'Quaternion.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Vector2.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector2.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-Vector3.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector3.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 Vector4.obj : warning LNK4099: PDB 'vc120.pdb' が 'Vector4.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   RideTheFlow.vcxproj -> C:\Users\ktok\Desktop\個人製作夏休みから\Release\RideTheFlow.exe

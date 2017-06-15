@@ -30,15 +30,18 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	mIsEnd = false;
+	Sound::GetInstance().PlayBGM(BGM_ID::GAME_TITLE_BGM,DX_PLAYTYPE_LOOP);
 }
 
 void TitleScene::Update()
 {	
 	wo.Update();
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_NULL);
-	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
+	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM2) ||
 		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
 	{
+		Sound::GetInstance().PlaySE(SE_ID::CURSOR_YES_SE, DX_PLAYTYPE_BACK);
+
 		mIsEnd = true;
 	}
 }
@@ -68,5 +71,6 @@ Scene TitleScene::Next() const
 
 void TitleScene::End()
 {
+	Sound::GetInstance().StopBGM();
 	wo.Clear();
 }

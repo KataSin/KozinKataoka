@@ -8,6 +8,7 @@
 #include "../../../input/Keyboard.h"
 #include "../../../graphic/Model.h"
 #include "../../Collision.h"
+#include "../../../sound/Sound.h"
 StageLine::StageLine(IWorld & world, Matrix4& mat, Line& line) :
 	Actor(world),
 	mAlpha(1.0f),
@@ -53,5 +54,7 @@ void StageLine::Draw() const
 
 void StageLine::OnCollide(Actor & other, CollisionParameter colpara)
 {
-
+	if (colpara.colID == COL_ID::PLAYER_STAGELINE_COL&&!other.GetParameter().isRespawn) {
+		Sound::GetInstance().PlaySE(SE_ID::PLAYER_STAGE_OUT_SE, DX_PLAYTYPE_BACK);
+	}
 }
