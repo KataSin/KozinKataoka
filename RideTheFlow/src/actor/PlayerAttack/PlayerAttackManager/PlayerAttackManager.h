@@ -1,10 +1,8 @@
 #pragma once
 #include "../../Actor.h"
-#include "../../PlayerBullet/PlayerBullet.h"
-#include "../../CameraActor.h"
-
 #include "../../Player.h"
-
+class CameraActor;
+class PlayerGun;
 struct SniperState
 {
 	//チャージ量
@@ -63,6 +61,10 @@ private:
 	CameraActor* mCamera;
 	//プレイヤー
 	Player* mPlayer;
+	//武器アクター
+	ActorPtr mGunPlayer;
+	//武器のマトリクス
+	Matrix4 mGunMat;
 	//パッドの数字
 	int pad;
 	//プレイヤー武器int型

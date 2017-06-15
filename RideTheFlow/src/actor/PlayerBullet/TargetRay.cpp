@@ -15,7 +15,8 @@ TargetRay::TargetRay(IWorld & world, Actor& manager) :
 	mColPos(Vector3::Zero),
 	isCol(false),
 	mColSniperPos(Vector3::Zero),
-	isSniperCol(false)
+	isSniperCol(false),
+	mIsSniperPlayerCol(false)
 {
 	//変換
 	mManager = dynamic_cast<PlayerAttackManager*>(&manager);
@@ -26,7 +27,7 @@ TargetRay::TargetRay(IWorld & world, Actor& manager) :
 	parameter.id = ACTOR_ID::PLAYER_BULLET_ACTOR;
 	parameter.radius = 0.5f;
 	//UIを追加
-	world.UIAdd(UI_ID::TARGET_UI, std::make_shared<Target>(world, this));
+	world.UIAdd(UI_ID::TARGET_UI, std::make_shared<Target>(world,manager, *this));
 }
 
 TargetRay::~TargetRay()
@@ -45,9 +46,12 @@ void TargetRay::Update()
 			if (Vector3::Distance(playerPos, i) <= Vector3::Distance(colPos, playerPos))
 				colPos = i;
 		}
-		mColPos = colPos;
-		mColVectorPos.clear();
+		if (isSniperCol)
+			mColSniperPos = colPos;
+		else
+			mColPos = colPos;
 
+		mColVectorPos.clear();
 	}
 
 	//武器ごとのlineとステージとのあたり判定
@@ -81,19 +85,12 @@ void TargetRay::Update()
 	//フラグ初期化
 	isCol = false;
 	isSniperCol = false;
+	mIsSniperPlayerCol = false;
 }
 
 void TargetRay::Draw() const
 {
-	//Model::GetInstance().Draw(MODEL_ID::TEST_MODEL, parameter.mat);
-	//Player* player;
-	//player = dynamic_cast<Player*>(world.GetPlayer(mManager->GetParameter().playNumber).get());
-	//DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
-	//	Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
 
-	//if (mManager->GetChargeCount().doCharge)
-	//	DrawLine3D(Vector3::ToVECTOR(player->GetPlayerGunPos()),
-	//		Vector3::ToVECTOR(parameter.mat.GetPosition()), 1);
 }
 
 
@@ -107,6 +104,8 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::SNIPERLINE_PLATE_COL)
 	{
 		mColSniperPos = colpara.colPos;
+		mColVectorPos.push_back(colpara.colPos);
+		isCol = true;
 		isSniperCol = true;
 	}
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL)
@@ -115,6 +114,7 @@ void TargetRay::OnCollide(Actor & other, CollisionParameter colpara)
 		mColSniperPos = colpara.colPos;
 		isCol = true;
 		isSniperCol = true;
+		mIsSniperPlayerCol = true;
 	}
 }
 //マシンガン＆ショットガン用ターゲット移動

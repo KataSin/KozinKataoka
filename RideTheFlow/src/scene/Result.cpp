@@ -23,8 +23,11 @@ void Result::Initialize()
 
 void Result::Update()
 {
-	if (static_cast<EndResultUI*>(mResultUi.get())->GetIsEnd()&&
+	if (static_cast<EndResultUI*>(mResultUi.get())->GetIsEnd() &&
 		(GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM1) ||
+		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM2) ||
+		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM3) ||
+		GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM4) ||
 		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))) {
 		mIsEnd = true;
 	}

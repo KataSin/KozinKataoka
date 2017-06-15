@@ -1,2 +1,110 @@
-﻿  Stage.cpp
+﻿  Tutorial.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\gametimer\gametimerui.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+  TitleScene.cpp
+  SceneManager.cpp
+  Result.cpp
+  GamePlay.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\gametimer\gametimerui.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+  main.cpp
+  GameFrame.cpp
+  Game1.cpp
+  Content.cpp
+  TargetRay.cpp
+  Player.cpp
+  Target.cpp
+  コードを生成中...
+  コンパイル中...
+  WorldActor.cpp
+  World.cpp
+  Sound.cpp
+  SelectScene.cpp
+  Sprite.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(61): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(62): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(101): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(185): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(186): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(191): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(199): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(202): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\graphic\sprite.cpp(219): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  Model.cpp
+  AnimetionClass.cpp
+  Anime.cpp
+  Camera.cpp
+  Tree.cpp
+  NoBreakPlate.cpp
+  DefaultPlate.cpp
+  StageLine.cpp
+  Stage.cpp
+  SelectScenePlayer.cpp
+  SelectSceneCamera.cpp
+  RunStage.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\actor\selectsceneactor\runstage.cpp(55): warning C4244: '-=' : 'double' から 'float' への変換です。データが失われる可能性があります。
+  GameMaster.cpp
+  RespawnPoint.cpp
+  Pool.cpp
+  コードを生成中...
+  コンパイル中...
+  PlayerBullet.cpp
+  PlayerGun.cpp
+  PlayerAttackManager.cpp
+  Particle.cpp
+  ParticleManager.cpp
+  FogActor.cpp
+  DeadBulletManager.cpp
+  DeadBullet.cpp
+  Collision.cpp
+  CameraActor.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\actor\cameraactor.cpp(321): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  AnimActor.cpp
+  ActorManager.cpp
+  Actor.cpp
+  UIActorManager.cpp
+  UIActor.cpp
+  StageSelectUI.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\stageselectui\stageselectui.cpp(104): warning C4018: '<=' : signed と unsigned の数値を比較しようとしました。
+  GameMasterUI.cpp
+  SelectBackUI.cpp
+  SceneChangeManager.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\scenechangemanager\scenechangemanager.cpp(82): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+  ChangeParticle.cpp
+  コードを生成中...
+  コンパイル中...
+  ChangeBlock.cpp
+  ResultUI.cpp
+  OverHertUI.cpp
+  NumberTexture.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\numbertexture\numbertexture.cpp(33): warning C4244: '引数' : 'float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\numbertexture\numbertexture.cpp(33): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  GunUI.cpp
+  GameTimerUI.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\gametimer\gametimerui.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\gametimer\gametimerui.cpp(26): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+  GamePlayFontUI.cpp
+  GameFrameUI.cpp
+  EndResult.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\endresultui\endresult.cpp(91): warning C4244: '+=' : 'double' から 'float' への変換です。データが失われる可能性があります。
+  DamageUI.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\damageui\damageui.cpp(19): warning C4244: '=' : 'float' から 'int' への変換です。データが失われる可能性があります。
+  DamageBackUI.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\damagebackui\damagebackui.cpp(28): warning C4244: '初期化中' : 'float' から 'int' への変換です。データが失われる可能性があります。
+  AttackGauge.cpp
+  TextRead.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\txetread\textread.cpp(39): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+  MessageText.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(43): warning C4018: '>' : signed と unsigned の数値を比較しようとしました。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(51): warning C4018: '>' : signed と unsigned の数値を比較しようとしました。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(57): warning C4018: '<=' : signed と unsigned の数値を比較しようとしました。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(64): warning C4018: '>' : signed と unsigned の数値を比較しようとしました。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(76): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(77): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\text\messagebox\messagetext.cpp(84): warning C4018: '<=' : signed と unsigned の数値を比較しようとしました。
+  ParticleEffect.cpp
+  ParticleEffectSystem.cpp
+  GamePlayManager.cpp
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\uiactor\gametimer\gametimerui.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
+c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\gameplaymanager\gameplaymanager.cpp(40): warning C4101: 'win' : ローカル変数は 1 度も使われていません。
+  GameManager.cpp
+  コードを生成中...
   RideTheFlow.vcxproj -> C:\Users\ktok\Desktop\個人製作夏休みから\Debug\RideTheFlow.exe

@@ -48,6 +48,11 @@ public:
 	{
 		return mManager->GetChargeCount().isColSniperLine;
 	}
+	//当たっているか
+	bool GetPlayerSniperLineCol()
+	{
+		return mIsSniperPlayerCol;
+	}
 	//武器ごとのターゲットの動き
 private:
 	void MachineGun();
@@ -67,4 +72,6 @@ private:
 	bool isSniperCol;
 	//プレイヤーが今持っている武器を取得
 	PlayerAttackState attackState;
+	//プレイヤーに当たったかどうか
+	bool mIsSniperPlayerCol;
 };

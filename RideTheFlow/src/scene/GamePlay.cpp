@@ -1,5 +1,4 @@
 #include "GamePlay.h"
-#include "../AllInclude.h"
 #include "../Def.h"
 #include "../game/WorkFolder.h"
 #include "../graphic/Model.h"
@@ -25,7 +24,6 @@
 #include "../UIactor/GameFrameUI/GameFrameUI.h"
 #include "../UIactor/ResultUI/ResultUI.h"
 #include "../UIactor/GamePlayFontUI/GamePlayFontUI.h"
-#include "../ParticleEffectSystem/ParticleEffectSystem.h"
 //コンストラクタ
 GamePlay::GamePlay(GameManager& gameManager) :
 	mGameManager(&gameManager),

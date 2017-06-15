@@ -77,7 +77,7 @@ CollisionParameter Actor::Player_vs_Plate(const Actor & other) const
 	CollisionParameter colpara;
 	Line player;
 	player.startPos = other.parameter.mat.GetPosition();
-	player.endPos = other.parameter.mat.GetPosition() + Vector3(0.0f, 0.6f, 0.0f);
+	player.endPos = other.parameter.mat.GetPosition() + Vector3(0.0f, 0.4f, 0.0f);
 
 	Box plate;
 	plate.max = parameter.mat.GetPosition() + MaxPlate;

@@ -2,6 +2,7 @@
 #include "../UIActor.h"
 #include "../../GameManager/GameManager.h"
 #include "../../math/Matrix4.h"
+#include "../../actor/Stage.h"
 #include <vector>
 #include <memory>
 class EndResultUI : public UIActor
@@ -52,4 +53,7 @@ private:
 	float mPleaseAphaCount;
 	//I‚í‚Á‚Ä‚à‚æ‚¢‚©H
 	bool mIsEnd;
+	//ŠÏ‹q‚Ìî•ñ
+	std::vector<Stage::KankyakuState> mKankyakuMats;
+
 };

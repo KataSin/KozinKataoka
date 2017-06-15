@@ -17,7 +17,7 @@ class AnimationClass
 {
 public:
 	//コンストラクタ
-	AnimationClass(Actor* actor, ANIMATION startAnim, MODEL_ID model);
+	AnimationClass(Actor* actor, ANIMATION startAnim, MODEL_ID model, float animSpeed = 20.0f);
 	~AnimationClass();
 	//更新
 	void update();
@@ -47,13 +47,7 @@ private:
 	float blendTime;
 	//ブレンドしています
 	bool blendFlag;
-
-
-	int test;
-	float testTimer;
-
-	int indexa;
-	int indexRun;
-	int indexIdle;
+	//アニメスピード
+	float mAnimSpeed;
 };
 

@@ -40,7 +40,7 @@ AnimActor::AnimActor(IWorld & word, const Vector3 & position, const PLAYER_NUMBE
 	}
 	}
 
-	mAnim = std::make_shared<AnimationClass>(this, anim, mModelId);
+	mAnim = std::make_shared<AnimationClass>(this, anim, mModelId,30.0f);
 }
 
 AnimActor::AnimActor(IWorld & word, const Matrix4 & mat, const MODEL_ID & modelId, ANIMATION anim) :

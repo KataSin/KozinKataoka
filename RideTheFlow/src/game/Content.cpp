@@ -25,6 +25,10 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("shotGun.png", SPRITE_ID::SHOT_UI_SPRITE);
 	sprite.Load("sniperUI.png", SPRITE_ID::SNEPER_UI_SPRITE);
 
+	sprite.Load("SneperTargetCircleUI.png", SPRITE_ID::SUNIPER_TARGET_CIRCLE_SPRITE);
+	sprite.Load("SneperTargetYesUI.png", SPRITE_ID::SUNIPER_TARGET_YES_SPRITE);
+
+
 	sprite.Load("Player/Player1.png", SPRITE_ID::PLAYER1_MODEL_SPRITE);
 	sprite.Load("Player/Player2.png", SPRITE_ID::PLAYER2_MODEL_SPRITE);
 	sprite.Load("Player/Player3.png", SPRITE_ID::PLAYER3_MODEL_SPRITE);
@@ -68,6 +72,11 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 	sprite.Load("SelectBack.png", SPRITE_ID::SELECT_BACK_SPRITE);
 	sprite.Load("SelectCursor.png", SPRITE_ID::SELECT_CURSOR_SPRITE);
+	sprite.Load("Go.png", SPRITE_ID::GO_SPRITE);
+	sprite.Load("Back.png", SPRITE_ID::BACK_SPRITE);
+
+
+
 
 	sprite.Load("winner.png", SPRITE_ID::WIN_PLAYER_SPRITE);
 	sprite.Load("PleaseButton.png", SPRITE_ID::PLEASE_BUTTON_SPRITE);
@@ -125,6 +134,11 @@ void Content::LoadModel(Model& model, bool async)
 	model.Load("Kankyaku/Kankyaku3.mv1", MODEL_ID::KANKYAKU_3_MODEL, async);
 	model.Load("Kankyaku/Kankyaku4.mv1", MODEL_ID::KANKYAKU_4_MODEL, async);
 	model.Load("Kankyaku/Kankyaku5.mv1", MODEL_ID::KANKYAKU_5_MODEL, async);
+
+	model.Load("Gun/Gun1.mv1", MODEL_ID::GUN1_MODEL, async);
+	model.Load("Gun/Gun2.mv1", MODEL_ID::GUN2_MODEL, async);
+	model.Load("Gun/Gun3.mv1", MODEL_ID::GUN3_MODEL, async);
+	model.Load("Gun/Gun4.mv1", MODEL_ID::GUN4_MODEL, async);
 
 	WorkFolder::SetWorkFolder("res/Model2D/");
 }

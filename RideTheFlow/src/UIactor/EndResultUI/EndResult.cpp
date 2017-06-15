@@ -46,6 +46,13 @@ EndResultUI::EndResultUI(IWorld & world, GameManager& gameManager) :
 		world.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<AnimActor>
 			(world, pos, mGameManager->GetPlayerRank()[i], randAnim));
 	}
+	//観客情報
+	SuportSet();
+	for (const auto& i : mKankyakuMats)
+	{
+		world.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<AnimActor>(world, i.mat, i.modelId, i.animId));
+	}
+
 	//時間初期化
 	mActionTime = 0.0f;
 
@@ -113,5 +120,79 @@ bool EndResultUI::GetIsEnd()
 
 void EndResultUI::SuportSet()
 {
-
+	//一人目
+	{
+		Matrix4 mat;
+		Stage::KankyakuState state;
+		mat =
+			Matrix4::Scale(1.0f)*
+			Matrix4::RotateX(0)*
+			Matrix4::RotateY(180)*
+			Matrix4::RotateZ(0)*
+			Matrix4::Translate(Vector3(10, 12, -60));
+		state.mat = mat;
+		state.animId = ANIMATION::KANKYAKU_HAND_ANIM;
+		state.modelId = MODEL_ID::KANKYAKU_1_MODEL;
+		mKankyakuMats.push_back(state);
+	}
+	//二人目
+	{
+		Matrix4 mat;
+		Stage::KankyakuState state;
+		mat =
+			Matrix4::Scale(1.0f)*
+			Matrix4::RotateX(0)*
+			Matrix4::RotateY(-90)*
+			Matrix4::RotateZ(0)*
+			Matrix4::Translate(Vector3(50, 12, -90));
+		state.mat = mat;
+		state.animId = ANIMATION::KANKYAKU_OUEN_ANIM;
+		state.modelId = MODEL_ID::KANKYAKU_2_MODEL;
+		mKankyakuMats.push_back(state);
+	}
+	//3人目
+	{
+		Matrix4 mat;
+		Stage::KankyakuState state;
+		mat =
+			Matrix4::Scale(1.0f)*
+			Matrix4::RotateX(0)*
+			Matrix4::RotateY(200)*
+			Matrix4::RotateZ(0)*
+			Matrix4::Translate(Vector3(-30, 12, -100));
+		state.mat = mat;
+		state.animId = ANIMATION::KANKYAKU_HAND_ANIM;
+		state.modelId = MODEL_ID::KANKYAKU_3_MODEL;
+		mKankyakuMats.push_back(state);
+	}
+	//4人目
+	{
+		Matrix4 mat;
+		Stage::KankyakuState state;
+		mat =
+			Matrix4::Scale(1.0f)*
+			Matrix4::RotateX(0)*
+			Matrix4::RotateY(180)*
+			Matrix4::RotateZ(0)*
+			Matrix4::Translate(Vector3(100, 12, -120));
+		state.mat = mat;
+		state.animId = ANIMATION::KANKYAKU_HAND_ANIM;
+		state.modelId = MODEL_ID::KANKYAKU_4_MODEL;
+		mKankyakuMats.push_back(state);
+	}
+	//5人目
+	{
+		Matrix4 mat;
+		Stage::KankyakuState state;
+		mat =
+			Matrix4::Scale(1.0f)*
+			Matrix4::RotateX(0)*
+			Matrix4::RotateY(180)*
+			Matrix4::RotateZ(0)*
+			Matrix4::Translate(Vector3(30, 12, -150));
+		state.mat = mat;
+		state.animId = ANIMATION::KANKYAKU_HAND_ANIM;
+		state.modelId = MODEL_ID::KANKYAKU_5_MODEL;
+		mKankyakuMats.push_back(state);
+	}
 }

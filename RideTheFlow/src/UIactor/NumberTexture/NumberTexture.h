@@ -17,7 +17,6 @@ public:
 	void draw(const Vector2& position, int num, Vector4 color, float scale=1) const;
 	// 描画
 	void draw(const Vector2& position, const std::string& num, Vector4 color = Vector4(255, 255, 255, 1), float scale = 1) const;
-
 private:
 	// テクスチャ
 	SPRITE_ID	mTexture;

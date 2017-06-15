@@ -45,12 +45,13 @@ public:
 	PLAYER_NUMBER GetDamagePlayer();
 	//弾の出現位置取得
 	Vector3 GetPlayerGunPos() {
-		return parameter.mat.GetPosition() + Vector3(0.0f, 2.0f, 0.0f);
+		return parameter.mat.GetPosition()-(parameter.mat.GetFront().Normalized()*4.0f) + Vector3(0.0f, 2.7f, 0.0f);
 	}
 	void SetRotateY(float AngleY)
 	{
 		angleY = AngleY;
 	}
+	Vector3 GetPlayerVelo();
 public:
 	//カラー
 	Vector4 mColor;
@@ -90,6 +91,8 @@ private:
 	PlayerState playerState;
 	Matrix4 playerModelMat;
 	Vector3 mVelocity;
+	Vector3 mPlayerVelocity;
+	Vector3 mCurPlayerPos;
 	float angleY;
 	bool lowStateFlag;
 	float playerSpeed;

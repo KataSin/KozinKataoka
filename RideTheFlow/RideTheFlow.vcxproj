@@ -95,6 +95,8 @@
     <ClInclude Include="src\actor\CameraActor.h" />
     <ClInclude Include="src\actor\CameraManager.h" />
     <ClInclude Include="src\actor\Collision.h" />
+    <ClInclude Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.h" />
+    <ClInclude Include="src\UIactor\DamageNum\DamageNum.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
     <ClInclude Include="src\actor\AnimActor\AnimActor.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="src\scene\SceneManager.h" />
     <ClInclude Include="src\scene\SelectScene.h" />
     <ClInclude Include="src\scene\TitleScene.h" />
+    <ClInclude Include="src\scene\Tutorial.h" />
     <ClInclude Include="src\sound\Sound.h" />
     <ClInclude Include="src\Text\MessageBox\MessageText.h" />
     <ClInclude Include="src\time\Time.h" />
@@ -193,6 +196,8 @@
     <ClCompile Include="src\actor\CameraActor.cpp" />
     <ClCompile Include="src\actor\CameraManager.cpp" />
     <ClCompile Include="src\actor\Collision.cpp" />
+    <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
+    <ClCompile Include="src\UIactor\DamageNum\DamageNum.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\actor\FogActor.cpp" />
@@ -246,6 +251,7 @@
     <ClCompile Include="src\scene\SceneManager.cpp" />
     <ClCompile Include="src\scene\SelectScene.cpp" />
     <ClCompile Include="src\scene\TitleScene.cpp" />
+    <ClCompile Include="src\scene\Tutorial.cpp" />
     <ClCompile Include="src\sound\Sound.cpp" />
     <ClCompile Include="src\Text\MessageBox\MessageText.cpp" />
     <ClCompile Include="src\time\Time.cpp" />

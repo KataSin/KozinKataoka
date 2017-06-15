@@ -4,11 +4,12 @@
 #include "Model.h"
 #include "../math/Math.h"
 #include "../input/Keyboard.h"
-AnimationClass::AnimationClass(Actor* actor, ANIMATION startAnim, MODEL_ID model) :
+AnimationClass::AnimationClass(Actor* actor, ANIMATION startAnim, MODEL_ID model,float animSpeed) :
 	mModel(MV1DuplicateModel(Model::GetInstance().GetHandle(model))),
 	mActor(actor),
 	blendTime(0.0f),
-	blendFlag(false)
+	blendFlag(false),
+	mAnimSpeed(animSpeed)
 {
 	AttachAnim(startAnim);
 	mCurAnimation = startAnim;
@@ -30,7 +31,7 @@ void AnimationClass::update()
 	for (auto& itr = attachAnimes.begin(); itr != attachAnimes.end(); ++itr) {
 		if (itr->second.animetionFlag)
 		{
-			itr->second.animTimer += 20 * Time::GetInstance().deltaTime();
+			itr->second.animTimer += mAnimSpeed* Time::GetInstance().deltaTime();
 			MV1SetAttachAnimTime(mModel, itr->second.index, itr->second.animTimer);
 			if (itr->second.animEndTime <= itr->second.animTimer)
 			{

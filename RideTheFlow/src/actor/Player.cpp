@@ -21,14 +21,14 @@
 #include "../Def.h"
 #include "ParticleManager\ParticleManager.h"
 #include "../UIactor/DamageBackUI/DamageBackUI.h"
-const float PlayerSpeed = 30.0f;
+const float PlayerSpeed = 25.0f;
 const float LowPlayerSpeed = 5.0f;
 const float AttackPlayerSpeed = 5.0f;
 
 const float IsDamageMachineKnockBack = 1.0f;
-const float IsDamageSniperKnockBack = 10.0f;
-const float IsDamageShotKnockBack = 10.0f;
-const float KnockBackTikara = 50.0f;
+const float IsDamageSniperKnockBack = 6.0f;
+const float IsDamageShotKnockBack = 3.0f;
+const float KnockBackTikara = 75.0f;
 Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER player) :
 	Actor(world),
 	cameraMat(Matrix4::Identity),
@@ -37,7 +37,9 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	coppyPos(Vector3::Zero),
 	vecPos(Vector3::Zero),
 	mVelocity(Vector3::Zero),
+	mPlayerVelocity(Vector3::Zero),
 	padVec(Vector2::Zero),
+	mCurPlayerPos(Vector3::Zero),
 	respawnCount(0.0f),
 	angleY(rotateY),
 	jumpCount(0.0f),
@@ -146,8 +148,6 @@ void Player::Update() {
 		Respawn();
 	}
 
-
-
 	//リスポーン中以外は行動可能
 	if (playerState != PlayerState::PLAYERRESPAWN&&
 		world.GetInputPlayer())
@@ -179,9 +179,6 @@ void Player::Update() {
 			sniperFlag = false;
 		}
 	}
-
-
-
 	//マトリクス計算
 	parameter.mat =
 		Matrix4::Scale(0.15f)*
@@ -194,7 +191,9 @@ void Player::Update() {
 	gravityFlag = true;
 	lowStateFlag = false;
 
-
+	//速度取得
+	mPlayerVelocity = mPosition - mCurPlayerPos;
+	mCurPlayerPos = mPosition;
 }
 void Player::Draw() const {
 	if (playerState != PlayerState::PLAYERRESPAWN)
@@ -227,7 +226,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_ACTOR)
 	{
 		isDamageMachine = true;
-		parameter.HP += 2;
+		parameter.HP += 5;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
@@ -254,7 +253,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//無敵判定のフラグ
 		sniperFlag = true;
 		//ダメージを食らう
-		parameter.HP += 10;
+		parameter.HP += 15;
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
@@ -433,18 +432,6 @@ void Player::Respawn()
 		cameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
 	//ノックバックの速度を初期化
 	knockBackVelo = Vector3::Zero;
-	if (respawnCount >= 5.0f)
-	{
-		parameter.isRespawn = false;
-		dropDownFlag = false;
-		cameraActor->SetCameraState(CameraState::DEFAULT);
-		respawnCount = 0.0f;
-		parameter.HP = 0;
-		//ポジションリセットする
-		mVelocity.y = 0.0f;
-		mPosition = respawnPoint;
-		playerState = PlayerState::PLAYERSTOP;
-	}
 }
 
 //プレイヤーの状態を取得
@@ -535,7 +522,7 @@ void Player::PlayerAnimetion(PlayerState state)
 	else {
 		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
 		else {
-			animeClass->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
+			animeClass->changeAnim(ANIMATION::PLAYER_BUKI_RUN_ANIM);
 			playerState = PlayerState::PLAYERWALK;
 		}
 		return;
@@ -546,7 +533,8 @@ void Player::ParticleSetting()
 {
 	//ダッシュパーティクル設定
 	mDashParticleSet.position = parameter.mat.GetPosition();
-	mDashParticleSet.SpawnSpeed = 0.1f;
+	mDashParticleSet.isParticleNum = 5;
+	mDashParticleSet.SpawnSpeed = 0.2f;
 	mDashParticleSet.IsDeadTime = 1.0f;
 	mDashParticleSet.Vec = -parameter.mat.GetFront();
 	mDashParticleSet.VecRandom = parameter.mat.GetLeft();

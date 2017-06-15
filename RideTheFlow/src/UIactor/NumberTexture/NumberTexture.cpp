@@ -7,6 +7,7 @@ NumberTexture::NumberTexture(SPRITE_ID texture, int width, int height):
 	mWidth(width),
 	mHeight(height)
 {
+
 }
 //
 //void NumberTexture::draw(const Vector2 & position, int num, int digit, Vector4 color, float scale,char fill) const
@@ -32,4 +33,4 @@ void NumberTexture::draw(const Vector2 & position, const std::string & num, Vect
 		DrawRectExtendGraph(pos.x, pos.y,pos.x+ widhtScale,pos.y+heightScale, n * mWidth, 0.0f, mWidth, mHeight, Sprite::GetInstance().GetIndex(mTexture), TRUE);
 		//DrawRectGraph(pos.x, pos.y, n * mWidth, 0.0f, mWidth , mHeight, Sprite::GetInstance().GetIndex(mTexture) , TRUE, FALSE);	}
 		}
-	}
+}

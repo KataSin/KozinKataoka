@@ -45,4 +45,8 @@ private:
 	bool mIsNextFlag;
 	//戻るが
 	bool mIsBackFlag;
+	//ボタンの中心座標
+	Vector2 mButtonSize;
+	//カーソル
+	Vector2 mCursorSize;
 };

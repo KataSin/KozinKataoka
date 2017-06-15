@@ -7,15 +7,18 @@
 #include "../../../input/GamePad.h"
 #include "../../../input/Keyboard.h"
 
+#include "../PlayerGun/PlayerGun.h"
 #include "../../PlayerBullet/TargetRay.h"
 #include "../../../UIactor/AttackGauge/AttackGauge.h"
 #include "../../../UIactor/GunUI/GunUI.h"
 #include "../../../UIactor/OverHertUI/OverHertUI.h"
-
+#include "../../PlayerBullet/PlayerBullet.h"
+#include "../../CameraActor.h"
+#include "../PlayerGun/PlayerGun.h"
 //武器のオーバーヒート値
 const float OverHertMachine = 2.0f;
 const float OverHertSniper = 50.0f;
-const float OverHertShot = 30.0f;
+const float OverHertShot = 20.0f;
 
 PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
@@ -39,6 +42,9 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	attacStateInt = (int)PlayerAttackState::MACHINE_GUN;
 	//何プレイヤー設定
 	parameter.playNumber = player.GetParameter().playNumber;
+	//武器モデルを追加
+	mGunPlayer = std::make_shared<PlayerGun>(world, player);
+	world.Add(ACTOR_ID::GUN_ACTOR, mGunPlayer);
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
 	//オーバーヒートゲージを追加
@@ -48,7 +54,7 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	//オーバーヒートUI追加
 	world.UIAdd(UI_ID::OVER_HERT_UI, std::make_shared<OverHertUI>(world, mOverHertUiPos, *this));
 	//カメラも取得
-	mCamera = dynamic_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
+	mCamera = static_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	//パッド設定
 	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
 	//カラーを設定
@@ -57,6 +63,13 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	ParticleSet();
 	mAttackParticle = std::make_shared<ParticleEffectSystem>(world, mAttackParticleSet);
 	world.Add(ACTOR_ID::PARTICLE_ACTOR, mAttackParticle);
+
+	//スナイパー初期化
+	isColSniperCount = 0.0f;
+	mSniperState.isColSniperLine = false;
+	mSniperState.chargeSniperCount = 100.0f;
+	initSniperFalg = true;
+
 	////誰の弾かの情報を設定
 	//bulletState.playerNumber = mPlayer->GetParameter().playNumber;
 }
@@ -68,6 +81,7 @@ PlayerAttackManager::~PlayerAttackManager()
 
 void PlayerAttackManager::Update()
 {
+	if (!world.GetInputPlayer())return;
 	//武器種類によっての攻撃
 	if (mPlayer->GetPlayerState() == PlayerState::PLAYERRESPAWN) {
 		return;
@@ -86,11 +100,14 @@ void PlayerAttackManager::Update()
 	overHertFlag = false;
 	PlayerAttack(attackState);
 
+	//モデル表示するか
+	static_cast<PlayerGun*>(mGunPlayer.get())->DrawGun(attackFlag);
+
 	//攻撃していない時にオバーヒート回復
 	if (!attackFlag)
 	{
 		coolHertCount += Time::GetInstance().deltaTime();
-		if (coolHertCount >= 2.0f)
+		if (coolHertCount >= 1.5f)
 			overHertCount += 80.0f*Time::GetInstance().deltaTime();
 		overHertCount = Math::Clamp(overHertCount, 0.0f, 100.0f);
 	}
@@ -114,7 +131,7 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	case PlayerAttackState::MACHINE_GUN:
 	{
 		//ターゲットの位置を30に変更
-		mCamera->SetTargetDistance(45.0f);
+		mCamera->SetTargetDistance(50.0f);
 		MachineGun();
 		break;
 	}
@@ -127,8 +144,8 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	}
 	case PlayerAttackState::SHOT_GUN:
 	{
-		//ターゲットの位置を10に変更
-		mCamera->SetTargetDistance(30.0f);
+		//ターゲットの位置を30に変更
+		mCamera->SetTargetDistance(37.0f);
 		ShotGun();
 		break;
 	}
@@ -331,7 +348,7 @@ void PlayerAttackManager::ParticleSet()
 	mAttackParticleSet.isParticleNum = 5;
 	mAttackParticleSet.IsDeadTime = 0.3f;
 
-	mAttackParticleSet.position = mPlayer->GetPlayerGunPos() - (mPlayer->GetParameter().mat.GetFront()*5.0f);
+	mAttackParticleSet.position = mPlayer->GetPlayerGunPos();
 	mAttackParticleSet.scale = 0.4f;
 	mAttackParticleSet.scaleRandom = 0.1f;
 	mAttackParticleSet.Vec = Vector3::Up;
@@ -350,7 +367,7 @@ void PlayerAttackManager::ParticleSet()
 }
 void PlayerAttackManager::AddParticle()
 {
-	mAttackParticleSet.position = (mPlayer->GetPlayerGunPos() - (mPlayer->GetParameter().mat.GetFront()*3.0f)) + Vector3(0, 2, 0);
+	mAttackParticleSet.position = mPlayer->GetPlayerGunPos();
 	mAttackParticleSet.isParticle = true;
 	static_cast<ParticleEffectSystem*>(mAttackParticle.get())->SetParticle(mAttackParticleSet);
 

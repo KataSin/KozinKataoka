@@ -1,13 +1,16 @@
 #include "Target.h"
 #include "../../world/IWorld.h"
-Target::Target(IWorld& world, TargetRay* target) :
+#include "../../actor/PlayerBullet/TargetRay.h"
+#include "../../actor/PlayerAttack/PlayerAttackManager/PlayerAttackManager.h"
+Target::Target(IWorld& world, Actor& attackManager,Actor& target) :
 	UIActor(world)
 {
-	mTarget = target;
+	mAttackManager =static_cast<PlayerAttackManager*>(&attackManager);
+	mTarget = static_cast<TargetRay*>(&target);
 	/* ‰ŠúÝ’è */
 	parameter.isDead = false;
 	parameter.position = Vector2::Zero;
-	parameter.playerNum = target->GetParameter().playNumber;
+	parameter.playerNum = mAttackManager->GetParameter().playNumber;
 }
 
 Target::~Target()
@@ -17,7 +20,7 @@ Target::~Target()
 
 void Target::Update(PLAYER_NUMBER player)
 {
-	mPlayer = dynamic_cast<Player*>(world.GetPlayer(mTarget->GetParameter().playNumber).get());
+	mPlayer = dynamic_cast<Player*>(world.GetPlayer(mAttackManager->GetParameter().playNumber).get());
 	//(•s‹ï‡‚È‚µ)
 	if (player==parameter.playerNum)
 	{
@@ -32,6 +35,13 @@ void Target::Draw() const
 	if (mPlayer->GetPlayerState() == PlayerState::PLAYERRESPAWN)return;
 	if (mTarget->GetState() == PlayerAttackState::MACHINE_GUN|| mTarget->GetState() == PlayerAttackState::SHOT_GUN)
 		Sprite::GetInstance().Draw(SPRITE_ID::TARGET_SPRITE, parameter.position - Vector2(32, 16), 1.0f);
-	else if(mTarget->GetState() == PlayerAttackState::SNIPER_GUN)
-		Sprite::GetInstance().Draw(SPRITE_ID::SNEPER_SPRITE, parameter.position - Vector2(19.0f/2.0f), 1.0f);
+	else if (mTarget->GetState() == PlayerAttackState::SNIPER_GUN) {
+		Sprite::GetInstance().Draw(SPRITE_ID::SNEPER_SPRITE, parameter.position - Vector2(19.0f / 2.0f), 1.0f);
+		
+		if (mAttackManager->GetChargeCount().doCharge) {
+			Sprite::GetInstance().DrawGaugeCircle(SPRITE_ID::SUNIPER_TARGET_CIRCLE_SPRITE, parameter.position - Vector2(13, 13), mPlayer->mColor, mAttackManager->GetChargeCount().chargeSniperCount);
+			if (mTarget->GetPlayerSniperLineCol())
+				Sprite::GetInstance().Draw(SPRITE_ID::SUNIPER_TARGET_YES_SPRITE, parameter.position - Vector2(13, 13), 1.0f);
+		}
+	}
 }

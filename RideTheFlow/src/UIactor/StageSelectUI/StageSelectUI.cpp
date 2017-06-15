@@ -14,10 +14,12 @@ StageSelectUI::StageSelectUI(IWorld & world) :
 {
 	parameter.isDead = false;
 	mStates.clear();
-
+	//サイズ取得
+	mButtonSize = Sprite::GetInstance().GetSizeVector(SPRITE_ID::GO_SPRITE) / 2.0f;
+	mCursorSize = Sprite::GetInstance().GetSizeVector(SPRITE_ID::SELECT_CURSOR_SPRITE) / 2.0f;
 	CursorState stateCursor;
 	//戻る
-	stateCursor.position = Vector2(32, 32);
+	stateCursor.position = mButtonSize*0.7f;
 	stateCursor.state = SelectState::BACK;
 	stateCursor.num = 0;
 	mStates.push_back(stateCursor);
@@ -60,6 +62,7 @@ StageSelectUI::StageSelectUI(IWorld & world) :
 	mPlayers.push_back(player);
 	world.Add(ACTOR_ID::PLAYER_ACTOR, player);
 
+
 }
 
 StageSelectUI::~StageSelectUI()
@@ -80,7 +83,7 @@ void StageSelectUI::Update(PLAYER_NUMBER playerNumber)
 		if (i.state == mSelectState) {
 			mCursorPosition = i.position;
 			//バックと次は数字指定いらない
-			if ((i.state == SelectState::NEXT || i.state == SelectState::BACK)&&
+			if ((i.state == SelectState::NEXT || i.state == SelectState::BACK) &&
 				Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)) {
 				i.flag = true;
 				break;
@@ -98,7 +101,7 @@ void StageSelectUI::Update(PLAYER_NUMBER playerNumber)
 		}
 	}
 	//プレイヤーの動き処理
-	for (int i = 0; i <= mPlayers.size()-1; i++) {
+	for (int i = 0; i <= mPlayers.size() - 1; i++) {
 		static_cast<SelectScenePlayer*>(mPlayers[i].get())->SetBackFlag(true);
 		if (mStates[SelectState::PLAYER_NUM].num > i)
 			static_cast<SelectScenePlayer*>(mPlayers[i].get())->SetBackFlag(false);
@@ -112,10 +115,13 @@ void StageSelectUI::Draw() const
 		Sprite::GetInstance().GetSizeVector(SPRITE_ID::SELECT_BACK_SPRITE) / 2,
 		Vector2(0.7f, 0.7f), 0.0f);
 
-	Sprite::GetInstance().Draw(SPRITE_ID::SELECT_CURSOR_SPRITE, mCursorPosition, 1.0f);
+	Sprite::GetInstance().Draw(SPRITE_ID::SELECT_CURSOR_SPRITE, mCursorPosition,Vector4(255, 255, 255, 1), mButtonSize, 1.0f, Vector2::One, 0.0f);
 
-	//数字設定
-	NumberTexture playerNum(SPRITE_ID::SUUZI_SPRITE, 32, 64);
+	Sprite::GetInstance().Draw(SPRITE_ID::GO_SPRITE, mStates[SelectState::NEXT].position, Vector4(255, 255, 255, 1), mButtonSize, 1.0f, 0.5f, 0.0f);
+	Sprite::GetInstance().Draw(SPRITE_ID::BACK_SPRITE, mStates[SelectState::BACK].position, Vector4(255, 255, 255, 1), mButtonSize, 1.0f, 0.5f, 0.0f);
+
+		//数字設定
+		NumberTexture playerNum(SPRITE_ID::SUUZI_SPRITE, 32, 64);
 	CursorState numState = mStates[SelectState::PLAYER_NUM];
 	playerNum.draw(numState.position, numState.num, Vector4(0, 0, 0, 1));
 
