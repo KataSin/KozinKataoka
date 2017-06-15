@@ -48,6 +48,9 @@ void TitleScene::Draw()
 {
 	wo.Draw();
 	wo.UIDraw();
+	Vector2 titlePos = Vector2(WINDOW_WIDTH / 2.0f, 120.0f);
+	Vector2 titleSize = Sprite::GetInstance().GetSizeVector(SPRITE_ID::TITLE_SPRITE);
+	Sprite::GetInstance().Draw(SPRITE_ID::TITLE_SPRITE, titlePos, titleSize / 2.0f, Vector2(1.3f,1.3f), true, false);
 	DrawFormatString(0, 368, GetColor(255, 255, 255), "タイトルシーン");
 }
 

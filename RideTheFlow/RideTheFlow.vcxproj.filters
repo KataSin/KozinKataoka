@@ -113,6 +113,7 @@
     <ClInclude Include="src\scene\Tutorial.h" />
     <ClInclude Include="src\UIactor\DamageNum\DamageNum.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.h" />
+    <ClInclude Include="src\UIactor\TitleUi\TitleUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -203,5 +204,6 @@
     <ClCompile Include="src\scene\Tutorial.cpp" />
     <ClCompile Include="src\UIactor\DamageNum\DamageNum.cpp" />
     <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
+    <ClCompile Include="src\UIactor\TitleUi\TitleUI.cpp" />
   </ItemGroup>
 </Project>

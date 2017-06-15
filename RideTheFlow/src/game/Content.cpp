@@ -72,6 +72,8 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 	sprite.Load("SelectBack.png", SPRITE_ID::SELECT_BACK_SPRITE);
 	sprite.Load("SelectCursor.png", SPRITE_ID::SELECT_CURSOR_SPRITE);
+	sprite.Load("SelectCursorNum.png", SPRITE_ID::SLECT_CURSOR_NUM_SPRITE);
+
 	sprite.Load("Go.png", SPRITE_ID::GO_SPRITE);
 	sprite.Load("Back.png", SPRITE_ID::BACK_SPRITE);
 
@@ -91,6 +93,7 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("SceneChange/SceneChangeSelect.png", SPRITE_ID::SCENE_CHANGE_STAGE_SELECT_SPRITE);
 	sprite.Load("SceneChange/SceneChangeResult.png", SPRITE_ID::SCENE_CHANGE_RESULT_SPRITE);
 
+	sprite.Load("Title.png", SPRITE_ID::TITLE_SPRITE);
 
 
 	/* フェード */

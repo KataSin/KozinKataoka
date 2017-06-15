@@ -49,4 +49,8 @@ private:
 	Vector2 mButtonSize;
 	//カーソル
 	Vector2 mCursorSize;
+	
+	//カーソル補間系
+	Vector3 mCursorVec;
+	Vector3 mResCursorPos;
 };

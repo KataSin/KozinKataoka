@@ -59,7 +59,7 @@ void GamePlay::Initialize()
 	//ステージを追加
 	wo.Add(ACTOR_ID::STAGE_ACTOR, std::make_shared<Stage>(wo));
 	//タイマー設定
-	auto gameTimer = std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 180.0f);
+	auto gameTimer = std::make_shared<GameTimerUI>(wo, Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 2.0f);
 	//タイマーを追加
 	wo.UIAdd(UI_ID::GAMETIMER_UI, gameTimer);
 	mGameTimer = gameTimer.get();

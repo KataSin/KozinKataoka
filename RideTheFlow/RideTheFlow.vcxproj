@@ -182,6 +182,7 @@
     <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
     <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
+    <ClInclude Include="src\UIactor\TitleUi\TitleUI.h" />
     <ClInclude Include="src\UIactor\UIActor.h" />
     <ClInclude Include="src\UIactor\UIActorManager.h" />
     <ClInclude Include="src\UIactor\UIActorPtr.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
     <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
+    <ClCompile Include="src\UIactor\TitleUi\TitleUI.cpp" />
     <ClCompile Include="src\UIactor\UIActor.cpp" />
     <ClCompile Include="src\UIactor\UIActorManager.cpp" />
     <ClCompile Include="src\GameManager\GameManager.cpp" />
