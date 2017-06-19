@@ -74,10 +74,10 @@ void SceneChangeManager::SpriteSet(const SPRITE_ID & id)
 
 	//•ªŠ„‰æ‘œ‚ğ¶¬•’Ç‰Á
 	Vector2 qsize = Sprite::GetInstance().GetSize(id);
-	for (int x = 0; x <= 1280 / 32; x++) {
-		for (int y = 0; y <= 720 / 32; y++) {
+	for (int x = 0; x <= 1280 / 16; x++) {
+		for (int y = 0; y <= 720 / 16; y++) {
 			TexState state;
-			int textureSize = 32;
+			int textureSize = 16;
 			state.toPos = Vector2(x * textureSize, y * textureSize) + Vector2(textureSize / 2, textureSize / 2);
 			state.randAngle = Random::GetInstance().Range(-360, 360);
 			state.texHandle = DerivationGraph(textureSize*x, textureSize*y, textureSize, textureSize, Sprite::GetInstance().GetIndex(id));

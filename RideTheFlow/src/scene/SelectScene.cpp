@@ -84,3 +84,8 @@ void SelectScene::End()
 	Sound::GetInstance().StopBGM();
 	wo.Clear();
 }
+
+bool SelectScene::GetGameEndFlag()
+{
+	return false;
+}

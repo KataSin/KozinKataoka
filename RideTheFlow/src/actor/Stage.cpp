@@ -92,7 +92,9 @@ void Stage::Update() {
 }
 void Stage::Draw() const {
 	//ステージの描写
+	SetLightEnable(false);
 	Model::GetInstance().Draw(MODEL_ID::SKY_DEMO_MODEL, skyMat);
+	SetLightEnable(true);
 	Matrix4 mat;
 	mat = Matrix4::Scale(5.0f)*
 		Matrix4::Translate(mStagePos);

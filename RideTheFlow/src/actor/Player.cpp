@@ -230,7 +230,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
-		damagePlayerPos = other.GetParameter().mat.GetPosition();
+		damagePlayerPos = world.GetPlayer(other.GetParameter().playNumber)->GetParameter().mat.GetPosition();
 		Sound::GetInstance().PlaySE(SE_ID::PLAYER_DAMAGE_SE, DX_PLAYTYPE_BACK);
 
 	}
@@ -243,7 +243,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
-		damagePlayerPos = other.GetParameter().mat.GetPosition();
+		damagePlayerPos = world.GetPlayer(other.GetParameter().playNumber)->GetParameter().mat.GetPosition();
 		Sound::GetInstance().PlaySE(SE_ID::PLAYER_DAMAGE_SE, DX_PLAYTYPE_BACK);
 
 	}
@@ -261,7 +261,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 		//誰の弾を受けたか保存
 		damagePlayerNumber = other.GetParameter().playNumber;
 		//攻撃されたプレイヤーのポジション
-		damagePlayerPos = other.GetParameter().mat.GetPosition();
+		damagePlayerPos = world.GetPlayer(other.GetParameter().playNumber)->GetParameter().mat.GetPosition();
 		Sound::GetInstance().PlaySE(SE_ID::PLAYER_DAMAGE_SE, DX_PLAYTYPE_BACK);
 	}
 

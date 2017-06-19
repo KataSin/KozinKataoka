@@ -94,6 +94,11 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("SceneChange/SceneChangeResult.png", SPRITE_ID::SCENE_CHANGE_RESULT_SPRITE);
 
 	sprite.Load("Title.png", SPRITE_ID::TITLE_SPRITE);
+	sprite.Load("ButtonStart.png", SPRITE_ID::BUTTON_START_SPRITE);
+	sprite.Load("GameStartTitle.png", SPRITE_ID::GAME_START_BUTTON_SPRITE);
+	sprite.Load("GameHelpTitle.png", SPRITE_ID::HELP_BUTTON_SPRITE);
+	sprite.Load("GameEndTitle.png", SPRITE_ID::END_BUTTON_SPRITE);
+	sprite.Load("TitleCursor.png", SPRITE_ID::TITLE_CUROSR_SPRITE);
 
 
 	/* フェード */

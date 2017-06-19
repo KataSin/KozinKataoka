@@ -51,7 +51,7 @@ public:
 
 	__declspec(property(get = GetStageCount, put = SetStageCount)) int StageCount;
 
-private:
+	virtual bool GetEndFlag()override;
 	//次のシーンに移行するための設定
 	void ChangeSceneSet(Scene scene);
 private:
@@ -70,4 +70,7 @@ private:
 	UIActorPtr mChangeUi;
 
 	const float SCENE_END_TIME = 60.0f * 3;
+
+	//ゲーム自体終わったか
+	bool mIsGameEnd;
 };

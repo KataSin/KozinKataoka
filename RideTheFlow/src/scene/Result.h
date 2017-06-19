@@ -29,6 +29,7 @@ public:
 	//I—¹ˆ—
 	virtual void End()override;
 
+	virtual bool GetGameEndFlag()override;
 private:
 	GameManager* mGameManager;
 	bool  mIsEnd;

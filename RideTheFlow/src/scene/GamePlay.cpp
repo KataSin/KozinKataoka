@@ -207,6 +207,11 @@ void GamePlay::End()
 	wo.Clear();
 }
 
+bool GamePlay::GetGameEndFlag()
+{
+	return false;
+}
+
 void GamePlay::SetCamera(int num)
 {
 	switch (num)

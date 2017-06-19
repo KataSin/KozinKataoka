@@ -32,6 +32,7 @@ public:
 	//終了時処理
 	virtual void End()override;
 
+	virtual bool GetGameEndFlag()override;
 public:
 	//カメラをセット（プレイ人数によって変える）
 	void SetCamera(int num);

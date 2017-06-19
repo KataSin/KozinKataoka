@@ -28,7 +28,14 @@ public:
 	//終了時処理
 	virtual void End()override;
 
+	virtual bool GetGameEndFlag()override;
 private:
 	bool  mIsEnd;
 	World wo;
+	//タイトルのUI
+	UIActorPtr mTitleUi;
+	//次のシーン
+	Scene mScene;
+	//ゲーム終わるかどうか
+	bool mGameEndFlag;
 };

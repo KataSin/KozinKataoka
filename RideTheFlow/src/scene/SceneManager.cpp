@@ -10,7 +10,8 @@ const int SceneManager::MaxStageCount = 2;
 
 //コンストラクタ
 SceneManager::SceneManager() :
-	mStageCount(1)
+	mStageCount(1),
+	mIsGameEnd(false)
 {
 }
 
@@ -105,6 +106,11 @@ void SceneManager::SetChangeUi()
 	UIActorPtr ui = std::make_shared<SceneChangeManager>(wo);
 	mChangeUi = ui;
 	wo.UIAdd(UI_ID::CHANGE_BLOK_UI, ui);
+}
+
+bool SceneManager::GetEndFlag()
+{
+	return mCurrentScene->GetGameEndFlag();
 }
 
 void SceneManager::ChangeSceneSet(Scene scene)

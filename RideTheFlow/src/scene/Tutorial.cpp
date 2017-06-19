@@ -75,3 +75,8 @@ Scene Tutorial::Next() const
 void Tutorial::End()
 {
 }
+
+bool Tutorial::GetGameEndFlag()
+{
+	return false;
+}

@@ -26,6 +26,9 @@ public:
 	virtual Scene Next() const override;
 	//終了時処理
 	virtual void End()override;
+
+	virtual bool GetGameEndFlag()override;
+
 private:
 	//ゲームマネージャー
 	GameManager* mGameManager;

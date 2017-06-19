@@ -12,8 +12,8 @@
 #include "../time/Time.h"
 
 #include "../actor/CameraActor.h"
-#include "../game/Random.h"
-#include "../UIactor/SceneChangeManager/SceneChangeManager.h"
+#include "../UIactor/TitleUi/TitleUI.h"
+#include "../actor/RotateStage/RotateStage.h"
 //コンストラクタ
 TitleScene::TitleScene()
 {
@@ -29,20 +29,32 @@ TitleScene::~TitleScene()
 //開始
 void TitleScene::Initialize()
 {
-	mIsEnd = false;
+	mIsEnd = false; 
+	mGameEndFlag = false;
+	mTitleUi = std::make_shared<TitleUI>(wo);
+	wo.UIAdd(UI_ID::TITLE_UI, mTitleUi);
+	mScene = Scene::Select;
 	Sound::GetInstance().PlayBGM(BGM_ID::GAME_TITLE_BGM,DX_PLAYTYPE_LOOP);
+
 }
 
 void TitleScene::Update()
 {	
+	auto state = static_cast<TitleUI*>(mTitleUi.get())->GetCursorStates();
 	wo.Update();
 	wo.UpdateUI(PLAYER_NUMBER::PLAYER_NULL);
-	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM2) ||
-		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))
-	{
-		Sound::GetInstance().PlaySE(SE_ID::CURSOR_YES_SE, DX_PLAYTYPE_BACK);
 
-		mIsEnd = true;
+	for (const auto& i : state) {
+		if (i.flag&&!mIsEnd) {
+			if (i.state == TitleUI::SelectState::START)
+				mScene = Scene::Select;
+			else if (i.state == TitleUI::SelectState::HELP)
+				mScene = Scene::Select;
+			else
+				mGameEndFlag = true;
+			mIsEnd = true;
+			break;
+		}
 	}
 }
 
@@ -51,9 +63,7 @@ void TitleScene::Draw()
 {
 	wo.Draw();
 	wo.UIDraw();
-	Vector2 titlePos = Vector2(WINDOW_WIDTH / 2.0f, 120.0f);
-	Vector2 titleSize = Sprite::GetInstance().GetSizeVector(SPRITE_ID::TITLE_SPRITE);
-	Sprite::GetInstance().Draw(SPRITE_ID::TITLE_SPRITE, titlePos, titleSize / 2.0f, Vector2(1.3f,1.3f), true, false);
+
 	DrawFormatString(0, 368, GetColor(255, 255, 255), "タイトルシーン");
 }
 
@@ -73,4 +83,9 @@ void TitleScene::End()
 {
 	Sound::GetInstance().StopBGM();
 	wo.Clear();
+}
+
+bool TitleScene::GetGameEndFlag()
+{
+	return mGameEndFlag;
 }

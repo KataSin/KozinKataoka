@@ -59,3 +59,8 @@ void Result::End()
 	Sound::GetInstance().StopBGM();
 	wo.Clear();
 }
+
+bool Result::GetGameEndFlag()
+{
+	return false;
+}

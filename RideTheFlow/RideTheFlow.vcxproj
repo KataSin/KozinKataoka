@@ -96,6 +96,7 @@
     <ClInclude Include="src\actor\CameraManager.h" />
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.h" />
+    <ClInclude Include="src\actor\RotateStage\RotateStage.h" />
     <ClInclude Include="src\UIactor\DamageNum\DamageNum.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
     <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="src\actor\CameraManager.cpp" />
     <ClCompile Include="src\actor\Collision.cpp" />
     <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
+    <ClCompile Include="src\actor\RotateStage\RotateStage.cpp" />
     <ClCompile Include="src\UIactor\DamageNum\DamageNum.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
     <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />

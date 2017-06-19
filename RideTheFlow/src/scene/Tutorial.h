@@ -28,6 +28,8 @@ public:
 	//I—¹ˆ—
 	virtual void End()override;
 
+	virtual bool GetGameEndFlag()override;
+
 private:
 	//Ÿ‚ÌƒV[ƒ“
 	Scene mNextScene;

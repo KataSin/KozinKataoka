@@ -19,4 +19,7 @@ public:
 	virtual Scene Next() const = 0;
 	//I—¹ˆ—
 	virtual void End() = 0;
+
+	//ƒQ[ƒ€‚ğI‚í‚é‚©
+	virtual bool GetGameEndFlag()=0;
 };
