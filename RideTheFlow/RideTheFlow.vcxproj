@@ -93,15 +93,13 @@
     <ClInclude Include="src\actor\ActorManager.h" />
     <ClInclude Include="src\actor\ActorPtr.h" />
     <ClInclude Include="src\actor\CameraActor.h" />
-    <ClInclude Include="src\actor\CameraManager.h" />
     <ClInclude Include="src\actor\Collision.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.h" />
     <ClInclude Include="src\actor\RotateStage\RotateStage.h" />
+    <ClInclude Include="src\graphic\BlendMode.h" />
+    <ClInclude Include="src\scene\Help.h" />
     <ClInclude Include="src\UIactor\DamageNum\DamageNum.h" />
-    <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
-    <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
     <ClInclude Include="src\actor\AnimActor\AnimActor.h" />
-    <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectScenePlayer.h" />
@@ -115,12 +113,10 @@
     <ClInclude Include="src\actor\RespawnPoint.h" />
     <ClInclude Include="src\actor\StageLineManager\StageLine\StageLine.h" />
     <ClInclude Include="src\actor\StagePlate\DefaultPlate.h" />
-    <ClInclude Include="src\actor\FogActor.h" />
     <ClInclude Include="src\actor\ID.h" />
     <ClInclude Include="src\actor\Player.h" />
     <ClInclude Include="src\actor\PlayerBullet\PlayerBullet.h" />
     <ClInclude Include="src\actor\Stage.h" />
-    <ClInclude Include="src\actor\Tree\Tree.h" />
     <ClInclude Include="src\AllInclude.h" />
     <ClInclude Include="src\camera\Camera.h" />
     <ClInclude Include="src\Def.h" />
@@ -129,13 +125,9 @@
     <ClInclude Include="src\game\GameFrame.h" />
     <ClInclude Include="src\game\Random.h" />
     <ClInclude Include="src\game\WorkFolder.h" />
-    <ClInclude Include="src\graphic\Anime.h" />
     <ClInclude Include="src\graphic\AnimetionClass.h" />
-    <ClInclude Include="src\graphic\BlendMode.h" />
-    <ClInclude Include="src\graphic\Light.h" />
     <ClInclude Include="src\graphic\Model.h" />
     <ClInclude Include="src\graphic\Movie.h" />
-    <ClInclude Include="src\graphic\Shader.h" />
     <ClInclude Include="src\graphic\ShadowMap.h" />
     <ClInclude Include="src\graphic\Sprite.h" />
     <ClInclude Include="src\graphic\TextDraw.h" />
@@ -173,6 +165,7 @@
     <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
     <ClInclude Include="src\UIactor\GameTimer\GameTimerUI.h" />
     <ClInclude Include="src\UIactor\GunUI\GunUI.h" />
+    <ClInclude Include="src\UIactor\HelpUI\HelpUi.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
     <ClInclude Include="src\UIactor\OverHertUI\OverHertUI.h" />
     <ClInclude Include="src\UIactor\ResultUI\ResultUI.h" />
@@ -180,7 +173,6 @@
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
     <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
-    <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
     <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\UIactor\TitleUi\TitleUI.h" />
@@ -196,16 +188,12 @@
     <ClCompile Include="src\actor\Actor.cpp" />
     <ClCompile Include="src\actor\ActorManager.cpp" />
     <ClCompile Include="src\actor\CameraActor.cpp" />
-    <ClCompile Include="src\actor\CameraManager.cpp" />
     <ClCompile Include="src\actor\Collision.cpp" />
     <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
     <ClCompile Include="src\actor\RotateStage\RotateStage.cpp" />
+    <ClCompile Include="src\scene\Help.cpp" />
     <ClCompile Include="src\UIactor\DamageNum\DamageNum.cpp" />
-    <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
-    <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
-    <ClCompile Include="src\actor\FogActor.cpp" />
     <ClCompile Include="src\actor\AnimActor\AnimActor.cpp" />
-    <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectScenePlayer.cpp" />
@@ -222,16 +210,13 @@
     <ClCompile Include="src\actor\Stage.cpp" />
     <ClCompile Include="src\actor\StageLineManager\StageLine\StageLine.cpp" />
     <ClCompile Include="src\actor\StagePlate\DefaultPlate.cpp" />
-    <ClCompile Include="src\actor\Tree\Tree.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\game\Content.cpp" />
     <ClCompile Include="src\game\Game1.cpp" />
     <ClCompile Include="src\game\GameFrame.cpp" />
     <ClCompile Include="src\game\Random.cpp" />
     <ClCompile Include="src\game\WorkFolder.cpp" />
-    <ClCompile Include="src\graphic\Anime.cpp" />
     <ClCompile Include="src\graphic\AnimetionClass.cpp" />
-    <ClCompile Include="src\graphic\Light.cpp" />
     <ClCompile Include="src\graphic\Model.cpp" />
     <ClCompile Include="src\graphic\Movie.cpp" />
     <ClCompile Include="src\graphic\ShadowMap.cpp" />
@@ -267,6 +252,7 @@
     <ClCompile Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.cpp" />
     <ClCompile Include="src\UIactor\GameTimer\GameTimerUI.cpp" />
     <ClCompile Include="src\UIactor\GunUI\GunUI.cpp" />
+    <ClCompile Include="src\UIactor\HelpUI\HelpUi.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
     <ClCompile Include="src\UIactor\OverHertUI\OverHertUI.cpp" />
     <ClCompile Include="src\UIactor\ResultUI\ResultUI.cpp" />
@@ -274,7 +260,6 @@
     <ClCompile Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.cpp" />
     <ClCompile Include="src\UIactor\SceneChangeManager\SceneChangeManager.cpp" />
     <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
-    <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
     <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\UIactor\TitleUi\TitleUI.cpp" />
@@ -283,6 +268,9 @@
     <ClCompile Include="src\GameManager\GameManager.cpp" />
     <ClCompile Include="src\world\World.cpp" />
     <ClCompile Include="src\world\WorldActor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Ico.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

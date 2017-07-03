@@ -49,7 +49,7 @@ void TitleScene::Update()
 			if (i.state == TitleUI::SelectState::START)
 				mScene = Scene::Select;
 			else if (i.state == TitleUI::SelectState::HELP)
-				mScene = Scene::Select;
+				mScene = Scene::Help;
 			else
 				mGameEndFlag = true;
 			mIsEnd = true;
@@ -76,7 +76,7 @@ bool TitleScene::IsEnd() const
 //Ÿ‚ÌƒV[ƒ“‚ğ•Ô‚·
 Scene TitleScene::Next() const
 {
-	return Scene::Select;
+	return mScene;
 }
 
 void TitleScene::End()

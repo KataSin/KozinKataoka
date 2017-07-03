@@ -24,7 +24,6 @@
     <ClInclude Include="src\actor\ActorPtr.h" />
     <ClInclude Include="src\actor\CameraActor.h" />
     <ClInclude Include="src\actor\Collision.h" />
-    <ClInclude Include="src\actor\FogActor.h" />
     <ClInclude Include="src\actor\ID.h" />
     <ClInclude Include="src\actor\Player.h" />
     <ClInclude Include="src\actor\Stage.h" />
@@ -49,9 +48,6 @@
     <ClInclude Include="src\math\Vector2.h" />
     <ClInclude Include="src\math\Vector3.h" />
     <ClInclude Include="src\math\Vector4.h" />
-    <ClInclude Include="src\graphic\Anime.h" />
-    <ClInclude Include="src\graphic\BlendMode.h" />
-    <ClInclude Include="src\graphic\Light.h" />
     <ClInclude Include="src\graphic\Model.h" />
     <ClInclude Include="src\graphic\Movie.h" />
     <ClInclude Include="src\graphic\ShadowMap.h" />
@@ -66,13 +62,9 @@
     <ClInclude Include="src\actor\PlayerBullet\PlayerBullet.h" />
     <ClInclude Include="src\actor\StagePlate\DefaultPlate.h" />
     <ClInclude Include="src\actor\RespawnPoint.h" />
-    <ClInclude Include="src\actor\CameraManager.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\actor\PlayerBullet\TargetRay.h" />
-    <ClInclude Include="src\actor\Tree\Tree.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.h" />
-    <ClInclude Include="src\actor\DeadBullet\DeadBullet.h" />
-    <ClInclude Include="src\actor\DeadBullet\DeadBulletManager.h" />
     <ClInclude Include="src\UIactor\AttackGauge\AttackGauge.h" />
     <ClInclude Include="src\graphic\AnimetionClass.h" />
     <ClInclude Include="src\UIactor\NumberTexture\NumberTexture.h" />
@@ -92,18 +84,15 @@
     <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.h" />
-    <ClInclude Include="src\graphic\Shader.h" />
     <ClInclude Include="src\UIactor\ResultUI\ResultUI.h" />
     <ClInclude Include="src\UIactor\GamePlayFontUI\GamePlayFontUI.h" />
     <ClInclude Include="src\UIactor\OverHertUI\OverHertUI.h" />
     <ClInclude Include="src\scene\SelectScene.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectScenePlayer.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
-    <ClInclude Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
     <ClInclude Include="src\Text\TxetRead\TextRead.h" />
     <ClInclude Include="src\Text\MessageBox\MessageText.h" />
-    <ClInclude Include="src\actor\SelectSceneActor\GameMaster\GameMaster.h" />
     <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
     <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\UIactor\EndResultUI\EndResult.h" />
@@ -115,6 +104,9 @@
     <ClInclude Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.h" />
     <ClInclude Include="src\UIactor\TitleUi\TitleUI.h" />
     <ClInclude Include="src\actor\RotateStage\RotateStage.h" />
+    <ClInclude Include="src\scene\Help.h" />
+    <ClInclude Include="src\UIactor\HelpUI\HelpUi.h" />
+    <ClInclude Include="src\graphic\BlendMode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
@@ -125,7 +117,6 @@
     <ClCompile Include="src\actor\ActorManager.cpp" />
     <ClCompile Include="src\actor\CameraActor.cpp" />
     <ClCompile Include="src\actor\Collision.cpp" />
-    <ClCompile Include="src\actor\FogActor.cpp" />
     <ClCompile Include="src\actor\Player.cpp" />
     <ClCompile Include="src\actor\Stage.cpp" />
     <ClCompile Include="src\game\Content.cpp" />
@@ -145,8 +136,6 @@
     <ClCompile Include="src\math\Vector2.cpp" />
     <ClCompile Include="src\math\Vector3.cpp" />
     <ClCompile Include="src\math\Vector4.cpp" />
-    <ClCompile Include="src\graphic\Anime.cpp" />
-    <ClCompile Include="src\graphic\Light.cpp" />
     <ClCompile Include="src\graphic\Model.cpp" />
     <ClCompile Include="src\graphic\Movie.cpp" />
     <ClCompile Include="src\graphic\ShadowMap.cpp" />
@@ -159,13 +148,9 @@
     <ClCompile Include="src\actor\PlayerBullet\PlayerBullet.cpp" />
     <ClCompile Include="src\actor\StagePlate\DefaultPlate.cpp" />
     <ClCompile Include="src\actor\RespawnPoint.cpp" />
-    <ClCompile Include="src\actor\CameraManager.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\actor\PlayerBullet\TargetRay.cpp" />
-    <ClCompile Include="src\actor\Tree\Tree.cpp" />
     <ClCompile Include="src\actor\PlayerAttack\PlayerAttackManager\PlayerAttackManager.cpp" />
-    <ClCompile Include="src\actor\DeadBullet\DeadBullet.cpp" />
-    <ClCompile Include="src\actor\DeadBullet\DeadBulletManager.cpp" />
     <ClCompile Include="src\UIactor\AttackGauge\AttackGauge.cpp" />
     <ClCompile Include="src\graphic\AnimetionClass.cpp" />
     <ClCompile Include="src\UIactor\NumberTexture\NumberTexture.cpp" />
@@ -191,11 +176,9 @@
     <ClCompile Include="src\scene\SelectScene.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectScenePlayer.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
-    <ClCompile Include="src\UIactor\SelectSceneUI\GameMasterUI\GameMasterUI.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
     <ClCompile Include="src\Text\TxetRead\TextRead.cpp" />
     <ClCompile Include="src\Text\MessageBox\MessageText.cpp" />
-    <ClCompile Include="src\actor\SelectSceneActor\GameMaster\GameMaster.cpp" />
     <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
     <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\UIactor\EndResultUI\EndResult.cpp" />
@@ -207,5 +190,12 @@
     <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
     <ClCompile Include="src\UIactor\TitleUi\TitleUI.cpp" />
     <ClCompile Include="src\actor\RotateStage\RotateStage.cpp" />
+    <ClCompile Include="src\scene\Help.cpp" />
+    <ClCompile Include="src\UIactor\HelpUI\HelpUi.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Ico.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

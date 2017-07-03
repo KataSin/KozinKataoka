@@ -6,5 +6,6 @@ enum class Scene{
 	Title,
 	GamePlay,
 	Select,
-	Result
+	Result,
+	Help
 };

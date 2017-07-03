@@ -5,7 +5,6 @@
 #include <map>
 #include <functional>
 #include "../math/Matrix4.h"
-
 class IWorld;
 struct CollisionParameter;
 

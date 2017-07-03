@@ -25,13 +25,13 @@ SceneChangeManager::~SceneChangeManager()
 void SceneChangeManager::Update(PLAYER_NUMBER playerNumber)
 {
 	if (mFlag)
-		mTime += Time::GetInstance().deltaTime();
+		mTime += 0.8f*Time::GetInstance().deltaTime();
 	else
-		mTime -= Time::GetInstance().deltaTime();
+		mTime -= 0.8f*Time::GetInstance().deltaTime();
 
 	mTime = Math::Clamp(mTime, 0.0f, 1.0f);
 	if (mTime == 1.0f)
-		mTimeCount += Time::GetInstance().deltaTime();
+		mTimeCount += 0.8f*Time::GetInstance().deltaTime();
 	else
 		mTimeCount = 0.0f;
 }
@@ -74,13 +74,13 @@ void SceneChangeManager::SpriteSet(const SPRITE_ID & id)
 
 	//•ªŠ„‰æ‘œ‚ğ¶¬•’Ç‰Á
 	Vector2 qsize = Sprite::GetInstance().GetSize(id);
-	for (int x = 0; x <= 1280 / 16; x++) {
-		for (int y = 0; y <= 720 / 16; y++) {
+	for (int x = 0; x <= 1280 / 32; x++) {
+		for (int y = 0; y <= 720 / 30; y++) {
 			TexState state;
-			int textureSize = 16;
-			state.toPos = Vector2(x * textureSize, y * textureSize) + Vector2(textureSize / 2, textureSize / 2);
+			int textureSize = 32;
+			state.toPos = Vector2(x * textureSize, y * (textureSize-2)) + Vector2(textureSize / 2, (textureSize-2) / 2);
 			state.randAngle = Random::GetInstance().Range(-360, 360);
-			state.texHandle = DerivationGraph(textureSize*x, textureSize*y, textureSize, textureSize, Sprite::GetInstance().GetIndex(id));
+			state.texHandle = DerivationGraph(textureSize*x, (textureSize-2)*y, textureSize, (textureSize - 2), Sprite::GetInstance().GetIndex(id));
 			int randSide = Random::GetInstance().Range(0, 4);
 			switch (randSide)
 			{

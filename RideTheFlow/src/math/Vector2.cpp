@@ -147,6 +147,20 @@ Vector2 Vector2::Lerp(const Vector2& start, const Vector2& end, float amount)
 	return start * (1.0f - amount) + end * amount;
 }
 
+void Vector2::Spring(Vector2 & position, Vector2 & velocity, const Vector2 & restPosition, float stiffness, float friction, float mass)
+{
+	// バネの伸び具合を計算
+	Vector2 stretch = (position - restPosition);
+	// バネの力を計算
+	Vector2 force = -stiffness * stretch;
+	// 加速度を追加
+	Vector2 acceleration = force / mass;
+	// 移動速度を計算
+	velocity = friction * (velocity + acceleration);
+	// 座標の更新
+	position += velocity;
+}
+
 Point Vector2::ToPoint(const Vector2& v)
 {
 	Point result;

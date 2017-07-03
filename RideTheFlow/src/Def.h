@@ -23,7 +23,7 @@ static const int REFRESH_RATE = 60;
 ///<summary>
 /// ゲームタイトル
 ///</summary>
-#define GAMENAME "夏休みゲーム制作"
+#define GAMENAME "ドットウォーズ"
 
 ///<summary>
 /// デフォルトのＢＧＭボリューム

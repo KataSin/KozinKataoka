@@ -5,29 +5,29 @@
 #include "../graphic/Model.h"
 #include "../input/Keyboard.h"
 #include "../time/Time.h"
-#include "../graphic/Anime.h"
 #include "../math/Math.h"
 #include "../camera/Camera.h"
 #include "../math/Quaternion.h"
 #include "../game/Random.h"
 #include "../input/GamePad.h"
 #include "../sound/Sound.h"
+
 #include "CameraActor.h"
 #include "../actor/PlayerBullet/PlayerBullet.h"
-#include "DeadBullet\DeadBulletManager.h"
 #include "PlayerBullet\TargetRay.h"
 #include "PlayerAttack\PlayerAttackManager\PlayerAttackManager.h"
 #include "../UIactor/DamageUI/DamageUI.h"
 #include "../Def.h"
 #include "ParticleManager\ParticleManager.h"
 #include "../UIactor/DamageBackUI/DamageBackUI.h"
+
 const float PlayerSpeed = 25.0f;
 const float LowPlayerSpeed = 5.0f;
 const float AttackPlayerSpeed = 5.0f;
 
 const float IsDamageMachineKnockBack = 1.0f;
-const float IsDamageSniperKnockBack = 6.0f;
-const float IsDamageShotKnockBack = 3.0f;
+const float IsDamageSniperKnockBack = 4.0f;
+const float IsDamageShotKnockBack = 2.0f;
 const float KnockBackTikara = 75.0f;
 Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER player) :
 	Actor(world),
@@ -106,7 +106,7 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	//死んだ時のUI
 	world.UIAdd(UI_ID::DAMAGE_BACK_UI, std::make_shared<DamageBackUI>(world, uiDamageBackPos, *this));
 	//アニメーションクラスの生成
-	animeClass = new AnimationClass(this, ANIMATION::PLAYER_IDLE_ANIM, mModelId);
+    mAnim = std::make_shared<AnimationClass>(this, ANIMATION::PLAYER_IDLE_ANIM, mModelId);
 	//パッド設定
 	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
 	//カメラ
@@ -126,12 +126,11 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 
 }
 Player::~Player() {
-	delete animeClass;
 }
 
 void Player::Update() {
 
-	animeClass->update();
+	mAnim->update();
 
 	//ポジションをセーブ
 	coppyPos = mPosition;
@@ -199,7 +198,7 @@ void Player::Draw() const {
 	if (playerState != PlayerState::PLAYERRESPAWN)
 	{
 		//Model::GetInstance().Draw(MODEL_ID::PLAYER_MODEL, parameter.mat);
-		animeClass->draw();
+		mAnim->draw();
 	}
 	//if (parameter.playNumber == PLAYER_NUMBER::PLAYER_1)
 		//DrawFormatString(550, 25, GetColor(255, 0, 255), "プレイヤー1蓄積ダメージ:%d", (int)parameter.HP);
@@ -404,7 +403,7 @@ void Player::Jump()
 		!gravityFlag)
 	{
 		Sound::GetInstance().PlaySE(SE_ID::PLAYER_JUMP_SE,DX_PLAYTYPE_BACK);
-		mVelocity.y = 15.0f;
+		mVelocity.y = 11.0f;
 		jumpFlag = true;
 		playerState = PlayerState::PLAYERJUMP;
 	}
@@ -514,24 +513,24 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 void Player::PlayerAnimetion(PlayerState state)
 {
 	if (playerState == PlayerState::PLAYERJUMP) {
-		animeClass->changeAnim(ANIMATION::PLAYER_JUMP_ANIM);
+		mAnim->changeAnim(ANIMATION::PLAYER_JUMP_ANIM);
 		return;
 	}
 
 	//今回は押したら絶対に武器を構えるため
 	if (GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)) {
-		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_BUKI_IDLE_ANIM);
+		if (padVec.x == 0 && padVec.y == 0) mAnim->changeAnim(ANIMATION::PLAYER_BUKI_IDLE_ANIM);
 		else {
-			animeClass->changeAnim(ANIMATION::PLAYER_BUKI_RUN_ANIM);
+			mAnim->changeAnim(ANIMATION::PLAYER_BUKI_RUN_ANIM);
 			playerState = PlayerState::PLAYERATTACK;
 		}
 		return;
 	}
 	//歩きアニメーション
 	else {
-		if (padVec.x == 0 && padVec.y == 0) animeClass->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
+		if (padVec.x == 0 && padVec.y == 0) mAnim->changeAnim(ANIMATION::PLAYER_IDLE_ANIM);
 		else {
-			animeClass->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
+			mAnim->changeAnim(ANIMATION::PLAYER_RUN1_ANIM);
 			playerState = PlayerState::PLAYERWALK;
 		}
 		return;

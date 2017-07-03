@@ -24,13 +24,12 @@ SelectScenePlayer::SelectScenePlayer(IWorld& word, const Vector3& position, cons
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(position);
 	//アニメーションクラスの生成
-	mAnime = new AnimationClass(this, ANIMATION::PLAYER_RUN1_ANIM, player);
+	mAnim = std::make_shared<AnimationClass>(this, ANIMATION::PLAYER_RUN1_ANIM, player);
 
 }
 
 SelectScenePlayer::~SelectScenePlayer()
 {
-	delete mAnime;
 }
 
 void SelectScenePlayer::Update()
@@ -50,13 +49,13 @@ void SelectScenePlayer::Update()
 		Matrix4::RotateZ(0)*
 		Matrix4::Translate(mPosition);
 	//アニメーションアップデート
-	mAnime->update();
+	mAnim->update();
 }
 
 void SelectScenePlayer::Draw() const
 {
 	//アニメーション描写
-	mAnime->draw();
+	mAnim->draw();
 }
 
 void SelectScenePlayer::OnCollide(Actor & other, CollisionParameter colpara)

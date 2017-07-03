@@ -5,11 +5,10 @@
 #include "../scene/GamePlay.h"
 #include "../scene/Result.h"
 #include "../scene/SelectScene.h"
+#include "../scene/Help.h"
 #include "../Def.h"
 #include "../graphic/Model.h"
-#include "../graphic/Anime.h"
 #include "../graphic/Sprite.h"
-#include "../graphic/Movie.h"
 #include <thread>
 
 Game1::Game1() :
@@ -25,6 +24,8 @@ Game1::Game1() :
 void Game1::Initialize()
 {
 	mIsLoaded = false;
+
+	SetWindowIconID(1);
 	Model::GetInstance().Initialize();
 	Sprite::GetInstance().Initialize();
 	Sound::GetInstance().Initialize();
@@ -42,6 +43,8 @@ void Game1::Initialize()
 	mSceneManager.Add(Scene::GamePlay, std::make_shared<GamePlay>(*mGameManager.get()));
 	mSceneManager.Add(Scene::Result, std::make_shared<Result>(*mGameManager.get()));
 	mSceneManager.Add(Scene::Select, std::make_shared<SelectScene>(*mGameManager.get()));
+	mSceneManager.Add(Scene::Help, std::make_shared<Help>());
+
 	mSceneManager.SetScene(Scene::Title);
 
 	//UIƒZƒbƒg
@@ -79,6 +82,5 @@ void Game1::Draw()
 void Game1::Finalize()
 {
   	mSceneManager.End();
-	DeleteShader(mPixelShader);
 	DeleteGraph(mRenderTarget);
 }

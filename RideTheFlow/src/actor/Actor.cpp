@@ -56,19 +56,36 @@ ActorParameter Actor::GetParameter() const
 
 CollisionParameter Actor::Bullet_vs_Plate(const Actor & other) const
 {
+	//丸とボックスのあたり判定がないので線で代用
 	CollisionParameter colpara;
-	Sphere bullet;
-	bullet.position = other.parameter.mat.GetPosition();
-	bullet.radius = other.parameter.radius;
+	Line bullet;
+	Vector3 pos = other.parameter.mat.GetPosition();
+	float radius = other.parameter.radius;
+	bullet.startPos = pos - Vector3(radius, 0.0f, 0.0f);
+	bullet.endPos = pos + Vector3(radius, 0.0f, 0.0f);
 
-	Sphere plate;
-	plate.position = parameter.mat.GetPosition()
-		- Vector3(0.0f, parameter.radius, 0.0f);
-	plate.radius = parameter.radius;
+	Box plate;
+	plate.max = parameter.mat.GetPosition() + MaxPlate;
+	plate.min = parameter.mat.GetPosition() + MinPlate;
 
-	colpara = Collisin::GetInstace().SphereSphere(bullet, plate);
+	colpara = Collisin::GetInstace().SegmentBoxAABB(bullet, plate);
 	colpara.colID = COL_ID::PLATE_BULLET_COL;
+	if (colpara.colFlag)
+		return colpara;
 
+	bullet.startPos = pos - Vector3(0.0f, radius, 0.0f);
+	bullet.endPos = pos + Vector3(0.0f, radius, 0.0f);
+
+	colpara = Collisin::GetInstace().SegmentBoxAABB(bullet, plate);
+	colpara.colID = COL_ID::PLATE_BULLET_COL;
+	if (colpara.colFlag)
+		return colpara;
+
+	bullet.startPos = pos - Vector3(0.0f, 0.0f, radius);
+	bullet.endPos = pos + Vector3(0.0f, 0.0f, radius);
+	colpara = Collisin::GetInstace().SegmentBoxAABB(bullet, plate);
+	colpara.colID = COL_ID::PLATE_BULLET_COL;
+	
 	return colpara;
 }
 
@@ -77,7 +94,7 @@ CollisionParameter Actor::Player_vs_Plate(const Actor & other) const
 	CollisionParameter colpara;
 	Line player;
 	player.startPos = other.parameter.mat.GetPosition();
-	player.endPos = other.parameter.mat.GetPosition() + Vector3(0.0f, 0.4f, 0.0f);
+	player.endPos = other.parameter.mat.GetPosition() + Vector3(0.0f, 0.25f, 0.0f);
 
 	Box plate;
 	plate.max = parameter.mat.GetPosition() + MaxPlate;
@@ -136,8 +153,8 @@ CollisionParameter Actor::Player_vs_GunLine(const Actor & other) const
 	CollisionParameter colpara;
 	Sphere player;
 	//プレイヤーの高さの1/2の半径
-	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.radius*2.0f / 2.0f, 0.0f);
-	player.radius = other.parameter.radius*2.0f;
+	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.radius/ 1.5f, 0.0f);
+	player.radius = other.parameter.radius/1.5f;
 
 	Line line;
 	//どの武器を今使っているか

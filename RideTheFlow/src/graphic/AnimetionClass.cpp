@@ -1,6 +1,5 @@
 #include "AnimetionClass.h"
 #include "../time/Time.h"
-#include "Anime.h"
 #include "Model.h"
 #include "../math/Math.h"
 #include "../input/Keyboard.h"

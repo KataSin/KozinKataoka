@@ -3,7 +3,6 @@
 #include "IScene.h"
 #include "ISceneMediator.h"
 #include "../world/World.h"
-#include "../graphic/Light.h"
 #include <array>
 #include "../GamePlayManager/GamePlayManager.h"
 #include "../GameManager/GameManager.h"
@@ -49,8 +48,6 @@ private:
 	bool  mIsEnd;
 	//ワールド
 	World wo;
-	//ライト（たぶん消す）
-	Light light;
 	//ゲームタイマー
 	GameTimerUI* mGameTimer;
 	//フォント

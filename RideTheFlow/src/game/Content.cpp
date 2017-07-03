@@ -92,6 +92,7 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("SceneChange/SceneChangeNextRaund.png", SPRITE_ID::SCENE_CHANGE_NEXT_RAUND_SPRITE);
 	sprite.Load("SceneChange/SceneChangeSelect.png", SPRITE_ID::SCENE_CHANGE_STAGE_SELECT_SPRITE);
 	sprite.Load("SceneChange/SceneChangeResult.png", SPRITE_ID::SCENE_CHANGE_RESULT_SPRITE);
+	sprite.Load("SceneChange/SceneChangeHelp.png", SPRITE_ID::SCENE_CHANGE_HELP_SPRITE);
 
 	sprite.Load("Title.png", SPRITE_ID::TITLE_SPRITE);
 	sprite.Load("ButtonStart.png", SPRITE_ID::BUTTON_START_SPRITE);
@@ -100,6 +101,8 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("GameEndTitle.png", SPRITE_ID::END_BUTTON_SPRITE);
 	sprite.Load("TitleCursor.png", SPRITE_ID::TITLE_CUROSR_SPRITE);
 
+	sprite.Load("Help1.png", SPRITE_ID::HELP_1_SPRITE);
+	sprite.Load("Help2.png", SPRITE_ID::HELP_2_SPRITE);
 
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);

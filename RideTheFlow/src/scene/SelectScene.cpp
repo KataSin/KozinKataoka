@@ -2,7 +2,6 @@
 #include "../input/Keyboard.h"
 #include "../actor/SelectSceneActor/RunStage.h"
 #include "../input/GamePad.h"
-#include "../actor/SelectSceneActor/GameMaster/GameMaster.h"
 #include "../UIactor/StageSelectUI/StageSelectUI.h"
 #include "../actor/SelectSceneActor/SelectSceneCamera.h"
 #include "../actor/SelectSceneActor/SelectScenePlayer.h"

@@ -17,9 +17,6 @@ SelectSceneCamera::~SelectSceneCamera()
 
 void SelectSceneCamera::Update()
 {
-
-
-
 	//ƒJƒƒ‰İ’è
 	Camera::GetInstance().SetRange(0.1f, 9999.0f);
 	Camera::GetInstance().Position.Set(mPosition);

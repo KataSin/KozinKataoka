@@ -130,6 +130,13 @@ public:
 	///</summary>
 	static Vector2 Lerp(const Vector2& start, const Vector2& end, float amount);
 	
+	static void Spring(
+		Vector2& position,
+		Vector2& velocity,
+		const Vector2& restPosition,
+		float stiffness,
+		float friction,
+		float mass);
 public:
 	///<summary>
 	/// Vector2Œ^‚ðPointŒ^‚É•ÏŠ·‚µ‚Ä•Ô‚·

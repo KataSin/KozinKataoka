@@ -67,9 +67,11 @@ void TitleUI::Update(PLAYER_NUMBER playerNumber)
 		mButtonAlpha -= Time::GetInstance().deltaTime();
 
 		//カーソル移動
-		if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::DOWN))
+		if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::DOWN) ||
+			GamePad::GetInstance().POVTriggerDown() == 180)
 			mSelectState = (SelectState)((int)mSelectState + 1);
-		else if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::UP))
+		else if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::UP) ||
+			GamePad::GetInstance().POVTriggerDown() == 0)
 			mSelectState = (SelectState)((int)mSelectState - 1);
 		mSelectState = (SelectState)Math::Clamp((int)mSelectState, 0, mStates.size() - 1);
 		//カーソルがどこに行くか

@@ -19,8 +19,7 @@ private:
 	Vector3 mPosition;
 	PLAYER_NUMBER mPlayerNum;
 	MODEL_ID mModelId;
-	AnimationClass* mAnime;
-
+	std::shared_ptr<AnimationClass> mAnim;
 	//•âŠÔŠÖŒW
 	Vector3 mStartPos;
 	Vector3 mEndPos;

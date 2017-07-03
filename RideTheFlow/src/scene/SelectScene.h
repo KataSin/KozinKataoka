@@ -3,7 +3,6 @@
 #include "IScene.h"
 #include "ISceneMediator.h"
 #include "../world/World.h"
-#include "../graphic/Light.h"
 #include <array>
 #include "../GameManager/GameManager.h"
 
@@ -38,7 +37,6 @@ private:
 	bool  mIsEnd;
 	//ワールド
 	World wo;
-	Light light;
 	std::vector<int> mPads;
 	//シーン
 	Scene mScene;

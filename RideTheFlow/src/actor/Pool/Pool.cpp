@@ -1,14 +1,10 @@
 #include "Pool.h"
-#include "../../math/Vector3.h"
-#include "../Collision.h"
 #include "../../world/IWorld.h"
+#include "../Collision.h"
 #include "../ID.h"
 #include "../../math/Math.h"
-#include "../../math/Quaternion.h"
-#include "../../game/Random.h"
 #include "../../time/Time.h"
 #include "../../graphic/Model.h"
-#include "../Player.h"
 #include "../StageLineManager/StageLine/StageLine.h"
 Pool::Pool(IWorld & world, Vector3& Pos1, Vector3& Pos2) :
 	Actor(world),

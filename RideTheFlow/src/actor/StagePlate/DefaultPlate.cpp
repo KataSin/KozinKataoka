@@ -121,7 +121,7 @@ void DefaultPlate::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLATE_BULLET_COL)
 	{
 		playerNum = other.GetParameter().playNumber;
-		parameter.HP-=2;
+		parameter.HP-=1;
 		clor += 1.0f / 2.0f;
 	}
 }

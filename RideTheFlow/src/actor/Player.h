@@ -131,7 +131,7 @@ private:
 	//ダメージバックUIの座標
 	Vector2 uiDamageBackPos;
 	//アニメーションクラス
-	AnimationClass* animeClass;
+	std::shared_ptr<AnimationClass> mAnim;
 	//パッドのベクトル
 	Vector2 padVec;
 

@@ -1,17 +1,7 @@
 #include "RespawnPoint.h"
 #include "Collision.h"
 #include "../world/IWorld.h"
-#include "../graphic/Sprite.h"
 #include "../graphic/Model.h"
-#include "../input/Keyboard.h"
-#include "../time/Time.h"
-#include "../graphic/Anime.h"
-#include "../math/Math.h"
-#include "../camera/Camera.h"
-#include "../math/Quaternion.h"
-#include "../game/Random.h"
-#include "../input/GamePad.h"
-#include "../sound/Sound.h"
 #include "Player.h"
 
 RespawnPoint::RespawnPoint(IWorld & world, Vector3 position,float rotateY, PLAYER_NUMBER player):

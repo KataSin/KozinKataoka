@@ -135,5 +135,8 @@ void SceneManager::ChangeSceneSet(Scene scene)
 	case Scene::Result:
 		static_cast<SceneChangeManager*>(mChangeUi.get())->SpriteSet(SPRITE_ID::SCENE_CHANGE_RESULT_SPRITE);
 		break;
+	case Scene::Help:
+		static_cast<SceneChangeManager*>(mChangeUi.get())->SpriteSet(SPRITE_ID::SCENE_CHANGE_HELP_SPRITE);
+		break;
 	}
 }
