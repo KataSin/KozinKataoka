@@ -1,14 +1,14 @@
 #include "StageLine.h"
-#include "../../../world/IWorld.h"
+#include "../../world/IWorld.h"
 
-#include "../../../math/Math.h"
-#include "../../../time/Time.h"
+#include "../../math/Math.h"
+#include "../../time/Time.h"
 
-#include "../../../input/GamePad.h"
-#include "../../../input/Keyboard.h"
-#include "../../../graphic/Model.h"
-#include "../../Collision.h"
-#include "../../../sound/Sound.h"
+#include "../../input/GamePad.h"
+#include "../../input/Keyboard.h"
+#include "../../graphic/Model.h"
+#include "../Collision.h"
+#include "../../sound/Sound.h"
 StageLine::StageLine(IWorld & world, Matrix4& mat, Line& line) :
 	Actor(world),
 	mAlpha(1.0f),

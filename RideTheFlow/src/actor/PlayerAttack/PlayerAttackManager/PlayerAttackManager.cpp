@@ -14,7 +14,7 @@
 #include "../../../UIactor/GunUI/GunUI.h"
 #include "../../../UIactor/OverHertUI/OverHertUI.h"
 #include "../../PlayerBullet/PlayerBullet.h"
-#include "../../CameraActor.h"
+
 #include "../PlayerGun/PlayerGun.h"
 //武器のオーバーヒート値
 const float OverHertMachine = 1.5f;
@@ -23,14 +23,14 @@ const float OverHertShot = 15.0f;
 
 PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	Actor(world),
-	overHertCount(100.0f),
-	machineAttackCount(0.1f),
-	isColSniperCount(0.0f),
-	coolHertCount(0.0f),
-	attackFlag(0.0f),
-	shotAttackCount(3.0f),
-	initSniperFalg(true),
-	overHertFlag(false)
+	mOverHertCount(100.0f),
+	mMachineAttackCount(0.1f),
+	mIsColSniperCount(0.0f),
+	mCoolHertCount(0.0f),
+	mAttackFlag(0.0f),
+	mShotAttackCount(3.0f),
+	mInitSniperFalg(true),
+	mOverHertFlag(false)
 {
 
 
@@ -39,8 +39,8 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	PlayerNumSet(mPlayer->GetParameter().playNumber);
 	parameter.isDead = false;
 	//初期武器を設定
-	attackState = PlayerAttackState::MACHINE_GUN;
-	attacStateInt = (int)PlayerAttackState::MACHINE_GUN;
+	mAttackState = PlayerAttackState::MACHINE_GUN;
+	mAttacStateInt = (int)PlayerAttackState::MACHINE_GUN;
 	//何プレイヤー設定
 	parameter.playNumber = player.GetParameter().playNumber;
 	//武器モデルを追加
@@ -49,15 +49,15 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	//ターゲットを追加
 	world.Add(ACTOR_ID::PLAYER_TARGET_ACTOR, std::make_shared<TargetRay>(world, *this));
 	//オーバーヒートゲージを追加
-	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, uiPos, *this));
+	world.UIAdd(UI_ID::GAUGE_UI, std::make_shared<AttackGauge>(world, mUiPos, *this));
 	//武器UI追加
-	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, uiPos, *this));
+	world.UIAdd(UI_ID::GUN_UI, std::make_shared<GunUI>(world, mUiPos, *this));
 	//オーバーヒートUI追加
 	world.UIAdd(UI_ID::OVER_HERT_UI, std::make_shared<OverHertUI>(world, mOverHertUiPos, *this));
 	//カメラも取得
 	mCamera = static_cast<CameraActor*>(world.GetCamera(mPlayer->GetParameter().playNumber).get());
 	//パッド設定
-	pad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
+	mPad = world.GetPadNum()[(int)(parameter.playNumber - 1)];
 	//カラーを設定
 	mColor = mPlayer->mColor;
 	//パーティクル設定
@@ -66,13 +66,10 @@ PlayerAttackManager::PlayerAttackManager(IWorld& world, Actor& player) :
 	world.Add(ACTOR_ID::PARTICLE_ACTOR, mAttackParticle);
 
 	//スナイパー初期化
-	isColSniperCount = 0.0f;
+	mIsColSniperCount = 0.0f;
 	mSniperState.isColSniperLine = false;
 	mSniperState.chargeSniperCount = 100.0f;
-	initSniperFalg = true;
-
-	////誰の弾かの情報を設定
-	//bulletState.playerNumber = mPlayer->GetParameter().playNumber;
+	mInitSniperFalg = true;
 }
 
 PlayerAttackManager::~PlayerAttackManager()
@@ -89,32 +86,32 @@ void PlayerAttackManager::Update()
 	}
 	//カラーを設定
 	mColor = mPlayer->mColor;
-	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM5, pad) ||
+	if (GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM5, mPad) ||
 		Keyboard::GetInstance().KeyTriggerDown(KEYCODE::J))
 	{
-		attacStateInt++;
+		mAttacStateInt++;
 		Sound::GetInstance().PlaySE(SE_ID::GUN_CHANGE_SE, DX_PLAYTYPE_BACK);
-		attackState = (PlayerAttackState)(attacStateInt % 3);
+		mAttackState = (PlayerAttackState)(mAttacStateInt % 3);
 	}
 
 	//攻撃していない
-	attackFlag = false;
-	overHertFlag = false;
-	PlayerAttack(attackState);
+	mAttackFlag = false;
+	mOverHertFlag = false;
+	PlayerAttack(mAttackState);
 
 	//モデル表示するか
-	static_cast<PlayerGun*>(mGunPlayer.get())->DrawGun(attackFlag);
+	static_cast<PlayerGun*>(mGunPlayer.get())->DrawGun(mAttackFlag);
 
 	//攻撃していない時にオバーヒート回復
-	if (!attackFlag)
+	if (!mAttackFlag)
 	{
-		coolHertCount += Time::GetInstance().deltaTime();
-		if (coolHertCount >= 1.5f)
-			overHertCount += 80.0f*Time::GetInstance().deltaTime();
-		overHertCount = Math::Clamp(overHertCount, 0.0f, 100.0f);
+		mCoolHertCount += Time::GetInstance().deltaTime();
+		if (mCoolHertCount >= 1.5f)
+			mOverHertCount += 80.0f*Time::GetInstance().deltaTime();
+		mOverHertCount = Math::Clamp(mOverHertCount, 0.0f, 100.0f);
 	}
 	else
-		coolHertCount = 0.0f;
+		mCoolHertCount = 0.0f;
 
 }
 
@@ -124,6 +121,31 @@ void PlayerAttackManager::Draw() const
 
 void PlayerAttackManager::OnCollide(Actor & other, CollisionParameter colpara)
 {
+}
+
+PlayerAttackState PlayerAttackManager::GetState()
+{
+	return mAttackState;
+}
+
+SniperState PlayerAttackManager::GetChargeCount()
+{
+	return mSniperState;
+}
+
+float PlayerAttackManager::GetOverHertCount()
+{
+	return mOverHertCount;
+}
+
+bool PlayerAttackManager::GetOverHertFlag()
+{
+	return mOverHertFlag;
+}
+
+bool PlayerAttackManager::GetIsAttack()
+{
+	return mAttackFlag;
 }
 
 void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
@@ -163,12 +185,12 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
+			mUiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 112);
 			break;
 		}
 		case PLAYER_2: {
-			uiPos = Vector2(10, WINDOW_HEIGHT - 125);
+			mUiPos = Vector2(10, WINDOW_HEIGHT - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 3 / 4 + 112);
 			break;
 		}
@@ -183,22 +205,22 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			uiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
+			mUiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 + 112);
 			break;
 		}
 		case PLAYER_2: {
-			uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
+			mUiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 + 112);
 			break;
 		}
 		case PLAYER_3: {
-			uiPos = Vector2(10, WINDOW_HEIGHT - 125);
+			mUiPos = Vector2(10, WINDOW_HEIGHT - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 + 112);
 			break;
 		}
 		case PLAYER_4: {
-			uiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
+			mUiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
 			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 + 112);
 			break;
 		}
@@ -210,25 +232,25 @@ void PlayerAttackManager::MachineGun()
 {
 
 	if ((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
-		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad)))
+		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, mPad)))
 	{
 		//攻撃しています
-		attackFlag = true;
+		mAttackFlag = true;
 		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
 		//オーバーヒートで弾が出せないよ
-		if (overHertCount < OverHertMachine) {
-			overHertFlag = true;
+		if (mOverHertCount < OverHertMachine) {
+			mOverHertFlag = true;
 			return;
 		}
 		//オーバーヒートしていないよ
-		overHertFlag = false;
-		machineAttackCount += Time::GetInstance().deltaTime();
+		mOverHertFlag = false;
+		mMachineAttackCount += Time::GetInstance().deltaTime();
 		//0.1秒に1個発射する
-		if (machineAttackCount >= 0.1f)
+		if (mMachineAttackCount >= 0.1f)
 		{
 			Sound::GetInstance().PlaySE(SE_ID::MACHINEATTACK_SE, DX_PLAYTYPE_BACK);
 			AddParticle();
-			overHertCount -= OverHertMachine;
+			mOverHertCount -= OverHertMachine;
 			BulletState machine;
 			//頂点の位置を設定
 			machine.vertexPoint = mCamera->GetTarget();
@@ -236,7 +258,7 @@ void PlayerAttackManager::MachineGun()
 			machine.position = dynamic_cast<Player*>(mPlayer)->GetPlayerGunPos();
 			machine.playerNumber = parameter.playNumber;
 			world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR, std::make_shared<PlayerBullet>(world, machine, mColor));
-			machineAttackCount = 0.0f;
+			mMachineAttackCount = 0.0f;
 		}
 	}
 }
@@ -245,27 +267,27 @@ void PlayerAttackManager::SniperGun()
 {
 	//押しっぱなしでチャージ
 	if (((Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
-		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))) &&
+		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, mPad))) &&
 		!mSniperState.isColSniperLine)
 	{
 		//攻撃しています
-		attackFlag = true;
+		mAttackFlag = true;
 		//プレイヤーは攻撃しています
 		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
 		//オーバーヒートで弾が出せないよ
-		if (overHertCount < OverHertSniper) {
-			overHertFlag = true;
+		if (mOverHertCount < OverHertSniper) {
+			mOverHertFlag = true;
 			return;
 		}
 		//ここに来たらオーバーヒートしていない
-		overHertFlag = false;
+		mOverHertFlag = false;
 		//スナイパーチャージでの初期化設定
-		if (initSniperFalg)
+		if (mInitSniperFalg)
 		{
 			//チャージの初期量は10
 			mSniperState.chargeSniperCount = 10.0f;
 			Sound::GetInstance().PlaySE(SE_ID::SNIPER_CHARGE_SE, DX_PLAYTYPE_BACK);
-			initSniperFalg = false;
+			mInitSniperFalg = false;
 		}
 		//チャージする瞬間に線が最大まで一瞬だけ伸びるてしまう防止
 		if (mSniperState.chargeSniperCount >= 12.0f)
@@ -283,7 +305,7 @@ void PlayerAttackManager::SniperGun()
 		//パーティクルを出現させる
 		AddParticle();
 		//オーバーヒート数を引く
-		overHertCount -= OverHertSniper;
+		mOverHertCount -= OverHertSniper;
 		//あたり判定フラグ
 		mSniperState.isColSniperLine = true;
 		//チャージはもうしていない
@@ -294,14 +316,14 @@ void PlayerAttackManager::SniperGun()
 	//離した時から0.1秒後にあたり判定無効化
 	if (mSniperState.isColSniperLine)
 	{
-		isColSniperCount += Time::GetInstance().deltaTime();
-		if (isColSniperCount >= 0.2f)
+		mIsColSniperCount += Time::GetInstance().deltaTime();
+		if (mIsColSniperCount >= 0.2f)
 		{
 			//最初の状態に戻す
-			isColSniperCount = 0.0f;
+			mIsColSniperCount = 0.0f;
 			mSniperState.isColSniperLine = false;
 			mSniperState.chargeSniperCount = 100.0f;
-			initSniperFalg = true;
+			mInitSniperFalg = true;
 
 		}
 	}
@@ -310,21 +332,21 @@ void PlayerAttackManager::SniperGun()
 
 void PlayerAttackManager::ShotGun()
 {
-	shotAttackCount += Time::GetInstance().deltaTime();
+	mShotAttackCount += Time::GetInstance().deltaTime();
 	if (Keyboard::GetInstance().KeyStateDown(KEYCODE::G) ||
-		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, pad))
+		GamePad::GetInstance().ButtonStateDown(PADBUTTON::NUM6, mPad))
 	{
 		//攻撃しています
-		attackFlag = true;
+		mAttackFlag = true;
 		//プレイヤーは攻撃しています
 		mPlayer->SetPlayerState(PlayerState::PLAYERATTACK);
 		//オーバーヒートで弾が出せないよ
-		if (overHertCount < OverHertShot) {
-			overHertFlag = true;
+		if (mOverHertCount < OverHertShot) {
+			mOverHertFlag = true;
 			return;
 		}
-		overHertFlag = false;
-		if (shotAttackCount >= 1.0f)
+		mOverHertFlag = false;
+		if (mShotAttackCount >= 1.0f)
 		{
 			for (int i = 0; i < 15; i++)
 			{
@@ -338,10 +360,10 @@ void PlayerAttackManager::ShotGun()
 				shot.playerNumber = parameter.playNumber;
 				world.Add(ACTOR_ID::PLAYER_BULLET_ACTOR,
 					std::make_shared<PlayerBullet>(world, shot, mColor, 2.5f));
-				shotAttackCount = 0.0f;
+				mShotAttackCount = 0.0f;
 				if (i == 1) {
 					Sound::GetInstance().PlaySE(SE_ID::SHOT_ATTACK_SE, DX_PLAYTYPE_BACK);
-					overHertCount -= 30.0f;
+					mOverHertCount -= 30.0f;
 				}
 					
 			}

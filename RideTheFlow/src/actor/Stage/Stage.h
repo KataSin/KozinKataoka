@@ -1,6 +1,6 @@
 #pragma once
-#include "Actor.h"
-#include "../math/Vector3.h"
+#include "../Actor.h"
+#include "../../math/Vector3.h"
 
 class Stage :public Actor
 {

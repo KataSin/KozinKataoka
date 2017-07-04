@@ -1,6 +1,6 @@
 #include "World.h"
 #include "../actor/ID.h"
-#include "../actor/CameraActor.h"
+#include "../actor/CameraActor/CameraActor.h"
 World::World():
 inputFlag(true){
 	playerPadNum.clear();

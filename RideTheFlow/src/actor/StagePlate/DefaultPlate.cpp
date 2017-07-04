@@ -12,11 +12,11 @@ const float RespawnTime = 30.0f;
 const int HP = 3;
 DefaultPlate::DefaultPlate(IWorld & world, Vector3 position) :
 	Actor(world),
-	playerNum(PLAYER_NUMBER::PLAYER_NULL),
+	mPlayerNum(PLAYER_NUMBER::PLAYER_NULL),
 	mPosition(position),
-	plateClor(0, 0, 0, 1),
-	clor(0.0f),
-	respawnCount(0.0f),
+	mPlateColor(0, 0, 0, 1),
+	mColor(0.0f),
+	mRespawnCount(0.0f),
 	mIsDead(false)
 {
 	parameter.isDead = false;
@@ -37,7 +37,7 @@ DefaultPlate::~DefaultPlate()
 
 void DefaultPlate::Update()
 {
-	parameter.playNumber = playerNum;
+	parameter.playNumber = mPlayerNum;
 	//あたり判定(死んだら判定しない)
 	if (!mIsDead)
 	{
@@ -45,31 +45,31 @@ void DefaultPlate::Update()
 		world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLAYER_ACTOR, COL_ID::PLATE_PLAYER_COL);
 	}
 	//当てたプレイヤーによって色を変える
-	switch (playerNum)
+	switch (mPlayerNum)
 	{
 	case PLAYER_NUMBER::PLAYER_1:
 	{
-		plateClor = Vector4(0.0f, 0.0f, clor, 1.0f);
+		mPlateColor = Vector4(0.0f, 0.0f, mColor, 1.0f);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_2:
 	{
-		plateClor = Vector4(clor, 0.0f, 0.0f, 1.0f);
+		mPlateColor = Vector4(mColor, 0.0f, 0.0f, 1.0f);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_3:
 	{
-		plateClor = Vector4(0.0f, clor, 0.0f, 1.0f);
+		mPlateColor = Vector4(0.0f, mColor, 0.0f, 1.0f);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_4:
 	{
-		plateClor = Vector4(clor, clor, 0.0f, 1.0f);
+		mPlateColor = Vector4(mColor, mColor, 0.0f, 1.0f);
 		break;
 	}
 	case PLAYER_NUMBER::PLAYER_NULL:
 	{
-		plateClor = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		mPlateColor = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 		break;
 	}
 	}
@@ -80,7 +80,7 @@ void DefaultPlate::Update()
 		world.Add(ACTOR_ID::PARTICLE_ACTOR, std::make_shared<ParticleManager>
 			(world, parameter.mat.GetPosition(),
 				Vector3(4,0,4),
-				plateClor,
+				mPlateColor,
 				5,
 				Vector3(5,5,5),
 				Vector3(-5,0,-5),
@@ -89,14 +89,14 @@ void DefaultPlate::Update()
 		mIsDead = true;
 	}
 	if(mIsDead)
-		respawnCount += Time::GetInstance().deltaTime();
+		mRespawnCount += Time::GetInstance().deltaTime();
 	//復活したら初期状態に戻る
-	if (respawnCount >= RespawnTime)
+	if (mRespawnCount >= RespawnTime)
 	{
-		playerNum = PLAYER_NUMBER::PLAYER_NULL;
-		clor = 0.0f;
+		mPlayerNum = PLAYER_NUMBER::PLAYER_NULL;
+		mColor = 0.0f;
 		parameter.HP = 5;
-		respawnCount = 0.0f;
+		mRespawnCount = 0.0f;
 		mIsDead = false;
 	}
 
@@ -113,15 +113,15 @@ void DefaultPlate::Draw() const
 	//DrawSphere3D(Vector3::ToVECTOR(Vector3(parameter.mat.GetPosition())- Vector3(0.0f, parameter.radius, 0.0f)), parameter.radius, 10, 1, 1, TRUE);
 	//死んだら描写しない
 	if(!mIsDead)
-	Model::GetInstance().Draw(MODEL_ID::DEFAULT_PLATE_MODEL, parameter.mat, 1.0f, plateClor);
+	Model::GetInstance().Draw(MODEL_ID::DEFAULT_PLATE_MODEL, parameter.mat, 1.0f, mPlateColor);
 }
 
 void DefaultPlate::OnCollide(Actor & other, CollisionParameter colpara)
 {
 	if (colpara.colID == COL_ID::PLATE_BULLET_COL)
 	{
-		playerNum = other.GetParameter().playNumber;
+		mPlayerNum = other.GetParameter().playNumber;
 		parameter.HP-=1;
-		clor += 1.0f / 2.0f;
+		mColor += 1.0f / 2.0f;
 	}
 }

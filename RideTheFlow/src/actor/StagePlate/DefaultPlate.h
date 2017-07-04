@@ -15,15 +15,15 @@ public:
 
 private:
 	//変わる色
-	float clor;
+	float mColor;
 	//プレートの色
-	Vector4 plateClor;
+	Vector4 mPlateColor;
 	//ポジション
 	Vector3 mPosition;
 	//直前にあたった弾の情報
-	PLAYER_NUMBER playerNum;
+	PLAYER_NUMBER mPlayerNum;
 	//リスポーンカウント
-	float respawnCount;
+	float mRespawnCount;
 	//死んだか？
 	bool mIsDead;
 };

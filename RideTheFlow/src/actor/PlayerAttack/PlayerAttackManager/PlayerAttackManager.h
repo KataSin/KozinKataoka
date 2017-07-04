@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Actor.h"
-#include "../../Player.h"
+#include "../../Player/Player.h"
 class CameraActor;
 class PlayerGun;
 struct SniperState
@@ -22,28 +22,13 @@ public:
 	virtual void Draw() const override;
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
 public:
-	PlayerAttackState GetState()
-	{
-		return attackState;
-	}
-	SniperState GetChargeCount()
-	{
-		return mSniperState;
-	}
-	float GetOverHertCount()
-	{
-		return overHertCount;
-	}
+	PlayerAttackState GetState();
+	SniperState GetChargeCount();
+	float GetOverHertCount();
 	//オーバーヒートしているか
-	bool GetOverHertFlag()
-	{
-		return overHertFlag;
-	}
+	bool GetOverHertFlag();
 	//攻撃しているか？
-	bool GetIsAttack()
-	{
-		return attackFlag;
-	}
+	bool GetIsAttack();
 private:
 	void PlayerAttack(PlayerAttackState state);
 	void PlayerNumSet(PLAYER_NUMBER num);
@@ -52,8 +37,6 @@ private:
 	void ShotGun();
 	//パーティクルセット
 	void ParticleSet();
-	////パーティクルアップデート
-	//void ParticleUpdate();
 	//パーティクル追加
 	void AddParticle();
 private:
@@ -66,31 +49,31 @@ private:
 	//武器のマトリクス
 	Matrix4 mGunMat;
 	//パッドの数字
-	int pad;
+	int mPad;
 	//プレイヤー武器int型
-	int attacStateInt;
+	int mAttacStateInt;
 	//装備している武器
-	PlayerAttackState attackState;
+	PlayerAttackState mAttackState;
 	//マシンガン連続攻撃カウント
-	float machineAttackCount;
+	float mMachineAttackCount;
 	//オーバーヒートカウント
-	float overHertCount;
+	float mOverHertCount;
 	//オーバーヒートフラグ
-	bool overHertFlag;
+	bool mOverHertFlag;
 	//スナイパーの弾情報
 	SniperState mSniperState;
 	//スナイパーのあたり判定のカウント
-	float isColSniperCount;
+	float mIsColSniperCount;
 	//スナイパーのフラグ
-	bool initSniperFalg;
+	bool mInitSniperFalg;
 	//ショットガン連続攻撃カウント
-	float shotAttackCount;
+	float mShotAttackCount;
 	//攻撃しているか？
-	bool attackFlag;
+	bool mAttackFlag;
 	//オーバーヒート冷め始める時間
-	float coolHertCount;
+	float mCoolHertCount;
 	//uiの場所
-	Vector2 uiPos;
+	Vector2 mUiPos;
 	//オーバーヒートの座標
 	Vector2 mOverHertUiPos;
 	//色情報

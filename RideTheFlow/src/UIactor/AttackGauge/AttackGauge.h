@@ -1,7 +1,7 @@
 #pragma once
 #include "../UIActor.h"
 #include "../../actor/PlayerAttack/PlayerAttackManager/PlayerAttackManager.h"
-#include "../../actor/Player.h"
+#include "../../actor/Player/Player.h"
 class AttackGauge : public UIActor
 {
 public:

@@ -10,15 +10,14 @@
 #include "../math/Math.h"
 #include "../time/Time.h"
 
-#include "../actor/CameraActor.h"
+#include "../actor/CameraActor/CameraActor.h"
 #include "../game/Random.h"
 
-#include "../actor/Player.h"
-#include "../actor/Stage.h"
+#include "../actor/Player/Player.h"
+#include "../actor/Stage/Stage.h"
 #include "../actor/StagePlate/DefaultPlate.h"
 #include "../actor/ParticleManager/ParticleManager.h"
 #include "../actor/ID.h"
-#include "../actor/StageLineManager/StageLine/StageLine.h"
 #include "../actor/Pool/Pool.h"
 #include "../UIactor/GameTimer/GameTimerUI.h"
 #include "../UIactor/GameFrameUI/GameFrameUI.h"
@@ -71,10 +70,6 @@ void GamePlay::Initialize()
 	fontUi = static_cast<GamePlayFontUI*>(font.get());
 	//最初に出すフォントを設定
 	fontUi->StartFont(SPRITE_ID::YO_I_FONT_SPRITE);
-
-	//SetLightEnable(true);
-	//SetLightDirection(Vector3::ToVECTOR(Vector3(-1, -1, -1)));
-
 	//勝ったプレイヤー初期化
 	mWinPlayer = PLAYER_NUMBER::PLAYER_NULL;
 	//プレイヤー操作不能
@@ -179,10 +174,7 @@ void GamePlay::Draw()
 	SetCameraScreenCenter(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	SetDrawArea(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	//UIは一回だけdrawでOK
-	wo.UIDraw();
-	DrawFormatString(0, 368, GetColor(255, 255, 255), "ゲームプレイシーン");
-	//DrawSphere3D(Vector3::ToVECTOR(Vector3(0,0,0)), 1.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
-}
+	wo.UIDraw();}
 
 //終了しているか？
 bool GamePlay::IsEnd() const

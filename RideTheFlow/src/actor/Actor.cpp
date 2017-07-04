@@ -2,14 +2,14 @@
 #include "Collision.h"
 #include "../world/IWorld.h"
 #include "PlayerBullet\TargetRay.h"
-#include "CameraActor.h"
+#include "CameraActor\CameraActor.h"
 #include "../math/Math.h"
 #include <list>
 #include <vector>
 
 #include "../graphic/Model.h"
-#include "Player.h"
-#include "StageLineManager\StageLine\StageLine.h"
+#include "Player\Player.h"
+#include "StageLine\StageLine.h"
 
 const Vector3 MinPlate = Vector3(-12.0f, -0.5f, -12.0f);
 const Vector3 MaxPlate = Vector3(12.0f, 1.5f, 12.0f);

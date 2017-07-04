@@ -11,7 +11,7 @@
 #include "../math/Math.h"
 #include "../time/Time.h"
 
-#include "../actor/CameraActor.h"
+#include "../actor/CameraActor/CameraActor.h"
 #include "../UIactor/TitleUi/TitleUI.h"
 #include "../actor/RotateStage/RotateStage.h"
 //コンストラクタ
@@ -63,8 +63,6 @@ void TitleScene::Draw()
 {
 	wo.Draw();
 	wo.UIDraw();
-
-	DrawFormatString(0, 368, GetColor(255, 255, 255), "タイトルシーン");
 }
 
 //終了しているか？

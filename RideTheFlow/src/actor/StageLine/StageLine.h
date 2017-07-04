@@ -1,7 +1,7 @@
 #pragma once
-#include "../../Actor.h"
+#include "../Actor.h"
 #include <memory>
-#include "../../Collision.h"
+#include "../Collision.h"
 class StageLine :public Actor, public std::enable_shared_from_this<StageLine>
 {
 public:

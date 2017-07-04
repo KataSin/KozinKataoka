@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 #include "../ID.h"
-#include "../Player.h"
-#include "../CameraActor.h"
+#include "../Player/Player.h"
+#include "../../actor/CameraActor/CameraActor.h"
 #include "../../actor/Collision.h"
 #include "../../world/IWorld.h"
 #include "../PlayerAttack/PlayerAttackManager/PlayerAttackManager.h"
@@ -17,42 +17,13 @@ public:
 	virtual void Draw() const override;
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
 public:
-	Line GetLine()
-	{
-		//Lineを生成
-		Line line;
-		Player* player = dynamic_cast<Player*>(world.GetPlayer(parameter.playNumber).get());
-		line.startPos = Vector3(player->GetPlayerGunPos());
-		CameraActor* camera = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
-		line.endPos = camera->GetTarget();
-		return line;
-	}
-	Line GetSniperLine()
-	{
-		Player* player = dynamic_cast<Player*>(world.GetPlayer(parameter.playNumber).get());
-		CameraActor* camera = dynamic_cast<CameraActor*>(world.GetCamera(parameter.playNumber).get());
-		//銃の位置からスナイパーターゲットの位置のベクトルを計算
-		Vector3 vec = (camera->GetTarget() - player->GetPlayerGunPos()).Normalized();
-		Line playerGun;
-		playerGun.startPos = player->GetPlayerGunPos();
-		//どのくらいLineが伸びるかをManagerのチャージカウントを使って計算
-		playerGun.endPos = player->GetPlayerGunPos() + vec*mManager->GetChargeCount().chargeSniperCount;
-		return playerGun;
-	}
+	Line GetLine();
+	Line GetSniperLine();
 public:
-	PlayerAttackState GetState()
-	{
-		return attackState;
-	}
-	bool colFlag()
-	{
-		return mManager->GetChargeCount().isColSniperLine;
-	}
+	PlayerAttackState GetState();
+	bool colFlag();
 	//当たっているか
-	bool GetPlayerSniperLineCol()
-	{
-		return mIsPlayerCol;
-	}
+	bool GetPlayerSniperLineCol();
 	//武器ごとのターゲットの動き
 private:
 	void MachineGun();
@@ -66,12 +37,12 @@ private:
 	//当たった場所のポジションたち
 	std::vector<Vector3> mColVectorPos;
 	Vector3 mColPos;
-	bool isCol;
+	bool mIsCol;
 	//スナイパーの当たっている場所
 	Vector3 mColSniperPos;
-	bool isSniperCol;
+	bool mIsSniperCol;
 	//プレイヤーが今持っている武器を取得
-	PlayerAttackState attackState;
+	PlayerAttackState mAttackState;
 	//プレイヤーに当たったかどうか
 	bool mIsPlayerCol;
 };

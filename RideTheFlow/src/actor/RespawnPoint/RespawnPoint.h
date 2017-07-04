@@ -1,6 +1,6 @@
 #pragma once
-#include "Actor.h"
-#include "ID.h"
+#include "../Actor.h"
+#include "../ID.h"
 #include <memory>
 class RespawnPoint :public Actor, public std::enable_shared_from_this<RespawnPoint>
 {

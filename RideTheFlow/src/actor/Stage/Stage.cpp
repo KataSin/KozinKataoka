@@ -1,13 +1,13 @@
 #include "Stage.h"
-#include"../world/IWorld.h"
-#include "Collision.h"
-#include "../graphic/Model.h"
+#include"../../world/IWorld.h"
+#include "../Collision.h"
+#include "../../graphic/Model.h"
 
-#include "../actor/StagePlate/DefaultPlate.h"
-#include "RespawnPoint.h"
-#include "Pool\Pool.h"
-#include "../actor/StagePlate/NoBreakPlate.h"
-#include "../actor/AnimActor/AnimActor.h"
+#include "../../actor/StagePlate/DefaultPlate.h"
+#include "../RespawnPoint/RespawnPoint.h"
+#include "../Pool\Pool.h"
+#include "../../actor/StagePlate/NoBreakPlate.h"
+#include "../../actor/AnimActor/AnimActor.h"
 static const int MODEL_SIZE = 240;
 
 Stage::Stage(IWorld& world) :

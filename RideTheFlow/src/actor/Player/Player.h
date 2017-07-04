@@ -1,12 +1,12 @@
 #pragma once
-#include "Actor.h"
-#include "ActorPtr.h"
+#include "../Actor.h"
+#include "../ActorPtr.h"
 #include <memory>
-#include "PlayerBullet\PlayerBullet.h"
-#include "CameraActor.h"
-#include "ID.h"
-#include "../graphic/AnimetionClass.h"
-#include "../ParticleEffectSystem/ParticleEffectSystem.h"
+#include "../PlayerBullet\PlayerBullet.h"
+
+#include "../ID.h"
+#include "../../graphic/AnimetionClass.h"
+#include "../../ParticleEffectSystem/ParticleEffectSystem.h"
 enum PlayerState
 {
 	PLAYERSTOP,
@@ -38,20 +38,12 @@ public:
 	virtual void OnCollide(Actor& other, CollisionParameter colpara) override;
 
 public:
-	void SetPlayerState(PlayerState state) {
-		playerState = state;
-	}
+	void SetPlayerState(PlayerState state);
 	PlayerState GetPlayerState();
 	PLAYER_NUMBER GetDamagePlayer();
 	//弾の出現位置取得
-	Vector3 GetPlayerGunPos() {
-		return parameter.mat.GetPosition()-(parameter.mat.GetFront().Normalized()*4.0f) + Vector3(0.0f, 2.7f, 0.0f);
-	}
-	void SetRotateY(float AngleY)
-	{
-		angleY = AngleY;
-	}
-	Vector3 GetPlayerVelo();
+	Vector3 GetPlayerGunPos();
+	void SetRotateY(float AngleY);
 public:
 	//カラー
 	Vector4 mColor;
@@ -75,65 +67,62 @@ private:
 	void Respawn();
 private:
 	//プレイヤー状態
-	PlayerAttackState attackState;
+	PlayerAttackState mAttackState;
 	//1フレーム前のポジション
-	Vector3 coppyPos;
-	Vector3 vecPos;
+	Vector3 mCoppyPos;
+	Vector3 mVecPos;
 
 	//カメラ
-	CameraActor* cameraActor;
-	Matrix4 cameraMat;
-	Vector3 cameraPos;
+	CameraActor* mCameraActor;
+	Matrix4 mCameraMat;
+	Vector3 mCameraPos;
 	Vector3 mPosition;
 	Vector3 mRotate;
 
-	//プレイヤーの状態
-	PlayerState playerState;
-	Matrix4 playerModelMat;
+	//プレイヤー系
+	PlayerState mPlayerState;
 	Vector3 mVelocity;
 	Vector3 mPlayerVelocity;
 	Vector3 mCurPlayerPos;
-	float angleY;
-	bool lowStateFlag;
-	float playerSpeed;
+	float mAngleY;
+	bool mLowStateFlag;
+	float mPlayerSpeed;
 	//重力フラグ
-	bool gravityFlag;
-
+	bool mGravityFlag;
 	//プレイヤージャンプ
-	bool jumpFlag;
-	float jumpCount;
+	bool mJumpFlag;
+	float mJumpCount;
 	//攻撃受けた時のノックバック関係
-	bool isDamageMachine;
-	bool isDamageSniper;
-	bool isDamageShot;
-	Vector3 knockBackVelo;
+	bool mIsDamageMachine;
+	bool mIsDamageSniper;
+	bool mIsDamageShot;
+	Vector3 mKnockBackVelo;
 
 	//リスポーン関係
-	float respawnCount;
-	bool respawnFlag;
-	Vector3 respawnPoint;
-	bool dropDownFlag;
+	float mRespawnCount;
+	Vector3 mRespawnPoint;
+	bool mDropDownFlag;
 	//直前に受けたダメージ
-	PLAYER_NUMBER damagePlayerNumber;
+	PLAYER_NUMBER mDamagePlayerNumber;
 	//直前に攻撃されたプレイヤーのポジション
-	Vector3 damagePlayerPos;
+	Vector3 mDamagePlayerPos;
 	//スナイパーに対しての無敵関係
-	float sniperCount;
-	bool sniperFlag;
+	float mSniperCount;
+	bool mSniperFlag;
 
 
 	//モデルID
 	MODEL_ID mModelId;
 	//pad情報
-	int pad;
+	int mPad;
 	//ダメージUIの座標
-	Vector2 uiDamagePos;
+	Vector2 mUiDamagePos;
 	//ダメージバックUIの座標
-	Vector2 uiDamageBackPos;
+	Vector2 mUiDamageBackPos;
 	//アニメーションクラス
 	std::shared_ptr<AnimationClass> mAnim;
 	//パッドのベクトル
-	Vector2 padVec;
+	Vector2 mPadVec;
 
 	//プレイヤーパーティクルシステム情報
 	ActorPtr mDashParticle;

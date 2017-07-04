@@ -4,19 +4,18 @@
 #include "../ID.h"
 #include "../../math/Math.h"
 #include "../../game/Random.h"
-#include "../../time/Time.h"
+#include "../../Time/Time.h"
 #include "../../graphic/Model.h"
-#include "../Player.h"
 
 
 PlayerBullet::PlayerBullet(IWorld & world, BulletState state,const Vector4& color ,float rand) :
 	Actor(world),
 	mBulletState(state),
-	distance(Vector3::Zero),
-	vec(Vector3::Zero),
+	mDistance(Vector3::Zero),
+	mVec(Vector3::Zero),
 	mRotate(Vector3::Zero),
-	vecY(0.0f),
-	time(0.0f)
+	mVecY(0.0f),
+	mTime(0.0f)
 {
 	parameter.isDead = false;
 	parameter.playNumber = state.playerNumber;
@@ -33,7 +32,7 @@ PlayerBullet::PlayerBullet(IWorld & world, BulletState state,const Vector4& colo
 		Matrix4::Translate(state.position);
 
 	//ランダムで拡散する
-	randVec = Vector3(
+	mRandVec = Vector3(
 		Random::GetInstance().Range(-rand, rand),
 		Random::GetInstance().Range(-rand + 0.5f, rand - 0.5f),
 		Random::GetInstance().Range(-rand, rand));
@@ -46,10 +45,10 @@ PlayerBullet::PlayerBullet(IWorld & world, BulletState state,const Vector4& colo
 	//bulletstateを代入
 	mPosition = state.position;
 	mVertexPoint = state.vertexPoint;
-	startPos = state.position;
+	mStartPos = state.position;
 	//距離を求める計算
-	distance = (mVertexPoint + randVec - startPos);
-	coppyPosY = startPos.y;
+	mDistance = (mVertexPoint + mRandVec - mStartPos);
+	mCoppyPosY = mStartPos.y;
 	//カラーを設定
 	mColor = color;
 }
@@ -65,31 +64,31 @@ void PlayerBullet::Update()
 	//world.SetCollideSelect(shared_from_this(), ACTOR_ID::RESPAWNPOINT_ACTOR, COL_ID::BULLET_RESPAENPOINT_COL);
 	float speed = 3.0f;
 	//タイム加算
-	time += Time::GetInstance().deltaTime();
+	mTime += Time::GetInstance().deltaTime();
 	//頂点が出現位置よりも高かったら(頂点と出現位置の引き算がマイナスになり平方根で求められなくなるため)
-	if (coppyPosY <= mVertexPoint.y)
+	if (mCoppyPosY <= mVertexPoint.y)
 	{
 		//最高高度をもとに初速度を求める(鉛直投げ上げ)
-		float InitializeVec = Math::Sqrt((mVertexPoint.y - coppyPosY) * 2.0f * 9.8f);
+		float InitializeVec = Math::Sqrt((mVertexPoint.y - mCoppyPosY) * 2.0f * 9.8f);
 		//初速度を元に頂点に達する時間を求める
 		float vertexTime = InitializeVec / 9.8f;
 		//距離と頂点に達する時間が分かったので1フレームに動くx軸z軸の移動量を求める
-		vec = Vector3(
-			distance.x / vertexTime  *speed* Time::GetInstance().deltaTime(),
+		mVec = Vector3(
+			mDistance.x / vertexTime  *speed* Time::GetInstance().deltaTime(),
 			0.0f,
-			distance.z / vertexTime *speed* Time::GetInstance().deltaTime());
+			mDistance.z / vertexTime *speed* Time::GetInstance().deltaTime());
 		//y軸の位置を求める
-		mPosition.y = InitializeVec*time*speed - 9.8f / 2.0f * pow(time*speed, 2) + coppyPosY;
+		mPosition.y = InitializeVec*mTime*speed - 9.8f / 2.0f * pow(mTime*speed, 2) + mCoppyPosY;
 		//移動量を足す
-		mPosition += vec;
+		mPosition += mVec;
 	}
 	//低かったら(初速度が求められないため)
 	else
 	{
 		//騙す(バレない)
-		vecY -= 10.0f*Time::GetInstance().deltaTime();
-		Vector3 vec = distance + Vector3(0.0f, vecY, 0.0f);
-		mPosition += vec*speed*1.5f*Time::GetInstance().deltaTime();
+		mVecY -= 10.0f*Time::GetInstance().deltaTime();
+		Vector3 mVec = mDistance + Vector3(0.0f, mVecY, 0.0f);
+		mPosition += mVec*speed*1.5f*Time::GetInstance().deltaTime();
 	}
 	mRotate += mRandRotate*Time::GetInstance().deltaTime();
 

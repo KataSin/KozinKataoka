@@ -29,21 +29,21 @@ private:
 	//弾の情報
 	BulletState mBulletState;
 	//ベクトル
-	Vector3 vec;
+	Vector3 mVec;
 	//ベクトルY
-	float vecY;
+	float mVecY;
 	//位置
 	Vector3 mPosition;
 	//出現する位置
-	Vector3 startPos;
+	Vector3 mStartPos;
 	//頂点の位置
 	Vector3 mVertexPoint;
 	//距離
-	Vector3 distance;
+	Vector3 mDistance;
 	//時間
-	float time;
+	float mTime;
 	//ランダム座標
-	Vector3 randVec;
+	Vector3 mRandVec;
 	//ランダム回転
 	Vector3 mRandRotate;
 	//回転
@@ -51,5 +51,5 @@ private:
 	//カラー
 	Vector4 mColor;
 
-	float coppyPosY;
+	float mCoppyPosY;
 };

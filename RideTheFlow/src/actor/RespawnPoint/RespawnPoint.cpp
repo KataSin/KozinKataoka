@@ -1,8 +1,8 @@
 #include "RespawnPoint.h"
-#include "Collision.h"
-#include "../world/IWorld.h"
-#include "../graphic/Model.h"
-#include "Player.h"
+#include "../Collision.h"
+#include "../../world/IWorld.h"
+#include "../../graphic/Model.h"
+#include "../Player/Player.h"
 
 RespawnPoint::RespawnPoint(IWorld & world, Vector3 position,float rotateY, PLAYER_NUMBER player):
 	Actor(world),

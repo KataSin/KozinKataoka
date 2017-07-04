@@ -1,6 +1,6 @@
 #include "GamePlayManager.h"
 #include "../actor/Collision.h"
-#include "../actor/Player.h"
+#include "../actor/Player/Player.h"
 #include "../UIactor/GameTimer/GameTimerUI.h"
 GamePlayManager::GamePlayManager(IWorld & world):
 	mWorld(world)

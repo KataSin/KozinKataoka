@@ -5,7 +5,7 @@
 #include "../../math/Math.h"
 #include "../../time/Time.h"
 #include "../../graphic/Model.h"
-#include "../StageLineManager/StageLine/StageLine.h"
+#include "../StageLine/StageLine.h"
 Pool::Pool(IWorld & world, Vector3& Pos1, Vector3& Pos2) :
 	Actor(world),
 	mPos1(Pos1),

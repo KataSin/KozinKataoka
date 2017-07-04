@@ -2,7 +2,7 @@
 #include "../UIActor.h"
 #include "../../GameManager/GameManager.h"
 #include "../../math/Matrix4.h"
-#include "../../actor/Stage.h"
+#include "../../actor/Stage/Stage.h"
 #include <vector>
 #include <memory>
 class EndResultUI : public UIActor

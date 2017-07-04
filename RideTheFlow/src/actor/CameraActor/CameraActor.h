@@ -1,10 +1,8 @@
 #pragma once
-#include "Actor.h"
-#include "../camera/Camera.h"
+#include "../Actor.h"
+#include "../Collision.h"
 #include <memory>
-#include "Collision.h"
 #include <vector>
-//#include "Player.h"
 
 //カメラ感度
 const float CameraSpeed = 100.0f;
@@ -52,49 +50,38 @@ public:
 	//弾を打つターゲットの位置を取得
 	Vector3 GetTarget();
 	//ターゲットの遠さを設定
-	void SetTargetDistance(float dis)
-	{
-		mDis = dis;
-	}
+	void SetTargetDistance(float dis);
 	//表示位置設定
 	void SetCamera(int num);
 	//注視点とカメラのLineを取得
-	Line GetCameraLine()
-	{
-		Line line;
-		line.startPos = target;
-		line.endPos = Vector3(0, 0, 1)*CameraDis
-			*Matrix4::RotateX(rotateLeft)*Matrix4::RotateY(rotateUp)
-			+ playerMat.GetPosition();
-		return line;
-	}
+	Line GetCameraLine();
 private: 
 	//カメラの別のマトリクス
-	Matrix4 CameraMat;
+	Matrix4 mCameraMat;
 	Vector3 mPosition;
 	//カメラスタテ
-	CameraState cameraState;
+	CameraState mCameraState;
 	//注視点
-	Vector3 target;
+	Vector3 mTargetPos;
 	//バネカメラ
-	Vector3 restPos;
-	Vector3 velocity;
+	Vector3 mRestPos;
+	Vector3 mVelocity;
 
 	//カメラの角度
-	float rotateLeft;
-	float rotateUp;
+	float mRotateLeft;
+	float mRotateUp;
 
 	//キルカメラ
-	float killRotateY;
+	float mKillRotateY;
 	//プレイヤー情報
 	Player* mPlayer;
-	Matrix4 playerMat;
+	Matrix4 mPlayerMat;
 	//パッドの情報
-	int pad;
+	int mPad;
 	//カメラの当たった関係
-	Vector3 isColPos;
-	std::vector<Vector3>isColVectorPos;
-	bool isColFlag;
+	Vector3 mIsColPos;
+	std::vector<Vector3>mIsColVectorPos;
+	bool mIsColFlag;
 	//ターゲットとプレイヤーの距離
 	float mDis;
 };
