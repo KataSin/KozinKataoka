@@ -6,7 +6,7 @@ DamageBackUI::DamageBackUI(IWorld & world, const Vector2& position, Actor& playe
 	mPosition(position),
 	mFontPos(position),
 	mAlpha(0.0f),
-	mId(SPRITE_ID::SINUYO_SPRITE),
+	mId(SPRITE_ID::SINDA_SPRITE),
 	mScale(1)
 {
 	parameter.isDead = false;

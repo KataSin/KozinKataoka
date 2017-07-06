@@ -32,6 +32,7 @@ const float KnockBackTikara = 75.0f;
 Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER player) :
 	Actor(world),
 	mCameraMat(Matrix4::Identity),
+	mDamagePlayerNumber(PLAYER_NUMBER::PLAYER_NULL),
 	mCameraPos(Vector3::Zero),
 	mCoppyPos(Vector3::Zero),
 	mVecPos(Vector3::Zero),
@@ -48,7 +49,8 @@ Player::Player(IWorld& world, Vector3 position_, float rotateY, PLAYER_NUMBER pl
 	mIsDamageMachine(false),
 	mIsDamageSniper(false),
 	mIsDamageShot(false),
-	mSniperFlag(false)
+	mSniperFlag(false),
+	mDamageCount(0.0f)
 {
 	//パラメーター初期化
 	parameter.HP = 0;
@@ -159,10 +161,19 @@ void Player::Update() {
 		PlayerAnimetion(mPlayerState);
 		//歩き
 		Move();
+		//移動先に回転※移動した最後に実行すること
+		RotateMovePlayer();
 		//ジャンプ
 		Jump();
 		//ノックバック
 		AttackMove();
+
+		//誰に攻撃されたか時間
+		mDamageCount += Time::GetInstance().deltaTime();
+		if (mDamageCount >= 2.0f) {
+			mDamagePlayerNumber = PLAYER_NUMBER::PLAYER_NULL;
+		}
+
 	}
 	//パーティクル
 	ParticleUpdate();
@@ -176,6 +187,7 @@ void Player::Update() {
 			mSniperFlag = false;
 		}
 	}
+
 	//マトリクス計算
 	parameter.mat =
 		Matrix4::Scale(0.15f)*
@@ -222,6 +234,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
 		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_ACTOR)
 	{
+		mDamageCount = 0.0f;
 		mIsDamageMachine = true;
 		parameter.HP += 5;
 		//誰の弾を受けたか保存
@@ -235,6 +248,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYERBULLET_PLAYER_COL&&
 		other.GetParameter().id == ACTOR_ID::PLAYER_BULLET_SHOT_ACTOR)
 	{
+		mDamageCount = 0.0f;
 		mIsDamageShot = true;
 		parameter.HP += 7;
 		//誰の弾を受けたか保存
@@ -249,6 +263,7 @@ void Player::OnCollide(Actor & other, CollisionParameter colpara)
 	if (colpara.colID == COL_ID::PLAYER_GUNLINE_COL&&
 		colpara.colFlagSub&&!mSniperFlag)
 	{
+		mDamageCount = 0.0f;
 		//ノックバック用フラグ
 		mIsDamageSniper = true;
 		//無敵判定のフラグ
@@ -289,6 +304,7 @@ void Player::RotateMovePlayer()
 	//移動量がゼロだったら直前の角度を保持
 	if (mVecPos.x != 0)
 		mAngleY = -(Math::Atan2(mVecPos.z, mVecPos.x)*180.0f / 3.1415f) - 90.0f;
+
 	//アッタック中のプレイヤー向き
 	if (PlayerState::PLAYERATTACK == mPlayerState)
 	{
@@ -306,12 +322,6 @@ void Player::RotateMovePlayer()
 
 void Player::Move()
 {
-	/************************************************************************/
-	//移動の仕様はsplatoonと同じ（カメラから見た移動＆球を撃っているときは蟹移動）
-	//ゲームパッド対応にすよ
-	/************************************************************************/
-
-
 	//カメラの方向を計算
 	Vector3 cameraFront = (parameter.mat.GetPosition() - mCameraPos).Normalized();
 	Vector3 cameraLeft = Vector3::Cross(cameraFront, Vector3::Up).Normalized();
@@ -343,8 +353,7 @@ void Player::Move()
 			mPosition += mPlayerSpeed*-cameraLeft*Vector3(1, 0, 1)*Time::GetInstance().deltaTime();
 		}
 	}
-	//移動先に回転※移動した最後に実行すること
-	RotateMovePlayer();
+
 	mCameraActor->SetCameraState(CameraState::DEFAULT);
 
 	//敵のプレートに当たってたらスピードダウン
@@ -401,7 +410,7 @@ void Player::Jump()
 		!mGravityFlag)
 	{
 		Sound::GetInstance().PlaySE(SE_ID::PLAYER_JUMP_SE,DX_PLAYTYPE_BACK);
-		mVelocity.y = 11.0f;
+		mVelocity.y = 12.0f;
 		mJumpFlag = true;
 		mPlayerState = PlayerState::PLAYERJUMP;
 	}
@@ -434,8 +443,10 @@ void Player::Respawn()
 	mPlayerState = PlayerState::PLAYERRESPAWN;
 
 
-	if (mDropDownFlag)
-		mCameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
+	//if (mDropDownFlag)
+	//	mCameraActor->SetCameraState(CameraState::DROP_DOWN_CAMERA);
+	//else
+		mCameraActor->SetCameraState(CameraState::KILL_CAMERA);
 	//ノックバックの速度を初期化
 	mKnockBackVelo = Vector3::Zero;
 }
@@ -461,13 +472,13 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			mUiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
+			mUiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 65);
 			mUiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER1_MODEL;
 			break;
 		}
 		case PLAYER_2: {
-			mUiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
+			mUiDamagePos = Vector2(28, WINDOW_HEIGHT - 65);
 			mUiDamageBackPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER2_MODEL;
 			break;
@@ -481,26 +492,26 @@ void Player::PlayerNumSet(PLAYER_NUMBER num)
 		case PLAYER_NULL:
 			break;
 		case PLAYER_1: {
-			mUiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 55);
+			mUiDamagePos = Vector2(28, WINDOW_HEIGHT / 2 - 65);
 			mUiDamageBackPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER1_MODEL;
 			break;
 		}
 		case PLAYER_2: {
-			mUiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 55);
+			mUiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT / 2 - 65);
 			mUiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER2_MODEL;
 			break;
 		}
 		case PLAYER_3: {
-			mUiDamagePos = Vector2(28, WINDOW_HEIGHT - 55);
+			mUiDamagePos = Vector2(28, WINDOW_HEIGHT - 65);
 			mUiDamageBackPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
 			mModelId = MODEL_ID::PLAYER3_MODEL;
 			break;
 		}
 		case PLAYER_4: {
 			mUiDamageBackPos = Vector2(WINDOW_WIDTH - WINDOW_WIDTH / 4, WINDOW_HEIGHT - WINDOW_HEIGHT / 4);
-			mUiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 55);
+			mUiDamagePos = Vector2(WINDOW_WIDTH - 56, WINDOW_HEIGHT - 65);
 			mModelId = MODEL_ID::PLAYER4_MODEL;
 			break;
 		}

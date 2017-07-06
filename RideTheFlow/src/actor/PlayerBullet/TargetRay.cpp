@@ -138,7 +138,7 @@ Line TargetRay::GetSniperLine()
 	Line playerGun;
 	playerGun.startPos = player->GetPlayerGunPos();
 	//どのくらいLineが伸びるかをManagerのチャージカウントを使って計算
-	playerGun.endPos = player->GetPlayerGunPos() + vec*mManager->GetChargeCount().chargeSniperCount;
+	playerGun.endPos = player->GetPlayerGunPos() + vec*mManager->GetChargeCount().chargeSniperCount*1.5f;
 	return playerGun;
 }
 PlayerAttackState TargetRay::GetState()

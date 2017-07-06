@@ -21,10 +21,8 @@ public:
 private:
 	void SetKankyaku();
 private:
-	int PixelShaderHandle;
-	int VertexShaderHandle;
 	Vector3 mStagePos;
-	Matrix4 skyMat;
+	Matrix4 mSkyMat;
 	//ŠÏ‹qî•ñ
 	std::vector<KankyakuState> mKankyakuMats;
 };

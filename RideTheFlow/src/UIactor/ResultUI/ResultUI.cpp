@@ -82,7 +82,7 @@ void ResultUI::Draw() const
 		int loop = i.second;
 		if (i.first == mWinPlayer) loop--;
 		for (int j = 0; j < loop; j++) {
-			Sprite::GetInstance().Draw(SPRITE_ID::TROPHY_SPRITE, mTrophyAllPos + Vector2(j * 32, ((int)i.first - 1) * 36));
+			Sprite::GetInstance().Draw(SPRITE_ID::TROPHY_SPRITE, mTrophyAllPos + Vector2(j * 32, ((int)i.first - 1) * 35 + 3));
 		}
 	}
 	//あげるトロフィー表示

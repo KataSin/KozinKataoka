@@ -1,33 +1,4 @@
-﻿  GamePlayManager.cpp
-c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\gameplaymanager\../UIactor/GameTimer/GameTimerUI.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
-src\GamePlayManager\GamePlayManager.cpp(40): warning C4101: 'win' : ローカル変数は 1 度も使われていません。
-  AttackGauge.cpp
-  DamageBackUI.cpp
-src\UIactor\DamageBackUI\DamageBackUI.cpp(28): warning C4244: '初期化中' : 'float' から 'int' への変換です。データが失われる可能性があります。
-  DamageUI.cpp
-src\UIactor\DamageUI\DamageUI.cpp(19): warning C4244: '=' : 'float' から 'int' への変換です。データが失われる可能性があります。
-  GamePlayFontUI.cpp
-  GunUI.cpp
-  HelpUi.cpp
-  OverHertUI.cpp
-  Target.cpp
-  TitleUI.cpp
-  Actor.cpp
-  CameraActor.cpp
-src\actor\CameraActor\CameraActor.cpp(302): warning C4244: '引数' : 'const float' から 'int' への変換です。データが失われる可能性があります。
-  PlayerAttackManager.cpp
-  PlayerBullet.cpp
-  TargetRay.cpp
-  Player.cpp
-  RespawnPoint.cpp
-  DefaultPlate.cpp
-  NoBreakPlate.cpp
-  Stage.cpp
-  コンパイル中...
-  GamePlay.cpp
-c:\users\ktok\desktop\個人製作夏休みから\ridetheflow\src\scene\../UIactor/GameTimer/GameTimerUI.h(17): warning C4244: '=' : 'int' から 'float' への変換です。データが失われる可能性があります。
-  Help.cpp
-  TitleScene.cpp
+﻿  TitleUI.cpp
   コード生成しています。
   コード生成が終了しました。
 Random.obj : warning LNK4099: PDB 'vc120.pdb' が 'Random.obj' で、または 'C:\Users\ktok\Desktop\個人製作夏休みから\Release\vc120.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

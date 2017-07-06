@@ -98,7 +98,6 @@
     <ClInclude Include="src\actor\RotateStage\RotateStage.h" />
     <ClInclude Include="src\graphic\BlendMode.h" />
     <ClInclude Include="src\scene\Help.h" />
-    <ClInclude Include="src\UIactor\DamageNum\DamageNum.h" />
     <ClInclude Include="src\actor\AnimActor\AnimActor.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
@@ -169,7 +168,6 @@
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.h" />
     <ClInclude Include="src\UIactor\SceneChangeManager\SceneChangeManager.h" />
-    <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
     <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\UIactor\Target\Target.h" />
     <ClInclude Include="src\UIactor\TitleUi\TitleUI.h" />
@@ -189,7 +187,6 @@
     <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
     <ClCompile Include="src\actor\RotateStage\RotateStage.cpp" />
     <ClCompile Include="src\scene\Help.cpp" />
-    <ClCompile Include="src\UIactor\DamageNum\DamageNum.cpp" />
     <ClCompile Include="src\actor\AnimActor\AnimActor.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
@@ -253,7 +250,6 @@
     <ClCompile Include="src\UIactor\SceneChangeManager\ChangeBlock\ChangeBlock.cpp" />
     <ClCompile Include="src\UIactor\SceneChangeManager\ChangeParticle\ChangeParticle.cpp" />
     <ClCompile Include="src\UIactor\SceneChangeManager\SceneChangeManager.cpp" />
-    <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
     <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\UIactor\Target\Target.cpp" />
     <ClCompile Include="src\UIactor\TitleUi\TitleUI.cpp" />

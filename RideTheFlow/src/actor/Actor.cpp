@@ -135,7 +135,7 @@ CollisionParameter Actor::Player_vs_SniperLine(const Actor & other) const
 	//線とカプセルのあたり判定ではない
 	Sphere player;
 	player.position = other.parameter.mat.GetPosition() + Vector3(0.0f, other.parameter.height / 2.0f, 0.0f);
-	player.radius = other.parameter.radius;
+	player.radius = other.parameter.radius*1.5f;
 	Line line;
 	line.startPos = dynamic_cast<TargetRay*>(const_cast<Actor*>(this))->GetSniperLine().startPos;
 	line.endPos = parameter.mat.GetPosition();
@@ -191,7 +191,6 @@ CollisionParameter Actor::Player_vs_Tree(const Actor & other) const
 	//押し返し位置取得
 	colpara.colID = COL_ID::PLAYER_TREE_COL;
 	return colpara;
-
 }
 
 CollisionParameter Actor::Bullet_vs_RespawnPoint(const Actor & other) const

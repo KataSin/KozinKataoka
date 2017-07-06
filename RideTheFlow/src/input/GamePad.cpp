@@ -214,6 +214,20 @@ bool GamePad::AllTriggerDown()
 	return false;
 }
 
+bool GamePad::AllPadTriggerDown(int button)
+{
+	if (ButtonTriggerDown(button, PADNUM::PAD1))
+		return true;
+	if (ButtonTriggerDown(button, PADNUM::PAD2))
+		return true;
+	if (ButtonTriggerDown(button, PADNUM::PAD3))
+		return true;
+	if (ButtonTriggerDown(button, PADNUM::PAD4))
+		return true;
+	return false;
+}
+
+
 void GamePad::Update()
 {
 	for (auto& pad : m_pads)

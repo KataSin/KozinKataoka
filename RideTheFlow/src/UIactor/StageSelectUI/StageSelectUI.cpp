@@ -79,13 +79,19 @@ StageSelectUI::~StageSelectUI()
 void StageSelectUI::Update(PLAYER_NUMBER playerNumber)
 {
 	//カーソル移動
-	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::DOWN)||
-		GamePad::GetInstance().POVTriggerDown() == 180) {
+	if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::DOWN) ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD1) == 180 ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD2) == 180 ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD3) == 180 ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD4) == 180) {
 		mSelectState = (SelectState)((int)mSelectState + 1);
 		Sound::GetInstance().PlaySE(SE_ID::CURSOR_MOVE_SE, DX_PLAYTYPE_BACK);
 	}
-	else if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::UP)||
-		GamePad::GetInstance().POVTriggerDown() == 0) {
+	else if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::UP) ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD1) == 0 ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD2) == 0 ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD3) == 0 ||
+		GamePad::GetInstance().POVTriggerDown(PADNUM::PAD4) == 0) {
 		mSelectState = (SelectState)((int)mSelectState - 1);
 		Sound::GetInstance().PlaySE(SE_ID::CURSOR_MOVE_SE, DX_PLAYTYPE_BACK);
 	}
@@ -101,20 +107,26 @@ void StageSelectUI::Update(PLAYER_NUMBER playerNumber)
 			//バックと次は数字指定いらない
 			if ((i.state == SelectState::NEXT || i.state == SelectState::BACK) &&
 				(Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE)||
-				GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM2))) {
+				GamePad::GetInstance().AllPadTriggerDown(PADBUTTON::NUM2))) {
 				Sound::GetInstance().PlaySE(SE_ID::CURSOR_YES_SE, DX_PLAYTYPE_BACK);
 				i.flag = true;
 				break;
 			}
 			//数設定
 			if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::LEFT) ||
-				GamePad::GetInstance().POVTriggerDown()==270) {
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD1) == 270 ||
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD2) == 270 ||
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD3) == 270 ||
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD4) == 270) {
 				i.num--;
 				Sound::GetInstance().PlaySE(SE_ID::CURSOR_CHANGE_NUM_SE, DX_PLAYTYPE_BACK);
 			}
 				
 			else if (Keyboard::GetInstance().KeyTriggerDown(KEYCODE::RIGHT) ||
-				GamePad::GetInstance().POVTriggerDown() == 90) {
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD1) == 90 ||
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD2) == 90 ||
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD3) == 90 ||
+				GamePad::GetInstance().POVTriggerDown(PADNUM::PAD4) == 90) {
 				i.num++;
 				Sound::GetInstance().PlaySE(SE_ID::CURSOR_CHANGE_NUM_SE, DX_PLAYTYPE_BACK);
 			}

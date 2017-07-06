@@ -54,7 +54,6 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("PlayerGanmen/Player4Magao.png", SPRITE_ID::PLAYER4_KAO_M);
 
 	sprite.Load("Font/sinda.png", SPRITE_ID::SINDA_SPRITE);
-	sprite.Load("sinuyo.png", SPRITE_ID::SINUYO_SPRITE);
 	sprite.Load("DamageBack.png", SPRITE_ID::DAMAGE_BACK_SPRITE);
 	sprite.Load("SceneChangeBlock.png", SPRITE_ID::CHANGE_SCENE_PARTICLE_SPRITE);
 
@@ -65,11 +64,6 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 	sprite.Load("OverHert.png", SPRITE_ID::OVER_HERT_SPRITE);
 	sprite.Load("OverHertFont.png", SPRITE_ID::OVER_HERT_FONT_SPRITE);
 
-	sprite.Load("SelectSceneTexBack.png", SPRITE_ID::TEX_BACK_SPRITE);
-
-	sprite.Load("SelectBackNinzu.png", SPRITE_ID::UP_NINZU_SPRITE);
-	sprite.Load("SelectBackRaund.png", SPRITE_ID::UP_RAUND_SPRITE);
-	sprite.Load("test.png", SPRITE_ID::TEST_SPRITE);
 	sprite.Load("SelectBack.png", SPRITE_ID::SELECT_BACK_SPRITE);
 	sprite.Load("SelectCursor.png", SPRITE_ID::SELECT_CURSOR_SPRITE);
 	sprite.Load("SelectCursorNum.png", SPRITE_ID::SLECT_CURSOR_NUM_SPRITE);
@@ -103,7 +97,7 @@ void Content::LoadSprite(Sprite& sprite, Model& model)
 
 	sprite.Load("Help1.png", SPRITE_ID::HELP_1_SPRITE);
 	sprite.Load("Help2.png", SPRITE_ID::HELP_2_SPRITE);
-
+	sprite.Load("Help3.png", SPRITE_ID::HELP_3_SPRITE);
 	/* フェード */
 	//sprite.Load("blackscreen.png", SPRITE_ID::BLACK_SCREEN);
 
@@ -190,7 +184,6 @@ void Content::LoadSound(Sound& sound)
 
 void Content::LoadShader()
 {
-	LoadPixelShader("res/Shader/vs.vso");
 }
 
 void Content::EnableASync()

@@ -31,8 +31,6 @@ void Game1::Initialize()
 	Sound::GetInstance().Initialize();
 
 
-
-
 	// ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
 	mContent.LoadSprite(Sprite::GetInstance(), Model::GetInstance());
 	mContent.LoadSound(Sound::GetInstance());

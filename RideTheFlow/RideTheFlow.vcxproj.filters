@@ -85,12 +85,10 @@
     <ClInclude Include="src\actor\SelectSceneActor\SelectScenePlayer.h" />
     <ClInclude Include="src\actor\SelectSceneActor\SelectSceneCamera.h" />
     <ClInclude Include="src\actor\SelectSceneActor\RunStage.h" />
-    <ClInclude Include="src\UIactor\SelectBackUI\SelectBackUI.h" />
     <ClInclude Include="src\UIactor\StageSelectUI\StageSelectUI.h" />
     <ClInclude Include="src\UIactor\EndResultUI\EndResult.h" />
     <ClInclude Include="src\ParticleEffectSystem\ParticleEffectSystem.h" />
     <ClInclude Include="src\ParticleEffectSystem\ParticleEffect\ParticleEffect.h" />
-    <ClInclude Include="src\UIactor\DamageNum\DamageNum.h" />
     <ClInclude Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.h" />
     <ClInclude Include="src\UIactor\TitleUi\TitleUI.h" />
     <ClInclude Include="src\actor\RotateStage\RotateStage.h" />
@@ -168,12 +166,10 @@
     <ClCompile Include="src\actor\SelectSceneActor\SelectScenePlayer.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\SelectSceneCamera.cpp" />
     <ClCompile Include="src\actor\SelectSceneActor\RunStage.cpp" />
-    <ClCompile Include="src\UIactor\SelectBackUI\SelectBackUI.cpp" />
     <ClCompile Include="src\UIactor\StageSelectUI\StageSelectUI.cpp" />
     <ClCompile Include="src\UIactor\EndResultUI\EndResult.cpp" />
     <ClCompile Include="src\ParticleEffectSystem\ParticleEffectSystem.cpp" />
     <ClCompile Include="src\ParticleEffectSystem\ParticleEffect\ParticleEffect.cpp" />
-    <ClCompile Include="src\UIactor\DamageNum\DamageNum.cpp" />
     <ClCompile Include="src\actor\PlayerAttack\PlayerGun\PlayerGun.cpp" />
     <ClCompile Include="src\UIactor\TitleUi\TitleUI.cpp" />
     <ClCompile Include="src\actor\RotateStage\RotateStage.cpp" />

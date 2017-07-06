@@ -107,7 +107,8 @@ public:
 	void VibrationEnd(int pad = PADNUM::PAD1);
 	//全てのパッドがされているか調べる
 	bool AllTriggerDown();
-
+	//指定のボタンが押されているか
+	bool AllPadTriggerDown(int button);
 	void Update();
 private:
 	void Exception(int pad, int button);

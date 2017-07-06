@@ -15,5 +15,6 @@ private:
 
 	Vector2 mResPagePos;
 	std::vector<Vector2> mPagePos;
+	std::vector<Vector2> mMoviePos;
 	Vector2 mPageVelo;
 };

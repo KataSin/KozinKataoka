@@ -49,10 +49,11 @@ RunStage::~RunStage()
 void RunStage::Update()
 {
 	for (auto & i : mStages) {
-		if (i.position.x <= -126.0f*10.0f*2.0f)
-			i.position.x = 1260.0f;
-		else
-			i.position.x -= 300.0*Time::GetInstance().deltaTime();
+		i.position.x -= 300.0*Time::GetInstance().deltaTime();
+		if (i.position.x <= -126.0f*10.0f*2.0f) {
+			float x = (-126.0f*10.0f*2.0f) - i.position.x;
+			i.position.x = 1260.0f - x;
+		}
 		i.mat.SetPosition(i.position);
 	}
 }

@@ -12,10 +12,10 @@ static const int MODEL_SIZE = 240;
 
 Stage::Stage(IWorld& world) :
 	Actor(world),
-	skyMat(Matrix4::Identity) {
+	mSkyMat(Matrix4::Identity) {
 	parameter.isDead = false;
 
-	skyMat =
+	mSkyMat =
 		Matrix4::Scale(5)*
 		Matrix4::Translate(Vector3::Zero);
 	//デフォルトパネルの設置
@@ -93,7 +93,7 @@ void Stage::Update() {
 void Stage::Draw() const {
 	//ステージの描写
 	SetLightEnable(false);
-	Model::GetInstance().Draw(MODEL_ID::SKY_DEMO_MODEL, skyMat);
+	Model::GetInstance().Draw(MODEL_ID::SKY_DEMO_MODEL, mSkyMat);
 	SetLightEnable(true);
 	Matrix4 mat;
 	mat = Matrix4::Scale(5.0f)*

@@ -8,7 +8,7 @@
 #include "../../graphic/Model.h"
 #include "../ParticleManager/ParticleManager.h"
 #include "../../sound/Sound.h"
-const float RespawnTime = 30.0f;
+const float RespawnTime = 15.0f;
 const int HP = 3;
 DefaultPlate::DefaultPlate(IWorld & world, Vector3 position) :
 	Actor(world),
@@ -110,7 +110,6 @@ void DefaultPlate::Update()
 
 void DefaultPlate::Draw() const
 {
-	//DrawSphere3D(Vector3::ToVECTOR(Vector3(parameter.mat.GetPosition())- Vector3(0.0f, parameter.radius, 0.0f)), parameter.radius, 10, 1, 1, TRUE);
 	//Ž€‚ñ‚¾‚ç•`ŽÊ‚µ‚È‚¢
 	if(!mIsDead)
 	Model::GetInstance().Draw(MODEL_ID::DEFAULT_PLATE_MODEL, parameter.mat, 1.0f, mPlateColor);

@@ -20,12 +20,12 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_, float angleY) :
 	mVelocity(Vector3::Zero),
 	mDis(30.0f),
 	mRotateUp(0.0f),
-	mRotateLeft(0.0f),
+	mRotateLeft(-50.0f),
 	mKillRotateY(0.0f)
 {
 	//カメラとプレイヤーの紐づけ
 	parent = &parent_;
-	//mRotateUp = angleY;
+	mRotateUp = angleY;
 	mPlayerMat = parent->GetParameter().mat;
 	//注視点を設定
 	mTargetPos = mPlayerMat.GetPosition() + Vector3(0, 10, 0);
@@ -44,8 +44,6 @@ CameraActor::CameraActor(IWorld& world, Actor &parent_, float angleY) :
 	Camera::GetInstance().Position.Set(mPosition);
 	Camera::GetInstance().Target.Set(mTargetPos);
 	Camera::GetInstance().Up.Set(Vector3::Up);
-	int a = 0;
-
 }
 CameraActor::~CameraActor()
 {
@@ -54,7 +52,7 @@ CameraActor::~CameraActor()
 void CameraActor::Update()
 {
 	//プレイヤー動かない場合絶対デフォルト
-	if (world.GetInputPlayer())
+	if (!world.GetInputPlayer())
 		mCameraState = DEFAULT;
 	//プレイヤーマトリックス
 	mPlayerMat = parent->GetParameter().mat;
@@ -63,7 +61,7 @@ void CameraActor::Update()
 	//あたり判定
 	world.SetCollideSelect(shared_from_this(), ACTOR_ID::PLATE_ACTOR, COL_ID::CAMERA_PLATE_COL);
 	//カメラ状態を更新
-	if (mPlayer->GetPlayerState() != PlayerState::PLAYERRESPAWN)
+	//if (mPlayer->GetPlayerState() != PlayerState::PLAYERRESPAWN)
 		StateUpdate(mCameraState);
 
 
@@ -184,16 +182,17 @@ void CameraActor::KillCmaera()
 	Player* killPlayer;
 	PLAYER_NUMBER num;
 	num = dynamic_cast<Player*>(parent)->GetDamagePlayer();
+	if (num == PLAYER_NUMBER::PLAYER_NULL)return;
 	killPlayer = dynamic_cast<Player*>(world.GetPlayer(num).get());
 
 	//倒された相手の回りをくるくると
 	mKillRotateY += 70.0f*Time::GetInstance().deltaTime();
 	mRestPos = Vector3(0, 0, 1)*CameraDis
-		*Matrix4::RotateX(-30)*Matrix4::RotateY(mKillRotateY)
+		*Matrix4::RotateX(-20)*Matrix4::RotateY(mKillRotateY)
 		+ killPlayer->GetParameter().mat.GetPosition();
 	//注視点も変更
 	mTargetPos = killPlayer->GetParameter().mat.GetPosition() + Vector3(0, 2, 0);
-	SpringCamra(mRestPos, 1.0f, 0.2f, 1.0f);
+	SpringCamra(mRestPos, 0.2f, 0.5f, 1.0f);
 }
 void CameraActor::DropDownCamera()
 {

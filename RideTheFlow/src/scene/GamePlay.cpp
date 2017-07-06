@@ -107,7 +107,7 @@ void GamePlay::Update()
 	}
 
 	if (mIsEndRanund) {
-		if ((GamePad::GetInstance().ButtonTriggerDown(PADBUTTON::NUM2) ||
+		if ((GamePad::GetInstance().AllTriggerDown() ||
 			Keyboard::GetInstance().KeyTriggerDown(KEYCODE::SPACE))&&
 			!mIsEnd) {
 			mIsEnd = true;

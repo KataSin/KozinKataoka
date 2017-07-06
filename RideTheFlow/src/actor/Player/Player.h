@@ -97,7 +97,8 @@ private:
 	bool mIsDamageSniper;
 	bool mIsDamageShot;
 	Vector3 mKnockBackVelo;
-
+	//攻撃誰に受けたかタイマー
+	float mDamageCount;
 	//リスポーン関係
 	float mRespawnCount;
 	Vector3 mRespawnPoint;

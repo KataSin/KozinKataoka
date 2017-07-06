@@ -17,7 +17,7 @@
 
 #include "../PlayerGun/PlayerGun.h"
 //武器のオーバーヒート値
-const float OverHertMachine = 1.5f;
+const float OverHertMachine = 3.0f;
 const float OverHertSniper = 30.0f;
 const float OverHertShot = 15.0f;
 
@@ -106,7 +106,7 @@ void PlayerAttackManager::Update()
 	if (!mAttackFlag)
 	{
 		mCoolHertCount += Time::GetInstance().deltaTime();
-		if (mCoolHertCount >= 1.5f)
+		if (mCoolHertCount >= 1.0f)
 			mOverHertCount += 80.0f*Time::GetInstance().deltaTime();
 		mOverHertCount = Math::Clamp(mOverHertCount, 0.0f, 100.0f);
 	}
@@ -162,14 +162,14 @@ void PlayerAttackManager::PlayerAttack(PlayerAttackState state)
 	case PlayerAttackState::SNIPER_GUN:
 	{
 		//ターゲットの位置を100に変更
-		mCamera->SetTargetDistance(100.0f);
+		mCamera->SetTargetDistance(200.0f);
 		SniperGun();
 		break;
 	}
 	case PlayerAttackState::SHOT_GUN:
 	{
 		//ターゲットの位置を30に変更
-		mCamera->SetTargetDistance(37.0f);
+		mCamera->SetTargetDistance(40.0f);
 		ShotGun();
 		break;
 	}
@@ -186,12 +186,12 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 			break;
 		case PLAYER_1: {
 			mUiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
-			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 + 112);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 - 80);
 			break;
 		}
 		case PLAYER_2: {
 			mUiPos = Vector2(10, WINDOW_HEIGHT - 125);
-			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 3 / 4 + 112);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT * 3 / 4 - 80);
 			break;
 		}
 		}
@@ -206,22 +206,22 @@ void PlayerAttackManager::PlayerNumSet(PLAYER_NUMBER num)
 			break;
 		case PLAYER_1: {
 			mUiPos = Vector2(10, WINDOW_HEIGHT / 2 - 125);
-			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 + 112);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 - 80);
 			break;
 		}
 		case PLAYER_2: {
 			mUiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT / 2 - 125);
-			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 + 112);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT / 4 - 80);
 			break;
 		}
 		case PLAYER_3: {
 			mUiPos = Vector2(10, WINDOW_HEIGHT - 125);
-			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 + 112);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH / 4, WINDOW_HEIGHT * 3 / 4 - 80);
 			break;
 		}
 		case PLAYER_4: {
 			mUiPos = Vector2(WINDOW_WIDTH - 55, WINDOW_HEIGHT - 125);
-			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 + 112);
+			mOverHertUiPos = Vector2(WINDOW_WIDTH * 3 / 4, WINDOW_HEIGHT * 3 / 4 - 80);
 			break;
 		}
 		}

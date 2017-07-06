@@ -26,8 +26,8 @@ void GameFrame::Run()
 	ChangeWindowMode(TRUE);
 
 	//フォントの読み込み
-	LPCSTR font_path = "res/TextFile/FontDate.ttf"; // 読み込むフォントファイルのパス
-	if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {
+																																																																																																																																																																																																																																																																																																																					LPCSTR font_path = "res/TextFile/FontDate.ttf"; // 読み込むフォントファイルのパス
+																																																																																																																																																																																																																																																																																																																					if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {
 	}
 	else {
 		// フォント読込エラー処理
